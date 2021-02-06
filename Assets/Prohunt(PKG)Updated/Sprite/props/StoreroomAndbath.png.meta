@@ -1,0 +1,871 @@
+fileFormatVersion: 2
+guid: ce872f48943887b4aabe1860f638142d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7524455844582334544
+    second: StoreroomAndbath_0
+  - first:
+      213: 3839896262362210923
+    second: StoreroomAndbath_1
+  - first:
+      213: 3185302511574538950
+    second: StoreroomAndbath_2
+  - first:
+      213: 3331130444161352407
+    second: StoreroomAndbath_3
+  - first:
+      213: 829010748195953546
+    second: StoreroomAndbath_4
+  - first:
+      213: -5914271796497401971
+    second: StoreroomAndbath_5
+  - first:
+      213: -7826955086434265770
+    second: StoreroomAndbath_6
+  - first:
+      213: 5618746519251051100
+    second: StoreroomAndbath_8
+  - first:
+      213: 1619314863302712845
+    second: StoreroomAndbath_9
+  - first:
+      213: -694171302333419000
+    second: StoreroomAndbath_10
+  - first:
+      213: 6805277650977643399
+    second: StoreroomAndbath_11
+  - first:
+      213: 2627599720062344
+    second: StoreroomAndbath_12
+  - first:
+      213: -8378244486634554431
+    second: StoreroomAndbath_13
+  - first:
+      213: 4000332413763901009
+    second: StoreroomAndbath_14
+  - first:
+      213: 9033035884275782186
+    second: StoreroomAndbath_15
+  - first:
+      213: 8903960949131898445
+    second: StoreroomAndbath_16
+  - first:
+      213: 5066291708660993867
+    second: StoreroomAndbath_17
+  - first:
+      213: -8063170665956954270
+    second: StoreroomAndbath_18
+  - first:
+      213: -9159097806793968791
+    second: StoreroomAndbath_19
+  - first:
+      213: 7701065024623191284
+    second: StoreroomAndbath_20
+  - first:
+      213: -8523469003734330991
+    second: StoreroomAndbath_21
+  - first:
+      213: -3195839012540598420
+    second: StoreroomAndbath_22
+  - first:
+      213: -1705218587739690148
+    second: StoreroomAndbath_23
+  - first:
+      213: -2362972011367471792
+    second: StoreroomAndbath_24
+  - first:
+      213: -5712845294052280026
+    second: StoreroomAndbath_7
+  - first:
+      213: 1382289532434793149
+    second: StoreroomAndbath_25
+  - first:
+      213: -3078598239874440074
+    second: StoreroomAndbath_26
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: 2
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: StoreroomAndbath_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 596
+        width: 423
+        height: 1447
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bfde8f8643c39790800000000000000
+      internalID: -7524455844582334544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_1
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 1488
+        width: 244
+        height: 545
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6223745e4d0a4530800000000000000
+      internalID: 3839896262362210923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_2
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 1742
+        width: 281
+        height: 296
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ca5f8002c7743c20800000000000000
+      internalID: 3185302511574538950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_3
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 1503
+        width: 346
+        height: 540
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d20ab86d7d8a3e20800000000000000
+      internalID: 3331130444161352407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_4
+      rect:
+        serializedVersion: 2
+        x: 1390
+        y: 1503
+        width: 346
+        height: 540
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8b533912ec318b00800000000000000
+      internalID: 829010748195953546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_5
+      rect:
+        serializedVersion: 2
+        x: 1745
+        y: 1505
+        width: 298
+        height: 541
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8739a0e2294ceda0800000000000000
+      internalID: -5914271796497401971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_6
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 1441
+        width: 258
+        height: 295
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 655162061d1116390800000000000000
+      internalID: -7826955086434265770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_8
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 808
+        width: 235
+        height: 493
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c52ebea903cc9fd40800000000000000
+      internalID: 5618746519251051100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_9
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 820
+        width: 240
+        height: 457
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 120, y: 66.5}
+        - {x: 76, y: 228.5}
+        - {x: -71, y: 228.5}
+        - {x: -120, y: 111.5}
+        - {x: -120, y: -86.5}
+        - {x: -103, y: -228.5}
+        - {x: -53, y: -228.5}
+        - {x: -53, y: -189.5}
+        - {x: 58, y: -188.5}
+        - {x: 58, y: -225.5}
+        - {x: 120, y: -225.5}
+      - - {x: -51, y: -126.5}
+        - {x: -51, y: -109.5}
+        - {x: 56, y: -109.5}
+        - {x: 56, y: -157.5}
+        - {x: -52, y: -157.5}
+      - - {x: -51, y: 143.5}
+        - {x: -50, y: 144.5}
+        - {x: -49, y: 152.5}
+        - {x: -48, y: 153.5}
+        - {x: -47, y: 158.5}
+        - {x: -44, y: 163.5}
+        - {x: -39, y: 170.5}
+        - {x: -39, y: 171.5}
+        - {x: -32, y: 178.5}
+        - {x: -33, y: 69.5}
+        - {x: -51, y: 69.5}
+      - - {x: -7, y: 189.5}
+        - {x: -5, y: 189.5}
+        - {x: -4, y: 190.5}
+        - {x: 13, y: 189.5}
+        - {x: 13, y: 69.5}
+        - {x: -7, y: 69.5}
+      - - {x: 38, y: 177.5}
+        - {x: 43, y: 171.5}
+        - {x: 55, y: 148.5}
+        - {x: 55, y: 69.5}
+        - {x: 39, y: 69.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0e1ba6e946f87610800000000000000
+      internalID: 1619314863302712845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_10
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 419
+        width: 71
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 802752fd0eecd56f0800000000000000
+      internalID: -694171302333419000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_11
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 420
+        width: 71
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78b5d68b7f3317e50800000000000000
+      internalID: 6805277650977643399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_12
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 419
+        width: 71
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88d1debb9c5590000800000000000000
+      internalID: 2627599720062344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_13
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 417
+        width: 72
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cbb5cc770f7abb80800000000000000
+      internalID: -8378244486634554431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_14
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 418
+        width: 72
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 156d0e9b229048730800000000000000
+      internalID: 4000332413763901009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_15
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 267
+        width: 337
+        height: 540
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a225d95174acb5d70800000000000000
+      internalID: 9033035884275782186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_16
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 7
+        width: 275
+        height: 358
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4ee4fade49319b70800000000000000
+      internalID: 8903960949131898445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_17
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 7
+        width: 241
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4fce3777751f4640800000000000000
+      internalID: 5066291708660993867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_18
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 6
+        width: 241
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f2944fffcd91090800000000000000
+      internalID: -8063170665956954270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_19
+      rect:
+        serializedVersion: 2
+        x: 1103
+        y: 1
+        width: 127
+        height: 213
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9637cfa521954e080800000000000000
+      internalID: -9159097806793968791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_20
+      rect:
+        serializedVersion: 2
+        x: 1244
+        y: 1
+        width: 127
+        height: 213
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f4a9d086ddafda60800000000000000
+      internalID: 7701065024623191284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_21
+      rect:
+        serializedVersion: 2
+        x: 1386
+        y: 1
+        width: 127
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 191dc52b91e86b980800000000000000
+      internalID: -8523469003734330991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_22
+      rect:
+        serializedVersion: 2
+        x: 1525
+        y: 2
+        width: 127
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c67be22b95916a3d0800000000000000
+      internalID: -3195839012540598420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_23
+      rect:
+        serializedVersion: 2
+        x: 1658
+        y: 0
+        width: 127
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5be165aab8d558e0800000000000000
+      internalID: -1705218587739690148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_24
+      rect:
+        serializedVersion: 2
+        x: 1791
+        y: 0
+        width: 127
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0556048a979053fd0800000000000000
+      internalID: -2362972011367471792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_7
+      rect:
+        serializedVersion: 2
+        x: 1521
+        y: 823
+        width: 523
+        height: 694
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 261.5, y: 324}
+        - {x: 29.5, y: 323}
+        - {x: 29.5, y: 335}
+        - {x: -35.5, y: 335}
+        - {x: -36.5, y: 324}
+        - {x: -260.5, y: 324}
+        - {x: -258.5, y: -347}
+        - {x: -204.62805, y: -346.99994}
+        - {x: -192.5, y: -317}
+        - {x: 192.5, y: -317}
+        - {x: 206.5, y: -347}
+        - {x: 259.5, y: -347}
+      - - {x: -130.5, y: 55}
+        - {x: 134.5, y: 55}
+        - {x: 134.5, y: 51}
+        - {x: -130.5, y: 51}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62970471975e7b0b0800000000000000
+      internalID: -5712845294052280026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_25
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 823
+        width: 522
+        height: 401
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -256, y: 194.5}
+        - {x: -256, y: -200.5}
+        - {x: 261, y: -200.5}
+        - {x: 261, y: 194.5}
+        - {x: 257, y: 198.5}
+        - {x: -252, y: 198.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db2448d8101ee2310800000000000000
+      internalID: 1382289532434793149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StoreroomAndbath_26
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 0
+        width: 1231
+        height: 823
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -543.5, y: -409.5}
+        - {x: -544.5, y: -195.5}
+        - {x: 555.5, y: -194.5}
+        - {x: 555.5, y: -396.5}
+        - {x: 559.5, y: -400.5}
+        - {x: 610.5, y: -408.5}
+        - {x: 611.5, y: -347.5}
+        - {x: 611.5, y: 411.5}
+        - {x: -613.5, y: 411.5}
+        - {x: -613.5, y: -411.5}
+      - - {x: -544.5, y: 150.5}
+        - {x: 554.5, y: 150.5}
+        - {x: 554.5, y: 54.5}
+        - {x: -544.5, y: 54.5}
+      - - {x: -615.5, y: 169.5}
+        - {x: -612.5, y: 170.5}
+        - {x: -612.5, y: 259.5}
+        - {x: -614.5, y: 261.5}
+        - {x: -615.5, y: 261.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6742422463f9645d0800000000000000
+      internalID: -3078598239874440074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: b1743918e9373c242b9951857fc279c8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

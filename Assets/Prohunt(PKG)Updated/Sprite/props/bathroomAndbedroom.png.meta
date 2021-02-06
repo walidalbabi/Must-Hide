@@ -1,0 +1,743 @@
+fileFormatVersion: 2
+guid: 0cf390fb397fe9043b6b7f8efaead9d2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6684601081279205185
+    second: bathroomAndbedroom_0
+  - first:
+      213: 4787226209680088204
+    second: bathroomAndbedroom_1
+  - first:
+      213: -7782080733975532807
+    second: bathroomAndbedroom_2
+  - first:
+      213: 1734220229205269609
+    second: bathroomAndbedroom_3
+  - first:
+      213: -3735540989087210144
+    second: bathroomAndbedroom_4
+  - first:
+      213: 2484054542279719267
+    second: bathroomAndbedroom_5
+  - first:
+      213: -7106502108475413994
+    second: bathroomAndbedroom_6
+  - first:
+      213: 6248809916663326172
+    second: bathroomAndbedroom_7
+  - first:
+      213: -6392308598203151930
+    second: bathroomAndbedroom_8
+  - first:
+      213: 3699417292771747628
+    second: bathroomAndbedroom_9
+  - first:
+      213: -8053348236521715403
+    second: bathroomAndbedroom_10
+  - first:
+      213: 3991962986802557652
+    second: bathroomAndbedroom_11
+  - first:
+      213: 5274562589116743285
+    second: bathroomAndbedroom_12
+  - first:
+      213: 478008323801934203
+    second: bathroomAndbedroom_13
+  - first:
+      213: 2114844207732453406
+    second: bathroomAndbedroom_14
+  - first:
+      213: -2297992762381278409
+    second: bathroomAndbedroom_15
+  - first:
+      213: 7871377364835950625
+    second: bathroomAndbedroom_16
+  - first:
+      213: -7683854660966847460
+    second: bathroomAndbedroom_17
+  - first:
+      213: 2897092352987983970
+    second: bathroomAndbedroom_18
+  - first:
+      213: 6493021864894483951
+    second: bathroomAndbedroom_19
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: 2
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bathroomAndbedroom_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1520
+        width: 282
+        height: 525
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb0392dabb68b33a0800000000000000
+      internalID: -6684601081279205185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_1
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 1713
+        width: 547
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8cdb67bfd4af6240800000000000000
+      internalID: 4787226209680088204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_2
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 1564
+        width: 575
+        height: 478
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 74.5, y: 239}
+        - {x: -125.5, y: 239}
+        - {x: -287.5, y: 123}
+        - {x: -287.5, y: -9}
+        - {x: -274.5, y: -95}
+        - {x: -233.5, y: -125}
+        - {x: -229.5, y: -239}
+        - {x: -170.67676, y: -239}
+        - {x: -169.5, y: -175}
+        - {x: -91.5, y: -209}
+        - {x: 57.5, y: -214}
+        - {x: 169.5, y: -171}
+        - {x: 169.5, y: -239}
+        - {x: 231.5, y: -239}
+        - {x: 231.5, y: -129}
+        - {x: 287.5, y: -47.73633}
+        - {x: 287.5, y: 70}
+        - {x: 216.5, y: 183}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fa2afdbdce700490800000000000000
+      internalID: -7782080733975532807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_3
+      rect:
+        serializedVersion: 2
+        x: 1554
+        y: 1244
+        width: 470
+        height: 787
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96c93143c10311810800000000000000
+      internalID: 1734220229205269609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_4
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1014
+        width: 247
+        height: 497
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 065ab8d1341b82cc0800000000000000
+      internalID: -3735540989087210144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_5
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 1204
+        width: 239
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3693743f172297220800000000000000
+      internalID: 2484054542279719267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_6
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 1220
+        width: 238
+        height: 458
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61a22c4fbf1a06d90800000000000000
+      internalID: -7106502108475413994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_7
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 1137
+        width: 267
+        height: 431
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -133.5, y: 215.5}
+        - {x: -133.5, y: -192.5}
+        - {x: -105.5, y: -215.5}
+        - {x: -4.5, y: -215.5}
+        - {x: 96.5, y: -201.5}
+        - {x: 133.5, y: -153.5}
+        - {x: 133.5, y: 215.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd5e7a7f28b38b650800000000000000
+      internalID: 6248809916663326172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_8
+      rect:
+        serializedVersion: 2
+        x: 1257
+        y: 1171
+        width: 253
+        height: 351
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 126.5, y: -87.5}
+        - {x: 126.5, y: 175.5}
+        - {x: -126.5, y: 175.5}
+        - {x: -126.5, y: -33.5}
+        - {x: -118.5, y: -39.5}
+        - {x: -116.5, y: -175.5}
+        - {x: -65.5, y: -175.5}
+        - {x: -55.5, y: -140.5}
+        - {x: 51.5, y: -140.5}
+        - {x: 57.5, y: -175.5}
+        - {x: 111.5, y: -175.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c90d65a235f947a0800000000000000
+      internalID: -6392308598203151930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_9
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 403
+        width: 835
+        height: 609
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -371.5, y: -304.5}
+        - {x: -364.5, y: -298.5}
+        - {x: -364.5, y: -273.5}
+        - {x: 360.5, y: -273.5}
+        - {x: 361.5, y: -294.5}
+        - {x: 369.5, y: -304.5}
+        - {x: 414.5, y: -304.5}
+        - {x: 417.5, y: -300.5}
+        - {x: 417.5, y: 253.5}
+        - {x: 360.5, y: 250.5}
+        - {x: 356.5, y: 204.5}
+        - {x: -355.5, y: 205.5}
+        - {x: -358.5, y: 304.5}
+        - {x: -417.5, y: 304.5}
+        - {x: -417.5, y: -304.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c27e89b6d68f65330800000000000000
+      internalID: 3699417292771747628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_10
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 656
+        width: 216
+        height: 312
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 539ca958272cc3090800000000000000
+      internalID: -8053348236521715403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_11
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 509
+        width: 424
+        height: 486
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -72, y: 102}
+        - {x: -80, y: 243}
+        - {x: -212, y: 243}
+        - {x: -212, y: -150}
+        - {x: -54, y: -243}
+        - {x: 132, y: -243}
+        - {x: 212, y: -106}
+        - {x: 212, y: 33}
+        - {x: 194, y: 91}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2bfd8af2d466730800000000000000
+      internalID: 3991962986802557652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_12
+      rect:
+        serializedVersion: 2
+        x: 1378
+        y: 799
+        width: 362
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 192}
+        - {x: -30, y: 147}
+        - {x: -181, y: 142}
+        - {x: -181, y: -85}
+        - {x: -128, y: -111}
+        - {x: -50, y: -114}
+        - {x: -46, y: -134}
+        - {x: -25, y: -136}
+        - {x: -25, y: -192}
+        - {x: 25, y: -192}
+        - {x: 25, y: -136}
+        - {x: 46, y: -136}
+        - {x: 46, y: -112}
+        - {x: 123, y: -112}
+        - {x: 142, y: -106}
+        - {x: 181, y: -54}
+        - {x: 181, y: 147}
+        - {x: 21, y: 146}
+        - {x: 20, y: 192}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57e3edd9ab2033940800000000000000
+      internalID: 5274562589116743285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_13
+      rect:
+        serializedVersion: 2
+        x: 1662
+        y: 590
+        width: 249
+        height: 340
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28.5, y: 170}
+        - {x: -33.5, y: 170}
+        - {x: -64.5, y: 150}
+        - {x: -124.5, y: -8}
+        - {x: -124.5, y: -26}
+        - {x: -70.5, y: -70}
+        - {x: -81.5, y: -107}
+        - {x: -31.5, y: -170}
+        - {x: 44.5, y: -170}
+        - {x: 71.5, y: -104}
+        - {x: 61.5, y: -70}
+        - {x: 97.5, y: -52}
+        - {x: 124.5, y: -25}
+        - {x: 124.5, y: -9}
+        - {x: 58.5, y: 152}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b79e4e3b90a32a600800000000000000
+      internalID: 478008323801934203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_14
+      rect:
+        serializedVersion: 2
+        x: 1767
+        y: 919
+        width: 268
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -66, y: 122.5}
+        - {x: -134, y: 76.5}
+        - {x: -134, y: 5.5}
+        - {x: -97, y: -56.5}
+        - {x: -52, y: -122.5}
+        - {x: 40, y: -122.5}
+        - {x: 134, y: -11.5}
+        - {x: 134, y: 80.5}
+        - {x: 47, y: 122.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e107f2d1a9f695d10800000000000000
+      internalID: 2114844207732453406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_15
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 5
+        width: 751
+        height: 417
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -347.5, y: 208.5}
+        - {x: -375.5, y: 178.5}
+        - {x: -375.5, y: -190.5}
+        - {x: -373.5, y: -208.5}
+        - {x: 344.5, y: -208.5}
+        - {x: 345.5, y: -189.5}
+        - {x: 375.5, y: -69.5}
+        - {x: 375.5, y: 174.5}
+        - {x: 345.5, y: 208.5}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73368d502c3eb10e0800000000000000
+      internalID: -2297992762381278409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_16
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 25
+        width: 230
+        height: 332
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 120e81c4200cc3d60800000000000000
+      internalID: 7871377364835950625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_17
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 17
+        width: 424
+        height: 486
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1c675b85e67d5590800000000000000
+      internalID: -7683854660966847460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_18
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 8
+        width: 267
+        height: 602
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38.5, y: 301}
+        - {x: -133.5, y: 246}
+        - {x: -133.5, y: -301}
+        - {x: 127.5, y: -301}
+        - {x: 133.5, y: -290}
+        - {x: 133.5, y: 238}
+        - {x: 44.5, y: 301}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2607955452a843820800000000000000
+      internalID: 2897092352987983970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bathroomAndbedroom_19
+      rect:
+        serializedVersion: 2
+        x: 1775
+        y: 6
+        width: 267
+        height: 581
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fed41ef0cf8db1a50800000000000000
+      internalID: 6493021864894483951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: ef0a6e4bd83886c4bb5d59512bc121e3
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

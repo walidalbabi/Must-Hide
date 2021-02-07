@@ -1,5 +1,6 @@
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ public class PlayFabLogin : MonoBehaviour
 
     [SerializeField]
     private string userName;
+
+    [SerializeField]
+    private string friendName;
 
     [SerializeField]
     private GameObject ResetPassBtn;
@@ -82,6 +86,7 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnLoginFailure(PlayFabError error)
     {
+        LoadingScript.instance.StopLoading();
         Debug.LogError(error.GenerateErrorReport());
         LoginFailedText.text = "Email address: is not valid Password: is not valid";
         ResetPassBtn.SetActive(true);
@@ -89,6 +94,7 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnRegisterFailure(PlayFabError error)
     {
+        LoadingScript.instance.StopLoading();
         Debug.LogError(error.GenerateErrorReport());
         RegisterFailedText.text = "Email address/Nickname already exists";
     }
@@ -120,10 +126,38 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnGetAccountInfoFail(PlayFabError error)
     {
-
+        LoadingScript.instance.StopLoading();
         Debug.LogError(error.GenerateErrorReport());
         PlayerIDText.text = error.ToString();
     }
+
+    private void OnAddFriendFailed(PlayFabError error)
+    {
+        Debug.LogError(error.GenerateErrorReport());
+    }
+
+    private void OnAddFriendSuccess(AddFriendResult result)
+    {
+        Debug.Log("Success Playfab Friend");
+        NetworkManager.instance.FindFriend(friendName);
+    }
+
+    private void OnGetFriendListFail(PlayFabError error)
+    {
+        Debug.LogError(error.GenerateErrorReport());
+    }
+
+    private void OnGetFriendListSuccess(GetFriendsListResult result)
+    {
+        Debug.Log("Success friend list loaded");
+        for(int i = 0; i < result.Friends.Count; i++)
+        {
+            Debug.Log(result.Friends[i].Username);
+            NetworkManager.instance.FindFriend(result.Friends[i].Username);
+        }
+
+    }
+
     #endregion CallBacks
 
     #region Authentication
@@ -149,6 +183,15 @@ public class PlayFabLogin : MonoBehaviour
        gameObject.GetComponent<InputField>();
         userNameIn = input.text;
         userName = userNameIn;
+    }
+
+
+    public void GetFriendName(string friendNameIn)
+    {
+        InputField input = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.
+       gameObject.GetComponent<InputField>();
+        friendNameIn = input.text;
+        friendName = friendNameIn;
     }
 
     private void UpdateContactEmail()
@@ -198,5 +241,37 @@ public class PlayFabLogin : MonoBehaviour
 
 
     #endregion Authentication
+
+    #region Functions
+
+    public void AddFriends()
+    {
+        if (friendName != "")
+        {
+            var request = new AddFriendRequest
+            {
+                FriendUsername = friendName
+            };
+
+            PlayFabClientAPI.AddFriend(request, OnAddFriendSuccess, OnAddFriendFailed);
+        }
+      
+    }
+
+
+    public void GetFriendList()
+    {
+
+        var request = new GetFriendsListRequest
+        {
+          
+        };
+        PlayFabClientAPI.GetFriendsList(request, OnGetFriendListSuccess, OnGetFriendListFail);
+    }
+
+
+
+
+    #endregion Functions
 
 }

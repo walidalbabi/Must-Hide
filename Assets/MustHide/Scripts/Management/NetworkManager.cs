@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.UI;
+using System.Linq;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -13,7 +14,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private byte _MaxPlayers = 10;
     [SerializeField]
     private string _Map;
-    private Text createRoomName;
+
 
 
 
@@ -21,9 +22,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public const string GAME_MODE_PROP_KEY = "gm";
 
     public List<FriendInfo> _FriendList = new List<FriendInfo>();
+    public List<string> _FriendsUserIDs = new List<string>();
 
-    [SerializeField]
-    private Text searchFriendField;
+    public Text searchFriendField;
     [SerializeField]
     private string FriendName;
 
@@ -121,15 +122,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnFriendListUpdate(List<FriendInfo> friendList)
     {
         base.OnFriendListUpdate(friendList);
-
+        Debug.Log("OnFriendListUpdate got called");
         foreach (FriendInfo info in friendList)
         {
-            if (info.IsOnline)
-            {
-                _FriendList.Add(info);
-                FriendList.instance.UpdateFriendList();
-            }
-           
+                Debug.Log("friend is online");
+                if (!_FriendsUserIDs.Contains(info.UserId))
+                {
+                    Debug.Log("Friend Added");
+                    _FriendList.Add(info);
+                    _FriendsUserIDs.Add(info.UserId);
+                    FriendList.instance.UpdateFriendList();
+                }else
+                    Debug.Log("Friend Already Exist");  
         }
     }
 
@@ -242,12 +246,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetPlayerName();
     }
 
-    public void FindFriend()
+    public void FindFriend(string userID)
     {
-        if (searchFriendField.text != "")
-            FriendName = searchFriendField.text;
-        if (FriendName != "")
-            PhotonNetwork.FindFriends(new string[] { FriendName });
+        PhotonNetwork.FindFriends(new string[] { userID });
+        Debug.Log("Adding Friend... " + userID);
     }
 
     public string GetUserID()

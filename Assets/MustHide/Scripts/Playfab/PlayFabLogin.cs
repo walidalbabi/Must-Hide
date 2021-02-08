@@ -120,6 +120,7 @@ public class PlayFabLogin : MonoBehaviour
         LoadingScript.instance.StopLoading();
         NetworkManager.instance.ConnectToServer(result.AccountInfo.Username);
         NetworkManager.instance.CreateName(result.AccountInfo.Username);
+        VivoxManager.instance.Login(result.AccountInfo.Username, VivoxUnity.SubscriptionMode.Accept);
         PlayerIDText.text =  NetworkManager.instance.GetUserID();
     }
 

@@ -15,4 +15,14 @@ public class FriendScript : MonoBehaviour
         FriendInfo = friendInfo;
         _text.text = friendInfo.UserId +"/"+friendInfo.IsOnline;
     }
+
+    public void Invite()
+    {
+        VivoxManager.instance.Send_Direct_Message(FriendInfo.UserId, "Got Invite");
+    }
+
+    public void Remove()
+    {
+
+    }
 }

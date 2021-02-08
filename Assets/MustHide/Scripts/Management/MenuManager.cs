@@ -25,6 +25,9 @@ public class MenuManager : MonoBehaviour
     private GameObject RecoveryPanel;
 
 
+    public Transform _ChatContent;
+    public InvitationScript invitation;
+
 
 
     public static MenuManager instance;

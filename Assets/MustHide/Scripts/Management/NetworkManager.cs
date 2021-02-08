@@ -15,13 +15,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private string _Map;
 
-
+    public string StagingRoom;
 
 
     public const string MAP_PROP_KEY = "map";
     public const string GAME_MODE_PROP_KEY = "gm";
-
+    [HideInInspector]
     public List<FriendInfo> _FriendList = new List<FriendInfo>();
+    [HideInInspector]
     public List<string> _FriendsUserIDs = new List<string>();
 
     public Text searchFriendField;
@@ -75,9 +76,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected To Master Server");
         if (!PhotonNetwork.InLobby)
-            PhotonNetwork.JoinLobby();
-
-        LoadingScript.instance.StopLoading();
+            PhotonNetwork.JoinLobby();      
     }
 
     public override void OnCreatedRoom()
@@ -116,7 +115,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        //PhotonNetwork.FindFriends(new string[] { "guylard" , "Guylard", "1"});
     }
 
     public override void OnFriendListUpdate(List<FriendInfo> friendList)
@@ -147,8 +145,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         LoadingScript.instance.StartLoading("Connecting To Master...");
     }
 
-        //Rank
-        private void CreateRank()
+    //Rank
+    private void CreateRank()
     {
         if (!PhotonNetwork.IsConnected)
             return;
@@ -166,14 +164,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         option.CustomRoomPropertiesForLobby = lobbyProperties;
         option.CustomRoomProperties = roomProperties;
 
-        PhotonNetwork.CreateRoom(RoomName.ToString(), option, TypedLobby.Default);
+        PhotonNetwork.CreateRoom("Rank " + RoomName.ToString(), option, TypedLobby.Default);
     }
 
+   public  string[] expectedPlayers = new string[5];
     public void JoinRankMatch()
     {
+      if(VivoxManager.instance._listings.Count >= 1)
+        for (int i = 0; i < VivoxManager.instance._listings.Count; i++)
+            expectedPlayers[i] = VivoxManager.instance._listings[i].Player.Account.Name;
+
+        var expectedMaxPlayer = VivoxManager.instance._listings;
+        string sqlLobbyFilter = "gm = 'true'";
         isRank = true;
         Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, true } };
-        PhotonNetwork.JoinRandomRoom(roomProperties, 0);
+        if (VivoxManager.instance._listings.Count >= 1)
+            PhotonNetwork.JoinRandomRoom(roomProperties, (byte)expectedMaxPlayer.Count, MatchmakingMode.FillRoom, TypedLobby.Default, sqlLobbyFilter, expectedPlayers);
+        else
+            PhotonNetwork.JoinRandomRoom(roomProperties, 0);
     }
 
     //Casual
@@ -188,28 +196,43 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         option.MaxPlayers = _MaxPlayers;
         option.PublishUserId = true;
 
-        Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, false } };
+        Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, false }  };
 
-        string[] lobbyProperties = { GAME_MODE_PROP_KEY };
+        string[] lobbyProperties = { GAME_MODE_PROP_KEY};
 
 
         option.CustomRoomPropertiesForLobby = lobbyProperties;
         option.CustomRoomProperties = roomProperties;
 
-        PhotonNetwork.CreateRoom(RoomName.ToString(), option, TypedLobby.Default);
+        PhotonNetwork.CreateRoom("Casual " + RoomName.ToString(), option, TypedLobby.Default);
     }
 
     public void JoinCasualMatch()
     {
+        if (VivoxManager.instance._listings.Count >= 1)
+            for (int i = 0; i < VivoxManager.instance._listings.Count; i++)
+                expectedPlayers[i] = VivoxManager.instance._listings[i].Player.Account.Name;
+
+        var expectedMaxPlayer = VivoxManager.instance._listings;
+        string sqlLobbyFilter = "gm = 'false'";
+
         isRank = false;
         Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, false } };
-        PhotonNetwork.JoinRandomRoom(roomProperties, 0);
+        if (VivoxManager.instance._listings.Count >= 1)
+            PhotonNetwork.JoinRandomRoom(roomProperties, (byte)expectedMaxPlayer.Count, MatchmakingMode.FillRoom, TypedLobby.Default, sqlLobbyFilter, expectedPlayers);
+        else
+            PhotonNetwork.JoinRandomRoom(roomProperties, 0);
         Debug.Log("Casusal");
     }
 
     public void JoinRoom(string roomName)
     {
-        PhotonNetwork.JoinRoom(roomName);
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+            PhotonNetwork.JoinRoom(roomName);
+        }
+ 
     }
 
     //Photon Other Management---------------------------------------------------

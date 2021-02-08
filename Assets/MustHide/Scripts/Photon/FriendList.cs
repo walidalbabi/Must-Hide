@@ -45,29 +45,34 @@ public class FriendList : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < friendsObj.Count; i++)
         {
-            Destroy(friendsObj[i].gameObject);
-            NetworkManager.instance._FriendList.RemoveAt(i);
-            NetworkManager.instance._FriendsUserIDs.RemoveAt(i);
-            friendsObj.RemoveAt(i);
-            Debug.Log("Friend List Refreshed");
+            if (NetworkManager.instance._FriendList.Count >= 0)
+            {
+                Destroy(friendsObj[i].gameObject);
+                NetworkManager.instance._FriendList.RemoveAt(i);
+                NetworkManager.instance._FriendsUserIDs.RemoveAt(i);
+                friendsObj.RemoveAt(i);
+                Debug.Log("Friend List Refreshed");
+            }
+          
         }
 
 
         PlayFabLogin.instance.GetFriendList();
 
 
-
-
-        for (int i = 0; i < NetworkManager.instance._FriendList.Count; i++)
+        if (NetworkManager.instance._FriendList.Count >= 0)
         {
-            FriendScript listing = Instantiate(_friendListing, _content);
-            friendsObj.Add(listing.gameObject);
-            if (listing != null)
-            {
-                listing.SetRoomInfo(NetworkManager.instance._FriendList[i]);
-            }
-        }
 
-    
+            for (int i = 0; i < NetworkManager.instance._FriendList.Count; i++)
+            {
+                FriendScript listing = Instantiate(_friendListing, _content);
+                friendsObj.Add(listing.gameObject);
+                if (listing != null)
+                {
+                    listing.SetRoomInfo(NetworkManager.instance._FriendList[i]);
+                }
+            }
+
+        }
     }
 }

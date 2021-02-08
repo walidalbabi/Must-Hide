@@ -18,11 +18,19 @@ public class MenuManager : MonoBehaviour
     private GameObject FriendListPanel;
 
     [SerializeField]
+    private GameObject[] MatchMackingButtons;
+
+    [SerializeField]
+    private GameObject LeavePartyBtn;
+
+    [SerializeField]
     private GameObject LoginPanel;
     [SerializeField]
     private GameObject RegisterPanel;
     [SerializeField]
     private GameObject RecoveryPanel;
+
+
 
 
     public Transform _ChatContent;
@@ -44,6 +52,32 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void LockMatchBtns(bool isLock)
+    {
+        if (isLock)
+        {
+            foreach (GameObject btn in MatchMackingButtons)
+                btn.SetActive(false);
+        }
+        else
+            foreach (GameObject btn in MatchMackingButtons)
+                btn.SetActive(true);
+
+
+    }
+
+    public void LeaveParty()
+    {
+        VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
+    }
+
+    public void ShowLeavePartyBtn(bool show)
+    {
+        if (show)
+            LeavePartyBtn.SetActive(true);
+        else
+            LeavePartyBtn.SetActive(false);
+    }
 
     public void ShowHome()
     {
@@ -109,6 +143,7 @@ public class MenuManager : MonoBehaviour
         CreateCustomMatchPanel.SetActive(false);
         JoinRoomPanel.SetActive(false);
         CurrentRoomPanel.SetActive(true);
+        PlayPanel.SetActive(false);
     }
 
     public void ExitCurrentRoomPanel()

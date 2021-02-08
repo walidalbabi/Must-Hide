@@ -13,6 +13,15 @@ public class VivoxManager : MonoBehaviour
     public VivoxCredentials vivox = new VivoxCredentials();
 
     public static VivoxManager instance;
+    public string CurrentChannel;
+
+    [SerializeField]
+    private Transform _content;
+    [SerializeField]
+    private PartyListingScript _partyListing;
+
+    [HideInInspector]
+    public List<PartyListingScript> _listings = new List<PartyListingScript>();
 
 
     private void Awake()
@@ -182,6 +191,7 @@ public class VivoxManager : MonoBehaviour
 
                 case LoginState.LoggedIn:
                     Debug.Log($"Logged In {vivox.loginSession.LoginSessionId.Name}");
+                    VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
                     LoadingScript.instance.StopLoading();
                     break;
             }
@@ -255,6 +265,7 @@ public class VivoxManager : MonoBehaviour
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"{source.Channel.Name} Connected");
+                    CurrentChannel = source.Channel.Name;
                     break;
                 case ConnectionState.Disconnecting:
                     Debug.Log($"{source.Channel.Name} disconnecting");
@@ -331,7 +342,7 @@ public class VivoxManager : MonoBehaviour
         var source = (VivoxUnity.IReadOnlyDictionary<string, IParticipant>)sender;
 
         IParticipant user = source[participantArgs.Key];
-        
+        AddPlayerListing(user);
         Debug.Log($"{user.Account.Name} has joined the channel");
     }   
 
@@ -340,18 +351,53 @@ public class VivoxManager : MonoBehaviour
         var source = (VivoxUnity.IReadOnlyDictionary<string, IParticipant>)sender;
 
         IParticipant user = source[participantArgs.Key];
+        RemovePlayerListing(user);
         Debug.Log($"{user.Account.Name} has left the channel");
+        if("Channel"+user.Account.Name == CurrentChannel)
+        {
+            //If Leader Left
+            JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
+        }
 
     }  
 
     public void On_Participant_Updated(object sender, ValueEventArg<string, IParticipant> participantArgs)
     {
         var source = (VivoxUnity.IReadOnlyDictionary<string, IParticipant>)sender;
-
+      
         IParticipant user = source[participantArgs.Key]; 
     }
 
+    private void AddPlayerListing(IParticipant player)
+    {
+        int index = _listings.FindIndex(x => x.Player.Account.Name == player.Account.Name);
 
+        if (index != -1)
+        {
+            _listings[index].SetPlayerInfo(player);
+        }
+        else
+        {
+            PartyListingScript listing = Instantiate(_partyListing, _content);
+
+            if (listing != null)
+            {
+                listing.SetPlayerInfo(player);
+                _listings.Add(listing);
+            }
+        }
+    }
+
+    public  void RemovePlayerListing(IParticipant otherPlayer)
+    {
+        int index = _listings.FindIndex(x => x.Player.Account.Name == otherPlayer.Account.Name);
+
+        if (index != -1)
+        {
+            Destroy(_listings[index].gameObject);
+            _listings.RemoveAt(index);
+        }
+    }
 
     #endregion
 
@@ -449,7 +495,7 @@ public class VivoxManager : MonoBehaviour
 
             if(invitation != null)
             {
-                invitation.SetInvitationInfo(txtMsgArgs.Value.Sender.Name);
+                invitation.SetInvitationInfo(txtMsgArgs.Value.Sender.Name, txtMsgArgs.Value.Message);
             }
         }
     }

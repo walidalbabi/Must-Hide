@@ -143,6 +143,16 @@ public class PlayFabLogin : MonoBehaviour
         NetworkManager.instance.FindFriend(friendName);
     }
 
+    private void OnRemoveFriendFailed(PlayFabError error)
+    {
+        Debug.LogError(error.GenerateErrorReport());
+    }
+
+    private void OnRemoveFriendSuccess(RemoveFriendResult result)
+    {
+        Debug.Log("Success Remove Friend");
+    }
+
     private void OnGetFriendListFail(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
@@ -259,6 +269,20 @@ public class PlayFabLogin : MonoBehaviour
       
     }
 
+    public void RemoveFriends(string FriendName)
+    {
+        if (FriendName != "")
+        {
+            var request = new RemoveFriendRequest
+            {
+                FriendPlayFabId = FriendName
+            };
+
+            PlayFabClientAPI.RemoveFriend(request, OnRemoveFriendSuccess, OnRemoveFriendFailed);
+           
+        }
+
+    }
 
     public void GetFriendList()
     {

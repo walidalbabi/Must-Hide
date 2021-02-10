@@ -6,8 +6,6 @@ using Photon.Pun;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private bool isHunter;
   [HideInInspector]
     public bool cancameraFollow;
 
@@ -15,17 +13,16 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
 
     Vector2 movement;
-    Vector2 mousePos;
 
     //Components
 
     private Rigidbody2D rb;
     [HideInInspector]
     public PhotonView PV;
-    [SerializeField]
-    private SpriteRenderer SR;
+    public SpriteRenderer SR;
     private Health health;
-
+    [SerializeField]
+    private Animator animator;
     //Camera
     public float dampTime = 0.25f;
     private Vector3 velocity = Vector3.zero;
@@ -84,10 +81,9 @@ public class PlayerMovement : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        SpriteManager();
-
-        if (isHunter)
-            mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        animator.SetFloat("Horizontal", Mathf.Round(movement.x));
+        animator.SetFloat("Vertical", Mathf.Round(movement.y));
+        animator.SetFloat("speed", movement.sqrMagnitude);  
     }
 
     protected void SpriteManager()
@@ -109,16 +105,6 @@ public class PlayerMovement : MonoBehaviour
     protected void Move()
     {
          rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-        //  transform.Translate(movement * moveSpeed * Time.deltaTime);
-      
-
-        if (isHunter)
-        {
-            Vector2 lookDir = mousePos - rb.position;
-
-            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-            rb.rotation = angle;
-        }
     }
 
 

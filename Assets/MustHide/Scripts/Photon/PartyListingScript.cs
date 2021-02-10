@@ -21,7 +21,7 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        StartCoroutine(WaitLeaderToJoin());
+       StartCoroutine(WaitLeaderToJoin());
     }
 
     private void Update()

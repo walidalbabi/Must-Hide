@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using VivoxUnity;
+
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]
@@ -68,7 +70,16 @@ public class MenuManager : MonoBehaviour
 
     public void LeaveParty()
     {
-        VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
+      
+
+        VivoxManager.instance.LeaveChannel();
+        Invoke("JoinChannelAfterLeave", 2f);
+
+    }
+
+    private void JoinChannelAfterLeave()
+    {
+        VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, ChannelType.NonPositional);
     }
 
     public void ShowLeavePartyBtn(bool show)

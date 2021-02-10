@@ -9,6 +9,10 @@ public class InGameManager : MonoBehaviour
     [SerializeField]
     private Text pingTxt;
     public static InGameManager instance;
+    public int HuntersDead = 0;
+    public int MonstersDead = 0;
+
+    public bool GameIsOver;
 
    
     public Transform[] MonstersSpawnPoints;
@@ -32,6 +36,10 @@ public class InGameManager : MonoBehaviour
     void Update()
     {
         pingTxt.text = PhotonNetwork.GetPing().ToString();
+        if (MonstersDead >= 5 || HuntersDead >= 5)
+        {
+            GameIsOver = true;
+        }
     }
 
     public void UpdatePlayerTeam()
@@ -44,5 +52,18 @@ public class InGameManager : MonoBehaviour
         {
             nextPlayerTeam = 1;
         }
+    }
+
+
+  //  [PunRPC]
+    public void UpdateMonsterDead()
+    {
+        MonstersDead++;
+    }
+
+ //   [PunRPC]
+    public void UpdateHuntersDead()
+    {
+        HuntersDead++;
     }
 }

@@ -20,14 +20,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public const string MAP_PROP_KEY = "map";
     public const string GAME_MODE_PROP_KEY = "gm";
-    [HideInInspector]
-    public List<FriendInfo> _FriendList = new List<FriendInfo>();
-    [HideInInspector]
-    public List<string> _FriendsUserIDs = new List<string>();
+
 
     public Text searchFriendField;
     [SerializeField]
     private string FriendName;
+
+    [SerializeField]
+    private Transform _content;
+
+    [SerializeField]
+    private FriendScript _FriendListing;
+
+    [HideInInspector]
+    public List<FriendScript> _listings = new List<FriendScript>();
 
     public string MyID;
 
@@ -123,19 +129,43 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("OnFriendListUpdate got called");
         foreach (FriendInfo info in friendList)
         {
-                Debug.Log("friend is online");
-                if (!_FriendsUserIDs.Contains(info.UserId))
-                {
-                    Debug.Log("Friend Added");
-                    _FriendList.Add(info);
-                    _FriendsUserIDs.Add(info.UserId);
-                    FriendList.instance.UpdateFriendList();
-                }else
-                    Debug.Log("Friend Already Exist");  
+            Debug.Log(info.UserId + " Friend Already Exist");
+            AddFriendListing(info);
         }
     }
 
-        //Room Functions--------------------------------------------------
+    private void AddFriendListing(FriendInfo player)
+    {
+        int index = _listings.FindIndex(x => x.FriendInfo.UserId == player.UserId);
+
+        if (index != -1)
+        {
+            _listings[index].SetRoomInfo(player);
+        }
+        else
+        {
+            var listing = Instantiate(_FriendListing, _content);
+
+            if (listing != null)
+            {
+                listing.SetRoomInfo(player);
+                _listings.Add(listing);
+            }
+        }
+    }
+
+    public void RemoveFriendListing(FriendInfo otherPlayer)
+    {
+        int index = _listings.FindIndex(x => x.FriendInfo.UserId == otherPlayer.UserId);
+
+        if (index != -1)
+        {
+            Destroy(_listings[index].gameObject);
+            _listings.RemoveAt(index);
+        }
+    }
+
+    //Room Functions--------------------------------------------------
 
     public void ConnectToServer(string ID)
     {
@@ -163,22 +193,28 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         option.CustomRoomPropertiesForLobby = lobbyProperties;
         option.CustomRoomProperties = roomProperties;
-
-        PhotonNetwork.CreateRoom("Rank " + RoomName.ToString(), option, TypedLobby.Default);
+        if (expectedPlayers[0] != "")
+            PhotonNetwork.CreateRoom("Rank " + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
+        else
+            PhotonNetwork.CreateRoom("Rank " + RoomName.ToString(), option, TypedLobby.Default);
     }
 
-   public  string[] expectedPlayers = new string[5];
+   public  string[] expectedPlayers = new string[4];
     public void JoinRankMatch()
     {
       if(VivoxManager.instance._listings.Count >= 1)
         for (int i = 0; i < VivoxManager.instance._listings.Count; i++)
-            expectedPlayers[i] = VivoxManager.instance._listings[i].Player.Account.Name;
+            {
+                if(VivoxManager.instance._listings[i].Player.Account.Name != MyID)
+                expectedPlayers[i] = VivoxManager.instance._listings[i].Player.Account.Name;
+            }
+
 
         var expectedMaxPlayer = VivoxManager.instance._listings;
         string sqlLobbyFilter = "gm = 'true'";
         isRank = true;
         Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, true } };
-        if (VivoxManager.instance._listings.Count >= 1)
+         if (expectedPlayers[0] != "")
             PhotonNetwork.JoinRandomRoom(roomProperties, (byte)expectedMaxPlayer.Count, MatchmakingMode.FillRoom, TypedLobby.Default, sqlLobbyFilter, expectedPlayers);
         else
             PhotonNetwork.JoinRandomRoom(roomProperties, 0);
@@ -204,21 +240,27 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         option.CustomRoomPropertiesForLobby = lobbyProperties;
         option.CustomRoomProperties = roomProperties;
 
-        PhotonNetwork.CreateRoom("Casual " + RoomName.ToString(), option, TypedLobby.Default);
+        if (expectedPlayers[0] != "")
+            PhotonNetwork.CreateRoom("Casual " + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
+        else
+            PhotonNetwork.CreateRoom("Casual " + RoomName.ToString(), option, TypedLobby.Default);
     }
 
     public void JoinCasualMatch()
     {
         if (VivoxManager.instance._listings.Count >= 1)
             for (int i = 0; i < VivoxManager.instance._listings.Count; i++)
-                expectedPlayers[i] = VivoxManager.instance._listings[i].Player.Account.Name;
+            {
+                if (VivoxManager.instance._listings[i].Player.Account.Name != MyID)
+                    expectedPlayers[i] = VivoxManager.instance._listings[i].Player.Account.Name;
+            }
 
         var expectedMaxPlayer = VivoxManager.instance._listings;
         string sqlLobbyFilter = "gm = 'false'";
 
         isRank = false;
         Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, false } };
-        if (VivoxManager.instance._listings.Count >= 1)
+        if (expectedPlayers[0] != "")
             PhotonNetwork.JoinRandomRoom(roomProperties, (byte)expectedMaxPlayer.Count, MatchmakingMode.FillRoom, TypedLobby.Default, sqlLobbyFilter, expectedPlayers);
         else
             PhotonNetwork.JoinRandomRoom(roomProperties, 0);

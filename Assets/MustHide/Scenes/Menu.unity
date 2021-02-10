@@ -1568,6 +1568,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentChannel: 
+  BeforeChannel: 
+  disconnectedFromChannel: 0
+  disconnectedFromAudio: 0
+  disconnectedFromText: 0
+  canJoin: 0
   _content: {fileID: 946202911}
   _partyListing: {fileID: -1453345901489409100, guid: 9b46efdd5327f0a4fbc3a2eb8938e5dd,
     type: 3}
@@ -3120,12 +3125,14 @@ MonoBehaviour:
   _MaxPlayers: 2
   _Map: House
   StagingRoom: 
-  _FriendsUserIDs: []
   searchFriendField: {fileID: 2041606287}
   FriendName: 
+  _content: {fileID: 1573765416}
+  _FriendListing: {fileID: 3426380026884165969, guid: ddbb8ee63007d2c4a9d19f4b0db7b460,
+    type: 3}
+  _listings: []
   MyID: 
   expectedPlayers:
-  - 
   - 
   - 
   - 
@@ -8508,10 +8515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d3213b4d5cc1045bfba44c292dd77e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _content: {fileID: 1573765416}
-  _friendListing: {fileID: 3426380026884165969, guid: ddbb8ee63007d2c4a9d19f4b0db7b460,
-    type: 3}
-  friendsObj: []
 --- !u!1 &1552908543
 GameObject:
   m_ObjectHideFlags: 0

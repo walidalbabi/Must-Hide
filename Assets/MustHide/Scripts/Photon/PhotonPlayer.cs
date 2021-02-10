@@ -14,6 +14,8 @@ public class PhotonPlayer : MonoBehaviour
     [SerializeField]
     private string characterName;
 
+    private bool isChoosPanel = true;
+
 
     private void Awake()
     {
@@ -34,10 +36,20 @@ public class PhotonPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SpawnCharacter();
-        if(MatchTimerManager.instance.Team == 0)
-            MatchTimerManager.instance.Team = myTeam;
+        if (!PV.IsMine)
+            return;
 
+
+        SpawnCharacter();
+
+
+        if(isChoosPanel)
+        if (!MatchTimerManager.instance.MonstersPanel.activeInHierarchy && !MatchTimerManager.instance.HuntersPanel.activeInHierarchy)
+        {
+
+                Invoke("SetChooseCharacterPanel", 2f);
+            
+        }
 
         if (MatchTimerManager.instance.createPlayer)
         {
@@ -45,7 +57,23 @@ public class PhotonPlayer : MonoBehaviour
         }
     }
 
+    private void SetChooseCharacterPanel()
+    {
+        MatchTimerManager.instance.StartPanel.SetActive(false);
+        if (myTeam == 1)
+        {
+            MatchTimerManager.instance.MonstersPanel.SetActive(true);
+            MatchTimerManager.instance.HuntersPanel.SetActive(false);
+            isChoosPanel = false;
+        }
 
+        if (myTeam == 2)
+        {
+            MatchTimerManager.instance.MonstersPanel.SetActive(false);
+            MatchTimerManager.instance.HuntersPanel.SetActive(true);
+            isChoosPanel = false;
+        }
+    }
     private void SpawnCharacter()
     {
         if (myTeam != 0 && canCreatePlayer && playerAvatar == null)
@@ -76,7 +104,8 @@ public class PhotonPlayer : MonoBehaviour
                     playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", characterName), InGameManager.instance.HuntersSpawnPoints[spawnPicker].position,
                          InGameManager.instance.HuntersSpawnPoints[spawnPicker].rotation, 0);
                 }
-            }  
+            }
+            playerAvatar.GetComponent<Health>().SetPlayerTeam(myTeam);
                 
                  
                 

@@ -134,7 +134,7 @@ public class PropsController : MonoBehaviour
 
     //Change Back to you transformation
 
-    private void BackToTransformation()
+    public void BackToTransformation()
     {
         //Its not a prop anymore
         canTransformTo = true;
@@ -156,7 +156,7 @@ public class PropsController : MonoBehaviour
 
 
     //Change  to a prop
-    private void TransformToProp()
+    public void TransformToProp()
     {
         canTransformTo = false;
         //Its  a prop now!
@@ -194,29 +194,29 @@ public class PropsController : MonoBehaviour
         for (int i = 0; i < dis.Count; i++)
         {
 
-                if (dis[i] < 1.9f)
-                {
+              if (dis[i] < 1.9f)
+              {
 
-                if (dis[i] < closerDis)
+                    if (dis[i] < closerDis)
                     {
-                    closerDis = dis[i];
-                    propCol = null;
+                        closerDis = dis[i];
+                        propCol = null;
                   
                     }
 
-                if (sr != null)
-                    sr.color = Color.white;
-         
+                    if (sr != null)
+                        sr.color = Color.white;
+
                 propCol = colsPos[i].gameObject.GetComponent<BoxCollider2D>();
-                if (propCol.GetComponent<PhotonView>().OwnerActorNr == 0)
-                {
-                    sr = propCol.gameObject.GetComponent<SpriteRenderer>();
-                    sr.color = Color.green;
+                    if (propCol.GetComponent<BlocksScript>().isActiveAndEnabled == false)
+                    {
+                        sr = propCol.gameObject.GetComponent<SpriteRenderer>();
+                        sr.color = Color.green;
 
-                    canTransformTo = true;
-                }
+                        canTransformTo = true;
+                    }
 
-                }    
+              }    
         }
     }
 
@@ -264,11 +264,13 @@ public class PropsController : MonoBehaviour
         {
             sprite.SetActive(false);
             col.enabled = false;
+            propCol.GetComponent<PropSyncFix>().enabled = false;
         }
         else
         {
             sprite.SetActive(true);
             col.enabled = true;
+            propCol.GetComponent<PropSyncFix>().enabled = true;
         }
     }
 }

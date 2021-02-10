@@ -18,7 +18,12 @@ public class FriendScript : MonoBehaviour
 
     public void Invite()
     {
-        VivoxManager.instance.Send_Direct_Message(FriendInfo.UserId, "channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId);
+        if (FriendInfo != null)
+        {
+            VivoxManager.instance.Send_Direct_Message(FriendInfo.UserId, "channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId);
+            Debug.Log("Invite Sended");
+        }
+
     }
 
     public void Remove()

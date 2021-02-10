@@ -14,6 +14,10 @@ public class VivoxManager : MonoBehaviour
 
     public static VivoxManager instance;
     public string CurrentChannel;
+    public string BeforeChannel;
+
+    [HideInInspector]
+    public bool disconnectedFromChannel, disconnectedFromAudio, disconnectedFromText, canJoin;
 
     [SerializeField]
     private Transform _content;
@@ -41,10 +45,12 @@ public class VivoxManager : MonoBehaviour
         vivox.client.Uninitialize();
     }
 
-    void Start()
+    private void Update()
     {
-
-
+        if(disconnectedFromChannel && disconnectedFromAudio || disconnectedFromText)
+        {
+            canJoin = true;
+        }
     }
 
 
@@ -191,7 +197,7 @@ public class VivoxManager : MonoBehaviour
 
                 case LoginState.LoggedIn:
                     Debug.Log($"Logged In {vivox.loginSession.LoginSessionId.Name}");
-                    VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
+                    JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
                     LoadingScript.instance.StopLoading();
                     break;
             }
@@ -205,6 +211,7 @@ public class VivoxManager : MonoBehaviour
 
 
     #region Join Channel Methods
+
 
     public void JoinChannel(string channelName, bool IsAudio, bool IsText, bool switchTransmission,ChannelType channelType)
     {
@@ -249,7 +256,11 @@ public class VivoxManager : MonoBehaviour
         });
     }
 
-
+    public void LeaveChannel()
+    {
+        vivox.channelSession.Disconnect();
+       // vivox.loginSession.DeleteChannelSession(new ChannelId(vivox.issuer, BeforeChannel, vivox.domain));
+    }
 
 
     public void On_Channel_Status_Changed(object sender, PropertyChangedEventArgs channelArgs)
@@ -261,10 +272,12 @@ public class VivoxManager : MonoBehaviour
             switch (source.ChannelState)
             {
                 case ConnectionState.Connecting:
-                    Debug.Log("Channel Connecting");
+                    Debug.Log($"{source.Channel.Name} Connecting");
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"{source.Channel.Name} Connected");
+                    disconnectedFromChannel = false;
+                    BeforeChannel = CurrentChannel;
                     CurrentChannel = source.Channel.Name;
                     break;
                 case ConnectionState.Disconnecting:
@@ -272,6 +285,7 @@ public class VivoxManager : MonoBehaviour
                     break;
                 case ConnectionState.Disconnected:
                     Debug.Log($"{source.Channel.Name} disconnected");
+                    disconnectedFromChannel = true;
                     Bind_Channel_Callback_Listeners(false, vivox.channelSession);
                     Bind_User_Callbacks(false, vivox.channelSession);
                     Bind_Group_Message_Callbacks(false, vivox.channelSession);
@@ -294,12 +308,14 @@ public class VivoxManager : MonoBehaviour
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"Audio Channel Connected");
+                    disconnectedFromAudio = false;
                     break;
                 case ConnectionState.Disconnecting:
                     Debug.Log($"Audio Channel Disconnecting");
                     break;
                 case ConnectionState.Disconnected:
                     Debug.Log($"Audio Channel Disconnected");
+                    disconnectedFromAudio = true;
                     vivox.channelSession.PropertyChanged -= On_Audio_State_Changed;
                     break;
             }
@@ -319,12 +335,14 @@ public class VivoxManager : MonoBehaviour
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"Text Channel Connected");
+                    disconnectedFromText = false;
                     break;
                 case ConnectionState.Disconnecting:
                     Debug.Log($"Text Channel Disconnecting");
                     break;
                 case ConnectionState.Disconnected:
                     Debug.Log($"Text Channel Disconnected");
+                    disconnectedFromText = true;
                     vivox.channelSession.PropertyChanged -= On_Text_State_Changed;
                     break;
             }
@@ -342,7 +360,16 @@ public class VivoxManager : MonoBehaviour
         var source = (VivoxUnity.IReadOnlyDictionary<string, IParticipant>)sender;
 
         IParticipant user = source[participantArgs.Key];
-        AddPlayerListing(user);
+       foreach(var participant in user.ParentChannelSession.Participants)
+        {
+            RemovePlayerListing(participant);
+        }
+
+        foreach (var participant in user.ParentChannelSession.Participants)
+        {
+            AddPlayerListing(participant);
+        }
+
         Debug.Log($"{user.Account.Name} has joined the channel");
     }   
 
@@ -351,13 +378,17 @@ public class VivoxManager : MonoBehaviour
         var source = (VivoxUnity.IReadOnlyDictionary<string, IParticipant>)sender;
 
         IParticipant user = source[participantArgs.Key];
-        RemovePlayerListing(user);
-        Debug.Log($"{user.Account.Name} has left the channel");
-        if("Channel"+user.Account.Name == CurrentChannel)
+        if (!user.IsSelf)
+            RemovePlayerListing(user);
+        else
         {
-            //If Leader Left
-            JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
+            foreach (var participant in user.ParentChannelSession.Participants)
+            {
+                RemovePlayerListing(participant);
+            }
         }
+ 
+        Debug.Log($"{user.Account.Name} has left the channel");
 
     }  
 
@@ -365,7 +396,9 @@ public class VivoxManager : MonoBehaviour
     {
         var source = (VivoxUnity.IReadOnlyDictionary<string, IParticipant>)sender;
       
-        IParticipant user = source[participantArgs.Key]; 
+        IParticipant user = source[participantArgs.Key];
+
+     
     }
 
     private void AddPlayerListing(IParticipant player)

@@ -22,13 +22,22 @@ public class InvitationScript : MonoBehaviour
 
     public void Accept()
     {
-   
-        VivoxManager.instance.JoinChannel(ChannelLink, true, false, true, VivoxUnity.ChannelType.NonPositional);
-        Destroy(gameObject);
+        VivoxManager.instance.LeaveChannel();
+        Invoke("DelayedJoin", 2f);
+
+      
+
+        
     }
 
     public void Reject()
     {
+        Destroy(gameObject);
+    }
+
+    private void DelayedJoin()
+    {
+        VivoxManager.instance.JoinChannel(ChannelLink, true, false, true, VivoxUnity.ChannelType.NonPositional);
         Destroy(gameObject);
     }
 }

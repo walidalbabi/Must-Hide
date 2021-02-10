@@ -17,7 +17,8 @@ public class BlocksScript : MonoBehaviour
     private Rigidbody2D rb;
     [HideInInspector]
     public PhotonView PV;
-    [SerializeField]
+
+
     private SpriteRenderer SR;
 
 
@@ -77,6 +78,16 @@ public class BlocksScript : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
+    }
+
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+                //Transform Back
+        }
     }
 
 

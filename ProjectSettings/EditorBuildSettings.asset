@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/MustHide/Scenes/Studio.unity
     guid: b97c506ae884ae74796c4a11839478a6
   - enabled: 1
-    path: Assets/Prohunt(PKG)Updated/Scene/House.unity
+    path: Assets/MustHide/Scenes/House.unity
     guid: 6a46991a1ad6d46449a9105588a47a02
   m_configObjects: {}

@@ -127,4 +127,6 @@ public class PhotonPlayer : MonoBehaviour
     {
         myTeam = wichTeam;
     }
+
+
 }

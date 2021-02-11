@@ -13,11 +13,9 @@ GameObject:
   - component: {fileID: 9081919606584216877}
   - component: {fileID: 3022092636445360873}
   - component: {fileID: 5978357289732522759}
-  - component: {fileID: 4455546968047151370}
-  - component: {fileID: 8736537733603590713}
-  - component: {fileID: 8694948659420352584}
-  - component: {fileID: 8209193678386036927}
-  - component: {fileID: 914356334012474525}
+  - component: {fileID: 6859867896999944409}
+  - component: {fileID: 1785463341577865947}
+  - component: {fileID: 6027166794092379664}
   m_Layer: 3
   m_Name: BathsingTop
   m_TagString: Props
@@ -186,7 +184,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5028589858781225587}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -199,7 +197,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4455546968047151370
+--- !u!114 &6859867896999944409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,9 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f094deb540eb4c935fbb75488415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  PV: {fileID: 0}
---- !u!114 &8736537733603590713
+  propController: {fileID: 0}
+--- !u!114 &1785463341577865947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,13 +228,11 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 8694948659420352584}
-  - {fileID: 8209193678386036927}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8694948659420352584
+--- !u!114 &6027166794092379664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,41 +241,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5028589858781225587}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: d1af31e9c369ef945ab993eb7ce7c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &8209193678386036927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5028589858781225587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &914356334012474525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5028589858781225587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f199902fb161194c83a85d382c04be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockScript: {fileID: 0}
+  photonTransformView: {fileID: 0}
+  propSyncFix: {fileID: 0}
 --- !u!1 &8943774584216156902
 GameObject:
   m_ObjectHideFlags: 0

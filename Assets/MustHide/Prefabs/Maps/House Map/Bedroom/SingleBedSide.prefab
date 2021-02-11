@@ -15,10 +15,8 @@ GameObject:
   - component: {fileID: 8576990276033078244}
   - component: {fileID: 2567991875912011080}
   - component: {fileID: 8187641534145124854}
-  - component: {fileID: 6451258437294287407}
   - component: {fileID: 7576626089284433148}
-  - component: {fileID: -1872542176179569963}
-  - component: {fileID: 2818127356733493181}
+  - component: {fileID: -6476023078022426545}
   m_Layer: 3
   m_Name: SingleBedSide
   m_TagString: Props
@@ -122,23 +120,8 @@ EdgeCollider2D:
   - {x: 0.79339427, y: 0.48258457}
   - {x: 0.80727684, y: 0.47612488}
   - {x: 0.81509256, y: 0.4682013}
-  - {x: 0.8139027, y: -0.58107847}
-  - {x: 0.80911225, y: -0.58708584}
-  - {x: 0.799354, y: -0.5931354}
-  - {x: 0.7265773, y: -0.592243}
-  - {x: 0.7153635, y: -0.5862609}
-  - {x: 0.7104888, y: -0.5775722}
-  - {x: 0.71088237, y: -0.52740014}
-  - {x: -0.71063256, y: -0.5296948}
-  - {x: -0.71484524, y: -0.5334332}
-  - {x: -0.7143651, y: -0.5775392}
-  - {x: -0.7167057, y: -0.5841214}
-  - {x: -0.7232306, y: -0.5895045}
-  - {x: -0.7344444, y: -0.594727}
-  - {x: -0.7745456, y: -0.5948198}
-  - {x: -0.79976404, y: -0.59465873}
-  - {x: -0.8100154, y: -0.58833146}
-  - {x: -0.8156398, y: -0.57966775}
+  - {x: 0.8022238, y: -0.27744615}
+  - {x: -0.8104606, y: -0.2791265}
   - {x: -0.81537366, y: 0.00006462063}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
@@ -178,7 +161,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8588138920390725921}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -203,8 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f094deb540eb4c935fbb75488415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  PV: {fileID: 0}
+  propController: {fileID: 0}
 --- !u!114 &8187641534145124854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,28 +205,10 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 6451258437294287407}
-  - {fileID: -1872542176179569963}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6451258437294287407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8588138920390725921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!61 &7576626089284433148
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -271,7 +235,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4678732, y: 0.852615}
   m_EdgeRadius: 0
---- !u!114 &-1872542176179569963
+--- !u!114 &-6476023078022426545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,25 +244,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8588138920390725921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Script: {fileID: 11500000, guid: d1af31e9c369ef945ab993eb7ce7c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &2818127356733493181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8588138920390725921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f199902fb161194c83a85d382c04be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockScript: {fileID: 0}
+  photonTransformView: {fileID: 0}
+  propSyncFix: {fileID: 0}
 --- !u!1 &9161626949561874286
 GameObject:
   m_ObjectHideFlags: 0

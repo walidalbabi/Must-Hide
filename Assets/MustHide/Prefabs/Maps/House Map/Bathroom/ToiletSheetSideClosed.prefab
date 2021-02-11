@@ -96,11 +96,9 @@ GameObject:
   - component: {fileID: 937056534266848420}
   - component: {fileID: 10179456447017709}
   - component: {fileID: 8753165154154193600}
-  - component: {fileID: 6037773113182549815}
-  - component: {fileID: 2857551946435302607}
-  - component: {fileID: 7946373677207152795}
-  - component: {fileID: 6546884113968530168}
-  - component: {fileID: -6916525879385139361}
+  - component: {fileID: -7008930049745755505}
+  - component: {fileID: 8025620924445088731}
+  - component: {fileID: 2678303062851178595}
   m_Layer: 3
   m_Name: ToiletSheetSideClosed
   m_TagString: Props
@@ -211,21 +209,11 @@ EdgeCollider2D:
   - {x: 0.41852155, y: -0.12151353}
   - {x: 0.40617445, y: -0.20670746}
   - {x: 0.36615676, y: -0.2675783}
-  - {x: 0.3061105, y: -0.3220463}
-  - {x: 0.30170894, y: -0.38156146}
-  - {x: 0.281067, y: -0.4267568}
-  - {x: 0.2558174, y: -0.45046368}
-  - {x: 0.2062997, y: -0.4723894}
-  - {x: 0.13743488, y: -0.47635078}
-  - {x: 0.106858626, y: -0.475849}
-  - {x: -0.048921134, y: -0.47238642}
-  - {x: -0.09986128, y: -0.46153215}
-  - {x: -0.13024974, y: -0.44102374}
-  - {x: -0.16968857, y: -0.3978531}
-  - {x: -0.17417231, y: -0.30422875}
-  - {x: -0.22914137, y: -0.30659387}
-  - {x: -0.3951159, y: -0.302562}
-  - {x: -0.40729576, y: -0.2812085}
+  - {x: 0.32342997, y: -0.33287126}
+  - {x: -0.16118254, y: -0.3323724}
+  - {x: -0.17934746, y: -0.29360044}
+  - {x: -0.3799613, y: -0.2895744}
+  - {x: -0.40513057, y: -0.2725462}
   - {x: -0.41520497, y: -0.0003991084}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
@@ -265,7 +253,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7509128668085714019}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -278,7 +266,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6037773113182549815
+--- !u!114 &-7008930049745755505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,9 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f094deb540eb4c935fbb75488415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  PV: {fileID: 0}
---- !u!114 &2857551946435302607
+  propController: {fileID: 0}
+--- !u!114 &8025620924445088731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,13 +297,11 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 7946373677207152795}
-  - {fileID: 6546884113968530168}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &7946373677207152795
+--- !u!114 &2678303062851178595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,38 +310,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7509128668085714019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: d1af31e9c369ef945ab993eb7ce7c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &6546884113968530168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7509128668085714019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &-6916525879385139361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7509128668085714019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f199902fb161194c83a85d382c04be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockScript: {fileID: 0}
+  photonTransformView: {fileID: 0}
+  propSyncFix: {fileID: 0}

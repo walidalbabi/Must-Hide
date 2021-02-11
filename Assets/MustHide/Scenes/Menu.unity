@@ -1571,7 +1571,7 @@ MonoBehaviour:
   BeforeChannel: 
   disconnectedFromChannel: 0
   disconnectedFromAudio: 0
-  disconnectedFromText: 0
+  disconnectedFromText: 1
   canJoin: 0
   _content: {fileID: 946202911}
   _partyListing: {fileID: -1453345901489409100, guid: 9b46efdd5327f0a4fbc3a2eb8938e5dd,

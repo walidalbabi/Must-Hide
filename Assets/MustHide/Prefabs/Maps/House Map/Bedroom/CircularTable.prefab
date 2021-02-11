@@ -93,14 +93,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7943010849237014604}
   - component: {fileID: 7943010849237014605}
-  - component: {fileID: 660259317313831550}
+  - component: {fileID: 609158769410762034}
   - component: {fileID: 3773255321214017587}
   - component: {fileID: 7727319214496110314}
   - component: {fileID: 5705997843875209173}
   - component: {fileID: 2809458934706023889}
-  - component: {fileID: 5279180634337645842}
-  - component: {fileID: -8517338825229577616}
-  - component: {fileID: 3041294811875629322}
+  - component: {fileID: -4358873119435175703}
   m_Layer: 3
   m_Name: CircularTable
   m_TagString: Props
@@ -175,8 +173,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &660259317313831550
-BoxCollider2D:
+--- !u!58 &609158769410762034
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -188,19 +186,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0054659843, y: 0.012272596}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1230469, y: 0.93359375}
-    newSize: {x: 1.1230469, y: 0.93359375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0.007872169, y: 0.039360706}
   serializedVersion: 2
-  m_Size: {x: 0.9481375, y: 0.58411455}
-  m_EdgeRadius: 0.1
+  m_Radius: 0.51429033
 --- !u!61 &3773255321214017587
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -235,7 +223,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7943010849237014706}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -260,8 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f094deb540eb4c935fbb75488415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  PV: {fileID: 0}
+  propController: {fileID: 0}
 --- !u!114 &2809458934706023889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,13 +267,11 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 5279180634337645842}
-  - {fileID: -8517338825229577616}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5279180634337645842
+--- !u!114 &-4358873119435175703
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,38 +280,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7943010849237014706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: d1af31e9c369ef945ab993eb7ce7c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &-8517338825229577616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7943010849237014706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &3041294811875629322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7943010849237014706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f199902fb161194c83a85d382c04be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockScript: {fileID: 0}
+  photonTransformView: {fileID: 0}
+  propSyncFix: {fileID: 0}

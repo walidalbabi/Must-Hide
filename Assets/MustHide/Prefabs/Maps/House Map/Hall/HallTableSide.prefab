@@ -15,9 +15,7 @@ GameObject:
   - component: {fileID: 6142621033844442979}
   - component: {fileID: 295518446023804428}
   - component: {fileID: 1536152467674283769}
-  - component: {fileID: 7021159388882381482}
-  - component: {fileID: 2319207160176339551}
-  - component: {fileID: -7070754358677654063}
+  - component: {fileID: 1187925217092537953}
   m_Layer: 3
   m_Name: HallTableSide
   m_TagString: Props
@@ -105,7 +103,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000059604645, y: 0.033207715}
+  m_Offset: {x: -0.000000059604645, y: 0.11198929}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -116,8 +114,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6031848, y: 1.1371585}
-  m_EdgeRadius: 0.05
+  m_Size: {x: 0.6031848, y: 1.2246954}
+  m_EdgeRadius: 0
 --- !u!61 &6245094341045504016
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -152,7 +150,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105986367865217556}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -177,8 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f094deb540eb4c935fbb75488415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  PV: {fileID: 0}
+  propController: {fileID: 0}
 --- !u!114 &1536152467674283769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,13 +194,11 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 7021159388882381482}
-  - {fileID: 2319207160176339551}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &7021159388882381482
+--- !u!114 &1187925217092537953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,41 +207,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 105986367865217556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: d1af31e9c369ef945ab993eb7ce7c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &2319207160176339551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105986367865217556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &-7070754358677654063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105986367865217556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f199902fb161194c83a85d382c04be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockScript: {fileID: 0}
+  photonTransformView: {fileID: 0}
+  propSyncFix: {fileID: 0}
 --- !u!1 &8387907184434133154
 GameObject:
   m_ObjectHideFlags: 0

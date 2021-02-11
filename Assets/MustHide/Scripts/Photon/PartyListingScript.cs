@@ -19,6 +19,11 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
 
     public bool isLeader;
 
+   // [HideInInspector]
+    public GameObject LeaderGameObj;
+    [SerializeField]
+    private bool leaderAvailble;
+
     private void Start()
     {
        StartCoroutine(WaitLeaderToJoin());
@@ -29,6 +34,25 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
 
         if (!Player.IsSelf)
             return;
+
+
+        if(LeaderGameObj == null && !leaderAvailble)
+        {
+            for(int i =0; i< VivoxManager.instance._listings.Count; i++)
+            {
+                if (VivoxManager.instance._listings[i].isLeader)
+                {
+                    LeaderGameObj = VivoxManager.instance._listings[i].gameObject;
+                    leaderAvailble = true;
+                }
+               
+            }
+        }
+        else if(leaderAvailble && LeaderGameObj == null)
+        {
+            MenuManager.instance.LeaveParty();
+        }
+
 
         if (isLeader)
         {

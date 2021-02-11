@@ -22,13 +22,27 @@ public class InvitationScript : MonoBehaviour
 
     public void Accept()
     {
+
+        LoadingScript.instance.StartLoading("Joining"); 
         VivoxManager.instance.LeaveChannel();
-        Invoke("DelayedJoin", 2f);
+        //Invoke("DelayedJoin", 3f);
 
-      
-
+        StartCoroutine(joinn());
         
     }
+
+    IEnumerator joinn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (VivoxManager.instance.canJoin)
+        {
+            DelayedJoin();
+            StopCoroutine(joinn());
+        }
+        else
+            StartCoroutine(joinn());
+    }
+
 
     public void Reject()
     {
@@ -37,6 +51,7 @@ public class InvitationScript : MonoBehaviour
 
     private void DelayedJoin()
     {
+      //  LoadingScript.instance.StopLoading();
         VivoxManager.instance.JoinChannel(ChannelLink, true, false, true, VivoxUnity.ChannelType.NonPositional);
         Destroy(gameObject);
     }

@@ -253,8 +253,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae8eccd090f6fd4fb771052a8155d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMonster: 0
   MaxHealth: 100
   _HP: 100
+  PlayerTeam: 0
 --- !u!114 &8840849341523456032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,11 +281,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d3055b8af9b226e4e8799844321183ba, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -432,6 +434,7 @@ MonoBehaviour:
   - {fileID: 1016240319613302434}
   - {fileID: 6527233890927587065}
   - {fileID: 7486164080654188214}
+  - {fileID: 5056781015024178726}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

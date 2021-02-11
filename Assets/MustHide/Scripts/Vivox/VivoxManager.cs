@@ -16,7 +16,6 @@ public class VivoxManager : MonoBehaviour
     public string CurrentChannel;
     public string BeforeChannel;
 
-    [HideInInspector]
     public bool disconnectedFromChannel, disconnectedFromAudio, disconnectedFromText, canJoin;
 
     [SerializeField]
@@ -47,9 +46,13 @@ public class VivoxManager : MonoBehaviour
 
     private void Update()
     {
-        if(disconnectedFromChannel && disconnectedFromAudio || disconnectedFromText)
+        if(disconnectedFromChannel && disconnectedFromAudio)
         {
             canJoin = true;
+        }
+        else
+        {
+            canJoin = false;
         }
     }
 
@@ -273,18 +276,24 @@ public class VivoxManager : MonoBehaviour
             {
                 case ConnectionState.Connecting:
                     Debug.Log($"{source.Channel.Name} Connecting");
+                    //   LoadingScript.instance.StartLoading("Joining");
+                    disconnectedFromChannel = false;
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"{source.Channel.Name} Connected");
+                    LoadingScript.instance.StopLoading();
                     disconnectedFromChannel = false;
                     BeforeChannel = CurrentChannel;
                     CurrentChannel = source.Channel.Name;
                     break;
                 case ConnectionState.Disconnecting:
                     Debug.Log($"{source.Channel.Name} disconnecting");
+                    //  LoadingScript.instance.StartLoading("Leaving Party");
+                    disconnectedFromChannel = false;
                     break;
                 case ConnectionState.Disconnected:
                     Debug.Log($"{source.Channel.Name} disconnected");
+                  //  LoadingScript.instance.StopLoading();
                     disconnectedFromChannel = true;
                     Bind_Channel_Callback_Listeners(false, vivox.channelSession);
                     Bind_User_Callbacks(false, vivox.channelSession);
@@ -305,6 +314,7 @@ public class VivoxManager : MonoBehaviour
             {
                 case ConnectionState.Connecting:
                     Debug.Log($"Audio Channel Connecting");
+                    disconnectedFromAudio = false;
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"Audio Channel Connected");
@@ -312,6 +322,7 @@ public class VivoxManager : MonoBehaviour
                     break;
                 case ConnectionState.Disconnecting:
                     Debug.Log($"Audio Channel Disconnecting");
+                    disconnectedFromAudio = false;
                     break;
                 case ConnectionState.Disconnected:
                     Debug.Log($"Audio Channel Disconnected");
@@ -332,16 +343,21 @@ public class VivoxManager : MonoBehaviour
             {
                 case ConnectionState.Connecting:
                     Debug.Log($"Text Channel Connecting");
+                    disconnectedFromText = false;
+
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"Text Channel Connected");
+
                     disconnectedFromText = false;
                     break;
                 case ConnectionState.Disconnecting:
                     Debug.Log($"Text Channel Disconnecting");
+                    disconnectedFromText = false;
                     break;
                 case ConnectionState.Disconnected:
                     Debug.Log($"Text Channel Disconnected");
+
                     disconnectedFromText = true;
                     vivox.channelSession.PropertyChanged -= On_Text_State_Changed;
                     break;

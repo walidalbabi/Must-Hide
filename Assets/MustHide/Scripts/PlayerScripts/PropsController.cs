@@ -31,13 +31,14 @@ public class PropsController : MonoBehaviour
     //Props Components
     [HideInInspector]
     public BoxCollider2D propCol;
-    private GameObject currentSelectedProp;
+
     private float closerDis;
 
     private List<Transform> colsPos = new List<Transform>();
     private List<float> dis = new List<float>();
 
     private SpriteRenderer sr;
+
 
     
     // Start is called before the first frame update
@@ -76,6 +77,8 @@ public class PropsController : MonoBehaviour
                 audioSource.PlayOneShot(sounds[Random.Range(0, sounds.Length)]);
                 counter = 0f;
             }
+
+            transform.position = transform.position;
 
         }
            
@@ -136,6 +139,9 @@ public class PropsController : MonoBehaviour
 
     public void BackToTransformation()
     {
+        if (propCol == null)
+            return;
+
         //Its not a prop anymore
         canTransformTo = true;
         isProp = false;
@@ -143,12 +149,12 @@ public class PropsController : MonoBehaviour
         counter = 0;
         //set all properties back to default
         PV.RPC("OnTransfering", RpcTarget.AllBuffered, false);
-  
 
-        propCol.GetComponent<BlocksScript>().enabled = false;
-        propCol.GetComponent<PhotonTransformView>().enabled = true;
+        GetComponent<PlayerMovement>().enabled = true;
+
         propCol.GetComponent<PhotonView>().TransferOwnership(0);
-
+        propCol.GetComponent<BlocksScript>().SetPropController(null);
+        propCol.GetComponent<PropEnableDisableComponents>().OnPropDeselected();
         propCol = null;
 
 
@@ -158,6 +164,9 @@ public class PropsController : MonoBehaviour
     //Change  to a prop
     public void TransformToProp()
     {
+        if (propCol == null)
+            return;
+
         canTransformTo = false;
         //Its  a prop now!
         isProp = true;
@@ -169,13 +178,17 @@ public class PropsController : MonoBehaviour
         if (sr != null)
             sr.color = Color.white;
 
-
-        propCol.GetComponent<BlocksScript>().enabled = true;
-        propCol.GetComponent<PhotonTransformView>().enabled = false;
+        GetComponent<PlayerMovement>().enabled = false;
         propCol.GetComponent<PhotonView>().TransferOwnership(PV.OwnerActorNr);
-        transform.position = new Vector2(propCol.transform.position.x, propCol.transform.position.y - 0.25f);
-
+        propCol.GetComponent<PropEnableDisableComponents>().OnPropSelected();
+        Invoke("SetPropController", 0.2f);
     }
+
+    private void SetPropController()
+    {
+        propCol.GetComponent<BlocksScript>().SetPropController(this);
+    }
+
 
 
     //Calculate Distance to find witch prop is the closest
@@ -208,15 +221,15 @@ public class PropsController : MonoBehaviour
                         sr.color = Color.white;
 
                 propCol = colsPos[i].gameObject.GetComponent<BoxCollider2D>();
-                    if (propCol.GetComponent<BlocksScript>().isActiveAndEnabled == false)
-                    {
-                        sr = propCol.gameObject.GetComponent<SpriteRenderer>();
-                        sr.color = Color.green;
+                if (propCol.GetComponent<BlocksScript>().isActiveAndEnabled == false)
+                {
+                    sr = propCol.gameObject.GetComponent<SpriteRenderer>();
+                    sr.color = Color.green;
 
-                        canTransformTo = true;
-                    }
+                    canTransformTo = true;
+                }
 
-              }    
+            }    
         }
     }
 
@@ -264,13 +277,11 @@ public class PropsController : MonoBehaviour
         {
             sprite.SetActive(false);
             col.enabled = false;
-            propCol.GetComponent<PropSyncFix>().enabled = false;
         }
         else
         {
             sprite.SetActive(true);
             col.enabled = true;
-            propCol.GetComponent<PropSyncFix>().enabled = true;
         }
     }
 }

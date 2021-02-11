@@ -73,12 +73,28 @@ public class MenuManager : MonoBehaviour
       
 
         VivoxManager.instance.LeaveChannel();
-        Invoke("JoinChannelAfterLeave", 2f);
+        LoadingScript.instance.StartLoading("Leaving Party");
 
+        //  Invoke("JoinChannelAfterLeave", 3f);
+        StartCoroutine(joinn());
+    }
+
+
+    IEnumerator joinn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (VivoxManager.instance.canJoin)
+        {
+            JoinChannelAfterLeave();
+            StopCoroutine(joinn());
+        }
+        else
+            StartCoroutine(joinn());
     }
 
     private void JoinChannelAfterLeave()
     {
+      //  LoadingScript.instance.StopLoading();
         VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, ChannelType.NonPositional);
     }
 

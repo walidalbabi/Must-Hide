@@ -96,11 +96,9 @@ GameObject:
   - component: {fileID: 8668753135229609533}
   - component: {fileID: 5902814481827879006}
   - component: {fileID: 6565269969840542881}
-  - component: {fileID: 650228965706162218}
-  - component: {fileID: 1932992913515311808}
-  - component: {fileID: 4940743206706172461}
-  - component: {fileID: -1782770637772225519}
-  - component: {fileID: 7541628446741956297}
+  - component: {fileID: 3607724364862861943}
+  - component: {fileID: 1016118722625654159}
+  - component: {fileID: 3025958712022018383}
   m_Layer: 3
   m_Name: ToiletSheetSide
   m_TagString: Props
@@ -207,17 +205,7 @@ EdgeCollider2D:
   - {x: 0.41852155, y: -0.12151353}
   - {x: 0.40617445, y: -0.20670746}
   - {x: 0.36615676, y: -0.2675783}
-  - {x: 0.3061105, y: -0.3220463}
-  - {x: 0.30170894, y: -0.38156146}
-  - {x: 0.281067, y: -0.4267568}
-  - {x: 0.2558174, y: -0.45046368}
-  - {x: 0.2062997, y: -0.4723894}
-  - {x: 0.13743488, y: -0.47635078}
-  - {x: 0.106858626, y: -0.475849}
-  - {x: -0.048921134, y: -0.47238642}
-  - {x: -0.09986128, y: -0.46153215}
-  - {x: -0.13024974, y: -0.44102374}
-  - {x: -0.16968857, y: -0.3978531}
+  - {x: 0.3019855, y: -0.30966908}
   - {x: -0.17417231, y: -0.30422875}
   - {x: -0.22914137, y: -0.30659387}
   - {x: -0.3951159, y: -0.302562}
@@ -261,7 +249,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6037387573973030476}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -274,7 +262,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &650228965706162218
+--- !u!114 &3607724364862861943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,9 +274,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f094deb540eb4c935fbb75488415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  PV: {fileID: 0}
---- !u!114 &1932992913515311808
+  propController: {fileID: 0}
+--- !u!114 &1016118722625654159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,13 +293,11 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents:
-  - {fileID: 4940743206706172461}
-  - {fileID: -1782770637772225519}
+  ObservedComponents: []
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4940743206706172461
+--- !u!114 &3025958712022018383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,38 +306,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6037387573973030476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: d1af31e9c369ef945ab993eb7ce7c2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &-1782770637772225519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6037387573973030476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &7541628446741956297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6037387573973030476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f199902fb161194c83a85d382c04be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  blockScript: {fileID: 0}
+  photonTransformView: {fileID: 0}
+  propSyncFix: {fileID: 0}

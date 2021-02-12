@@ -105,10 +105,10 @@ public class PhotonPlayer : MonoBehaviour
                          InGameManager.instance.HuntersSpawnPoints[spawnPicker].rotation, 0);
                 }
             }
+            InGameManager.instance.CurrentTeam = myTeam;
             playerAvatar.GetComponent<Health>().SetPlayerTeam(myTeam);
-                
-                 
-                
+
+
         }
        
 

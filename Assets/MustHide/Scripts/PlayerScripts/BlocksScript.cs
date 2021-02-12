@@ -10,10 +10,6 @@ public class BlocksScript : MonoBehaviour
     public PropsController propController;
     private PhotonView PV;
 
-
-
-
-
     //// Start is called before the first frame update
     void Start()
     {
@@ -28,14 +24,6 @@ public class BlocksScript : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Bullet") && propController != null)
-        {
-            //Transform Back
-            propController.BackToTransformation();
-        }
-    }
 
     public void SetPropController(PropsController propControll)
     {
@@ -51,5 +39,16 @@ public class BlocksScript : MonoBehaviour
 #pragma warning disable CS1717 // Assignment made to same variable
         propController = propController;
 #pragma warning restore CS1717 // Assignment made to same variable
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet") && propController != null)
+        {
+            //Transform Back
+            propController.BackToTransformation();
+            propController.isBuff = true;
+            SetPropController(null);
+        }
     }
 }

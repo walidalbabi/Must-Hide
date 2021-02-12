@@ -19,6 +19,7 @@ public class InGameManager : MonoBehaviour
     public Transform[] HuntersSpawnPoints;
 
     public int nextPlayerTeam;
+    public int CurrentTeam;
 
 
     void Awake()

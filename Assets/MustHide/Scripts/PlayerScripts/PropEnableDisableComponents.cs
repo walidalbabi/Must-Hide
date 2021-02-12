@@ -20,8 +20,6 @@ public class PropEnableDisableComponents : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         blockScript = GetComponent<BlocksScript>();
-       // photonTransformView = GetComponent<PhotonTransformView>();
-        //propSyncFix = GetComponent<PropSyncFix>();
     }
 
     public void OnPropSelected()
@@ -38,15 +36,11 @@ public class PropEnableDisableComponents : MonoBehaviour
     private void syncSelected()
     {
         blockScript.enabled = true;
-      //  photonTransformView.enabled = false;
-       // propSyncFix.enabled = false;
     }
 
     [PunRPC]
     private void syncDeselected()
     {
         blockScript.enabled = false;
-       // photonTransformView.enabled = true;
-       // propSyncFix.enabled = true;
     }
 }

@@ -8,6 +8,8 @@ TagManager:
   - Bullet
   - Props
   - HealZone
+  - Hunter
+  - Monster
   layers:
   - Default
   - TransparentFX

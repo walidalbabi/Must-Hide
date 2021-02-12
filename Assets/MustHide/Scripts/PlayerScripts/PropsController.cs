@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Photon.Pun;
-
+using UnityEngine.UI;
 public class PropsController : MonoBehaviour
 {
-   // [HideInInspector]
+    [HideInInspector]
     public float counter = 0;
+    [HideInInspector]
+    public float buffCounter = 0;
 
 
     [SerializeField]
     private GameObject sprite;
     private BoxCollider2D col;
-    private PlayerMovement PM;
     private PhotonView PV;
 
     [HideInInspector]
@@ -23,6 +24,11 @@ public class PropsController : MonoBehaviour
     [SerializeField]
     private float timeToTransformBack = 10f;
     private bool isCount;
+
+    [SerializeField]
+    private float noTransformBuff = 3f;
+    [HideInInspector]
+    public bool isBuff;
 
     [SerializeField]
     private AudioClip[] sounds;
@@ -40,12 +46,16 @@ public class PropsController : MonoBehaviour
     private SpriteRenderer sr;
 
 
+    [SerializeField]
+    private Slider HideTimeSlider;
+    [SerializeField]
+    private Slider BuffTimeSlider;
+
     
     // Start is called before the first frame update
     void Start()
     {
         col = GetComponent<BoxCollider2D>();
-        PM = GetComponent<PlayerMovement>();
         audioSource = GetComponent<AudioSource>();
         PV = GetComponent<PhotonView>();
 
@@ -58,29 +68,7 @@ public class PropsController : MonoBehaviour
         if (!PV.IsMine)
             return;
 
-        if (!isProp)
-        {
-            if (propCol != null)
-                CheckProps();
-            CalculateDistance();
-        }
-        else
-        {
-            if (isCount)
-                CountFunction();
-
-            if (counter >= timeToTransformBack)
-                BackToTransformation();
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                audioSource.PlayOneShot(sounds[Random.Range(0, sounds.Length)]);
-                counter = 0f;
-            }
-
-            transform.position = transform.position;
-
-        }
+        CheckIfIamAProp();
            
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -96,11 +84,70 @@ public class PropsController : MonoBehaviour
         }
     }
 
+    private void CheckIfIamAProp()
+    {
+        if (!isProp)
+        {
+            if (propCol != null)
+                CheckProps();
+            CalculateDistance();
 
+            //Check Buff
+            if (isBuff)
+            {
+                BuffTimeSlider.gameObject.SetActive(true);
+                BuffTimeSlider.maxValue = noTransformBuff;
+                BuffTimeSlider.value = buffCounter;
+                CountBuffFunction();
+            }
+            else
+            {
+                BuffTimeSlider.gameObject.SetActive(false);
+            }
+     
+
+            if (buffCounter < noTransformBuff && isBuff)
+                canTransformTo = false;
+            else if (buffCounter >= noTransformBuff && isBuff)
+            {
+                canTransformTo = true;
+                isBuff = false;
+                buffCounter = 0;
+            }
+
+        }
+        else
+        {
+            //Check Hide Time
+            if (isCount)
+            {
+                HideTimeSlider.maxValue = timeToTransformBack;
+                HideTimeSlider.value = counter;
+                CountFunction();
+            }
+       
+
+            if (counter >= timeToTransformBack)
+                BackToTransformation();
+
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                audioSource.PlayOneShot(sounds[Random.Range(0, sounds.Length)]);
+                counter = 0f;
+            }
+
+            transform.position = transform.position;
+
+        }
+    }
     private void CountFunction()
     {
         counter += Time.deltaTime;
-
+    }
+    private void CountBuffFunction()
+    {
+        buffCounter += Time.deltaTime;
     }
 
     private void CheckProps()
@@ -141,7 +188,7 @@ public class PropsController : MonoBehaviour
     {
         if (propCol == null)
             return;
-
+        HideTimeSlider.gameObject.SetActive(false);
         //Its not a prop anymore
         canTransformTo = true;
         isProp = false;
@@ -153,7 +200,7 @@ public class PropsController : MonoBehaviour
         GetComponent<PlayerMovement>().enabled = true;
 
         propCol.GetComponent<PhotonView>().TransferOwnership(0);
-        propCol.GetComponent<BlocksScript>().SetPropController(null);
+      //  propCol.GetComponent<BlocksScript>().SetPropController(null);
         propCol.GetComponent<PropEnableDisableComponents>().OnPropDeselected();
         propCol = null;
 
@@ -166,7 +213,7 @@ public class PropsController : MonoBehaviour
     {
         if (propCol == null)
             return;
-
+        HideTimeSlider.gameObject.SetActive(true);
         canTransformTo = false;
         //Its  a prop now!
         isProp = true;

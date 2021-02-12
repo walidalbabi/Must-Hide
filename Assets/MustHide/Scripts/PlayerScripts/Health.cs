@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 public class Health : MonoBehaviour
 {
+
+
     [SerializeField]
     private bool isMonster;
     [SerializeField]
     private float MaxHealth;
-    [SerializeField]
+
+
     private float _HP = 100;
 
     [SerializeField]
     private int PlayerTeam;
+
+    [SerializeField]
+    private Slider slider;
+    [SerializeField]
+    private Image healthBarFill;
+    [SerializeField]
+    private Text playerNameTxt;
 
     private bool isDead;
 
@@ -22,8 +33,31 @@ public class Health : MonoBehaviour
 
     //Components
 
+    private void Start()
+    {
+        playerNameTxt.text = Photon.Pun.PhotonNetwork.AuthValues.UserId;
 
-    //Checking Triggers
+
+        if(PlayerTeam == InGameManager.instance.CurrentTeam)
+        {
+            if (GetComponent<PhotonView>().IsMine)
+            {
+                healthBarFill.color = Color.red;
+            }
+            else
+                healthBarFill.color = Color.green;
+
+            _HP = MaxHealth;
+            slider.maxValue = MaxHealth;
+            slider.value = _HP;
+        }
+        else
+        {
+             slider.gameObject.SetActive(false);
+        }
+
+    }
+
 
 
     private void Update()
@@ -38,12 +72,15 @@ public class Health : MonoBehaviour
         }
     }
 
-
+    //Setting Player Team for Network
     public void SetPlayerTeam(int team)
     {
         PlayerTeam = team;
+
+        GetComponent<PhotonView>().RPC("RPC_SetPlayerTeam", RpcTarget.AllBuffered);
     }
 
+    //Checking Triggers
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -68,18 +105,30 @@ public class Health : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            GetComponent<PhotonView>().RPC("DoDamage", RpcTarget.AllBuffered , collision.gameObject.GetComponent<BulletScript>().BulletDamage);
+
+            if (gameObject.tag == "Monster")
+            {
+                GetComponent<PhotonView>().RPC("DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
+
+                GetComponent<PropsController>().isBuff = true;
+
+                if (GetComponent<PropsController>().isBuff)
+                    GetComponent<PropsController>().buffCounter = 0;
+            }
+           
         }
     }
+
     //Healing By Time
     IEnumerator Heal()
     {
-        for (float currentHealth = _HP; currentHealth <= 100; currentHealth += 5f)
+        for (float currentHealth = _HP; currentHealth <= MaxHealth; currentHealth += 5f)
         {
             if (!canHeal)
                 break;
 
             _HP = currentHealth;
+            slider.value = _HP;
             yield return new WaitForSeconds(1f);
         }
     }
@@ -89,13 +138,19 @@ public class Health : MonoBehaviour
     public void DoDamage(float Damage)
     {
         _HP -= Damage;
+        slider.value = _HP;
     }
+
+    [PunRPC]
+#pragma warning disable CS1717 // Assignment made to same variable
+    public void RPC_SetPlayerTeam() { PlayerTeam = PlayerTeam; }
+#pragma warning restore CS1717 // Assignment made to same variable
 
     [PunRPC]
     public void Dead()
     {
         isDead = true;
-        GetComponent<PlayerMovement>().SR.enabled = false;
+        GetComponent<PlayerMovement>().gameObject.SetActive(false);
         GetComponent<PlayerMovement>().enabled = false;
         if (GetComponent<PropsController>())
             GetComponent<PropsController>().enabled = false;

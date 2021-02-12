@@ -24,7 +24,10 @@ public class RecruiterMonster : MonoBehaviour
 
 
         if (!GetComponent<PhotonView>().IsMine)
+        {
             PlayerLight.SetActive(false);
+        }
+         
     }
 
     private void Update()

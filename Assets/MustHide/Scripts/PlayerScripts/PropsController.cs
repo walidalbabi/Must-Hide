@@ -30,10 +30,6 @@ public class PropsController : MonoBehaviour
     [HideInInspector]
     public bool isBuff;
 
-    [SerializeField]
-    private AudioClip[] sounds;
-    private AudioSource audioSource;
-
     //Props Components
     [HideInInspector]
     public BoxCollider2D propCol;
@@ -56,10 +52,7 @@ public class PropsController : MonoBehaviour
     void Start()
     {
         col = GetComponent<BoxCollider2D>();
-        audioSource = GetComponent<AudioSource>();
-        PV = GetComponent<PhotonView>();
-
-     
+        PV = GetComponent<PhotonView>(); 
     }
 
     // Update is called once per frame
@@ -133,7 +126,7 @@ public class PropsController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                audioSource.PlayOneShot(sounds[Random.Range(0, sounds.Length)]);
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.HideIncreaseSound, 15f, 0, 1f, true);
                 counter = 0f;
             }
 

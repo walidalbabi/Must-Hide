@@ -235,7 +235,7 @@ public class VivoxManager : MonoBehaviour
         }
 
 
-        vivox.channelSession.BeginConnect(IsAudio, IsText, switchTransmission, vivox.channelSession.GetConnectToken(vivox.tokenKey, vivox.timeSpan), ar => 
+        vivox.channelSession.BeginConnect(IsAudio, IsText, switchTransmission, vivox.channelSession.GetConnectToken(vivox.tokenKey, vivox.timeSpan),ar => 
         {
             try
             {
@@ -262,7 +262,7 @@ public class VivoxManager : MonoBehaviour
     public void LeaveChannel()
     {
         vivox.channelSession.Disconnect();
-       // vivox.loginSession.DeleteChannelSession(new ChannelId(vivox.issuer, BeforeChannel, vivox.domain));
+     
     }
 
 
@@ -281,9 +281,10 @@ public class VivoxManager : MonoBehaviour
                     break;
                 case ConnectionState.Connected:
                     Debug.Log($"{source.Channel.Name} Connected");
-                    LoadingScript.instance.StopLoading();
-                    disconnectedFromChannel = false;
                     BeforeChannel = CurrentChannel;
+
+                    LoadingScript.instance.StopLoading();
+                    disconnectedFromChannel = false;        
                     CurrentChannel = source.Channel.Name;
                     break;
                 case ConnectionState.Disconnecting:
@@ -295,10 +296,11 @@ public class VivoxManager : MonoBehaviour
                     Debug.Log($"{source.Channel.Name} disconnected");
                   //  LoadingScript.instance.StopLoading();
                     disconnectedFromChannel = true;
+                  
+                    //Events
                     Bind_Channel_Callback_Listeners(false, vivox.channelSession);
                     Bind_User_Callbacks(false, vivox.channelSession);
-                    Bind_Group_Message_Callbacks(false, vivox.channelSession);
-                    Bind_Directed_Message_Callbacks(false, vivox.loginSession);
+                    Bind_Group_Message_Callbacks(false, vivox.channelSession);         
                     break;
             }
         }

@@ -52,12 +52,13 @@ public class RecruiterHunter : MonoBehaviour
     private void Awake()
     {
         playerMove = GetComponent<PlayerMovement>();
+        GetComponent<AudioManager>().Initialize();
     }
     private void Start()
     {
         Muzzlefalsh.SetActive(false);
 
-        if (!playerMove.PV.IsMine)
+        if (!GetComponent<Photon.Pun.PhotonView>().IsMine)
         {
             ReloadTimeSlider.gameObject.SetActive(false);
             MagText.gameObject.SetActive(false);
@@ -72,7 +73,11 @@ public class RecruiterHunter : MonoBehaviour
         if (!playerMove.PV.IsMine)
             return;
 
+        if(playerMove.isMoving)
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 5f, 0, 0.05f, true);
+
         IfAbility();
+
         //for shooting
         Aim();
         Reload();
@@ -107,6 +112,7 @@ public class RecruiterHunter : MonoBehaviour
         //Start Reload Time
         if (isReload)
         {
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Reload, 20f, playerMove.PV.ViewID, 0.5f, true);
             ReloadTimeSlider.gameObject.SetActive(true);
             ReloadTimeSlider.maxValue = reloadTime;
             ReloadTimeSlider.value = counter;
@@ -187,6 +193,7 @@ public class RecruiterHunter : MonoBehaviour
             Rigidbody2D bulletRB = Bullet.GetComponent<Rigidbody2D>();
             bulletRB.AddForce(Muzzle.right * bulletforce, ForceMode2D.Impulse);
             GetComponent<CameraShake>().Shake(.05f, .1f);
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Shoot, 35f, 0, 1f, true);
         }
 
     }

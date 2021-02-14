@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System.IO;
+
 public class Health : MonoBehaviour
 {
 
@@ -31,6 +33,7 @@ public class Health : MonoBehaviour
 
     private bool canHeal;
 
+    private int splashIndex = 1;
     //Components
 
     private void Start()
@@ -114,6 +117,15 @@ public class Health : MonoBehaviour
 
                 if (GetComponent<PropsController>().isBuff)
                     GetComponent<PropsController>().buffCounter = 0;
+
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BloodParticle"), transform.position, Quaternion.identity);
+
+                if (splashIndex == 1)
+                    splashIndex = 2;
+                else
+                    splashIndex = 1;
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Splash_"+splashIndex), transform.position, Quaternion.identity);
+
             }
            
         }

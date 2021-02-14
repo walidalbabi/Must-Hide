@@ -87,7 +87,7 @@ public class PhotonPlayer : MonoBehaviour
                     characterName = ChooseCharScript.instance.Name;
                     if (characterName == "")
                         characterName = "Recruiter";
-                    playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Monsters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
+                    playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
                            InGameManager.instance.MonstersSpawnPoints[spawnPicker].rotation, 0);
                 }
             }

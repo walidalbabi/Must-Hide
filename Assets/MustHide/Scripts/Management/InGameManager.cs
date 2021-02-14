@@ -67,4 +67,14 @@ public class InGameManager : MonoBehaviour
     {
         HuntersDead++;
     }
+
+    public SoundAudioClip[] soundAudioClip;
+
+    [System.Serializable]
+    public class SoundAudioClip
+    {
+        public AudioManager.Sound sound;
+        public AudioClip audioClip;
+    }
+
 }

@@ -9,8 +9,10 @@ public class PlayerMovement : MonoBehaviour
   [HideInInspector]
     public bool cancameraFollow;
 
-//    [HideInInspector]
+   [HideInInspector]
     public float moveSpeed;
+
+    public bool isMoving;
 
     Vector2 movement;
 
@@ -73,6 +75,10 @@ public class PlayerMovement : MonoBehaviour
 
         Move();
 
+        if (movement.x != 0 || movement.y != 0)
+            isMoving = true;
+        else
+            isMoving = false;
     }
 
 

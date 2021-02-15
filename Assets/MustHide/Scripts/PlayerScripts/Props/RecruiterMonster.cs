@@ -21,8 +21,6 @@ public class RecruiterMonster : MonoBehaviour
     {
         playerMove = GetComponent<PlayerMovement>();
 
-
-
         if (!GetComponent<PhotonView>().IsMine)
         {
             PlayerLight.SetActive(false);
@@ -32,6 +30,9 @@ public class RecruiterMonster : MonoBehaviour
 
     private void Update()
     {
+        if (playerMove.isMoving)
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 2f, 0, 0.05f, true);
+
         IfAbility();
     }
 

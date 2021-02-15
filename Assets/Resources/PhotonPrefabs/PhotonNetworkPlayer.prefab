@@ -67,4 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTeam: 0
+  canCreatePlayer: 0
   characterName: 
+  isChoosPanel: 1
+  GameTimer: 0

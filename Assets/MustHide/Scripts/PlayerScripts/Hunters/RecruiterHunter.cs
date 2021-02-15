@@ -22,11 +22,16 @@ public class RecruiterHunter : MonoBehaviour
     private float bulletforce = 20f;
 
 
+
     //for shooting
     [SerializeField]
     private Transform Gun;
     [SerializeField]
     private Transform GunLight;
+    [SerializeField]
+    private Joystick AimAndShootJoystick;
+    [SerializeField]
+    private Joystick AimJoystick;
     private int magazinCounter;
     private float counter;
     private bool canShoot;
@@ -40,7 +45,6 @@ public class RecruiterHunter : MonoBehaviour
     public Transform Muzzle;
     public GameObject Muzzlefalsh;
     public GameObject bullet;
-    bool coroutinRunning;
 
 
     //Components
@@ -52,7 +56,6 @@ public class RecruiterHunter : MonoBehaviour
     private void Awake()
     {
         playerMove = GetComponent<PlayerMovement>();
-        GetComponent<AudioManager>().Initialize();
     }
     private void Start()
     {
@@ -82,22 +85,26 @@ public class RecruiterHunter : MonoBehaviour
         Aim();
         Reload();
 
-        if (Input.GetButton("Fire1") && !isReload)
+        if (SystemInfo.deviceType == DeviceType.Desktop)
         {
-            Debug.Log("Fire");
-            Shoot();
+            if (Input.GetButton("Fire1") && !isReload)
+            {
+                Debug.Log("Fire");
+                Shoot();
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                Debug.Log("Stop Fire");
+                if (Muzzlefalsh.activeInHierarchy)
+                    Muzzlefalsh.SetActive(false);
+            }
         }
-        if (Input.GetButtonUp("Fire1"))
-        {
-            Debug.Log("Stop Fire");
-            if (Muzzlefalsh.activeInHierarchy)
-                Muzzlefalsh.SetActive(false);
-        }
+
+      
     }
 
     private void FixedUpdate()
     {
-    
     }
 
     private void Reload()
@@ -144,26 +151,99 @@ public class RecruiterHunter : MonoBehaviour
 
     void Aim()
     {
-        Vector3 mousePosition = GetNouseWorldPosition();
 
-        Vector3 aimDirection = (mousePosition - transform.position).normalized;
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        Gun.eulerAngles = new Vector3(0, 0, angle);
-
-        Vector3 localScale = Vector3.one;
-
-        if(angle > 90 || angle < -90)
+        if(SystemInfo.deviceType == DeviceType.Desktop)
         {
-            localScale.y = -0.8f;
-            GunLight.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            Vector3 mousePosition = GetNouseWorldPosition();
+
+            Vector3 aimDirection = (mousePosition - transform.position).normalized;
+            float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+            Gun.eulerAngles = new Vector3(0, 0, angle);
+
+            Vector3 localScale = Vector3.one;
+
+            if (angle > 90 || angle < -90)
+            {
+                localScale.y = -0.8f;
+                GunLight.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
+            else
+            {
+                localScale.y = +0.8f;
+                GunLight.localRotation = Quaternion.Euler(0f, 0f, -90f);
+            }
+
+            Gun.localScale = localScale;
         }
-        else
+        else if(SystemInfo.deviceType == DeviceType.Handheld)
         {
-            localScale.y = +0.8f;
-            GunLight.localRotation = Quaternion.Euler(0f, 0f, -90f);
+  
+            //Aim Joystick
+            float xMovementRightJoystick = AimJoystick.Horizontal; // The horizontal movement from joystick 02
+            float yMovementRightJoystick = AimJoystick.Vertical; // The vertical movement from joystick 02
+
+            if (xMovementRightJoystick != 0 || yMovementRightJoystick != 0)
+            {
+                // calculate the player's direction based on angle
+                float tempAngle = Mathf.Atan2(yMovementRightJoystick, xMovementRightJoystick) * Mathf.Rad2Deg;
+
+                Gun.eulerAngles = new Vector3(0, 0, tempAngle);
+                Vector3 localScale = Vector3.one;
+
+                if (tempAngle > 90 || tempAngle < -90)
+                {
+                    localScale.y = -0.8f;
+                    GunLight.localRotation = Quaternion.Euler(0f, 0f, 90f);
+                }
+                else
+                {
+                    localScale.y = +0.8f;
+                    GunLight.localRotation = Quaternion.Euler(0f, 0f, -90f);
+                }
+
+                Gun.localScale = localScale;
+            }
+
+
+            //Aim And Shoot Joystick
+            float xMovementRightJoystick1 = AimAndShootJoystick.Horizontal; // The horizontal movement from joystick 02
+            float yMovementRightJoystick1 = AimAndShootJoystick.Vertical; // The vertical movement from joystick 02
+
+            if (xMovementRightJoystick1 != 0 || yMovementRightJoystick1 != 0)
+            {
+                if (!isReload)
+                    Shoot();
+               
+                // calculate the player's direction based on angle
+                float tempAngle1 = Mathf.Atan2(yMovementRightJoystick1, xMovementRightJoystick1) * Mathf.Rad2Deg;
+
+                Gun.eulerAngles = new Vector3(0, 0, tempAngle1);
+                Vector3 localScale1 = Vector3.one;
+
+                if (tempAngle1 > 90 || tempAngle1 < -90)
+                {
+                    localScale1.y = -0.8f;
+                    GunLight.localRotation = Quaternion.Euler(0f, 0f, 90f);
+                }
+                else
+                {
+                    localScale1.y = +0.8f;
+                    GunLight.localRotation = Quaternion.Euler(0f, 0f, -90f);
+                }
+
+                Gun.localScale = localScale1;
+            }
+            else
+            {
+                if (Muzzlefalsh.activeInHierarchy)
+                    Muzzlefalsh.SetActive(false);
+            }
+             
+
         }
 
-        Gun.localScale = localScale;
+
+
     }
 
     void Shoot()

@@ -41,6 +41,12 @@ public class PlayFabLogin : MonoBehaviour
         if (instance == null)
             instance = this;
         else Destroy(gameObject);
+
+        #if UNITY_EDITOR
+                Debug.unityLogger.logEnabled = true;
+        #else
+                Debug.unityLogger.logEnabled = false;
+        #endif
     }
 
     public void Start()

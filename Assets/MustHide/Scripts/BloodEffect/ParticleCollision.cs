@@ -40,7 +40,7 @@ public class ParticleCollision : MonoBehaviour
         {
            // Instantiate(splatPrefab, collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), splatHolder);
 
-            Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","SplatRenderer"), collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
+            Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood" , "SplatRenderer"), collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
             //if (soundsPlayed < MaxSounds)
             //{
             //    soundsPlayed += 1;

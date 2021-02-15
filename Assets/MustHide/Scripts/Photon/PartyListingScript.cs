@@ -16,17 +16,31 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
     private string LeaderName;
     [SerializeField]
     string myname;
+    [SerializeField]
+    private GameObject MuteBtn;
+    [SerializeField]
+    private Text MuteBtnText;
 
     public bool isLeader;
 
    // [HideInInspector]
     public GameObject LeaderGameObj;
+
     [SerializeField]
     private bool leaderAvailble;
 
     private void Start()
     {
        StartCoroutine(WaitLeaderToJoin());
+
+        if (!Player.IsSelf)
+        {
+            MuteBtn.SetActive(true);
+        }
+        else
+        {
+            MuteBtn.SetActive(false);
+        }
     }
 
     private void Update()
@@ -90,6 +104,22 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
             isLeader = false;
         }
     }
+
+    public void MuteMic()
+    {
+        if(Player.InAudio)
+        if (Player.LocalMute == true)
+        {
+            MuteBtnText.text = "Mute";
+            Player.LocalMute = false;
+        }
+        else
+        {
+            MuteBtnText.text = "Muted";
+            Player.LocalMute = true;
+        }
+    }
+
 
     IEnumerator WaitLeaderToJoin()
     {

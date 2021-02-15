@@ -46,7 +46,7 @@ public class BlocksScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet") && propController != null)
         {
             //Transform Back
-            propController.BackToTransformation();
+            propController.BackToTransformation(true);
             propController.isBuff = true;
             SetPropController(null);
         }

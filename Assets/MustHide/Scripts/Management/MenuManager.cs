@@ -33,6 +33,8 @@ public class MenuManager : MonoBehaviour
     private GameObject RecoveryPanel;
 
 
+    [SerializeField]
+    private Text MuteBtnText;
 
 
     public Transform _ChatContent;
@@ -52,6 +54,26 @@ public class MenuManager : MonoBehaviour
             //set the instance
             instance = this;
         }
+    }
+
+
+    public void MuteMic()
+    {
+        if (VivoxManager.instance.vivox.client.AudioInputDevices.Muted == true)
+        {
+            MuteBtnText.text = "Mute";
+            VivoxManager.instance.vivox.client.AudioInputDevices.Muted = false;
+        }
+        else
+        {
+            MuteBtnText.text = "Muted";
+            VivoxManager.instance.vivox.client.AudioInputDevices.Muted = true;
+        }
+    }
+
+    public void Defean()
+    {
+
     }
 
     public void LockMatchBtns(bool isLock)

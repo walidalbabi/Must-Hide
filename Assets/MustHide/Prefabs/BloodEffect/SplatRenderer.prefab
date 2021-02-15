@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9087748317877259017}
   - component: {fileID: 571245186372392326}
   - component: {fileID: 8888238332100290993}
+  - component: {fileID: 7377674534259655375}
   m_Layer: 0
   m_Name: SplatRenderer
   m_TagString: Untagged
@@ -105,3 +106,16 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7377674534259655375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4319359705424138969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674519c4fdf24d9478cef12a089db284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LifeTime: 10

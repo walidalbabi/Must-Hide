@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     private Health health;
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private Joystick joystick;
+    [SerializeField]
+    private GameObject MobileUI;
     //Camera
     public float dampTime = 0.25f;
     private Vector3 velocity = Vector3.zero;
@@ -42,13 +46,27 @@ public class PlayerMovement : MonoBehaviour
         if (SR == null)
             SR = GetComponent<SpriteRenderer>();
 
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            MobileUI.SetActive(false);
+        }
+        else
+        {
+            if (PV.IsMine)
+            {
+                MobileUI.SetActive(true);
+            }
+            else MobileUI.SetActive(false);
+
+        }
+
         if (PV.IsMine)
         {
             cancameraFollow = true;
         }
         else
             cancameraFollow = false;
-
+        GetComponent<AudioManager>().Initialize();
     }
 
     // Update is called once per frame
@@ -85,8 +103,16 @@ public class PlayerMovement : MonoBehaviour
 
     protected void GetInputs()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        if(SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+        }else if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            movement.x = joystick.Horizontal;
+            movement.y = joystick.Vertical;
+        }
+
         animator.SetFloat("Horizontal", Mathf.Round(movement.x));
         animator.SetFloat("Vertical", Mathf.Round(movement.y));
         animator.SetFloat("speed", movement.sqrMagnitude);  

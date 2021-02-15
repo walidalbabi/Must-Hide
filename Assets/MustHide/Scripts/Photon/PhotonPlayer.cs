@@ -10,12 +10,13 @@ public class PhotonPlayer : MonoBehaviour
     private PhotonView PV;
     public int myTeam;
     GameObject playerAvatar;
-    private bool canCreatePlayer;
+    public bool canCreatePlayer;
     [SerializeField]
     private string characterName;
+    
+    public bool isChoosPanel = true;
 
-    private bool isChoosPanel = true;
-
+    public float GameTimer;
 
     private void Awake()
     {
@@ -24,13 +25,14 @@ public class PhotonPlayer : MonoBehaviour
 
     void Start()
     {
-
+        //Getting Team
         if (PV.IsMine)
         {
-                PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
+                PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);     
         }
-        
-        
+
+
+
     }
 
     // Update is called once per frame
@@ -39,10 +41,19 @@ public class PhotonPlayer : MonoBehaviour
         if (!PV.IsMine)
             return;
 
+        //Setting Timer by the Master Client
+        GameTimer = MatchTimerManager.instance.timer;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+             PV.RPC("RPC_UpdateMatchCounter", RpcTarget.Others, GameTimer);
+        }
+
+
 
         SpawnCharacter();
 
-
+        //Enable The Choose Character Panel
         if(isChoosPanel)
         if (!MatchTimerManager.instance.MonstersPanel.activeInHierarchy && !MatchTimerManager.instance.HuntersPanel.activeInHierarchy)
         {
@@ -59,6 +70,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void SetChooseCharacterPanel()
     {
+        InGameManager.instance.GameState = InGameManager.State.ChooseCharacter;
         MatchTimerManager.instance.StartPanel.SetActive(false);
         if (myTeam == 1)
         {
@@ -87,7 +99,7 @@ public class PhotonPlayer : MonoBehaviour
                     characterName = ChooseCharScript.instance.Name;
                     if (characterName == "")
                         characterName = "Recruiter";
-                    playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
+                    playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Monsters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
                            InGameManager.instance.MonstersSpawnPoints[spawnPicker].rotation, 0);
                 }
             }
@@ -107,12 +119,38 @@ public class PhotonPlayer : MonoBehaviour
             }
             InGameManager.instance.CurrentTeam = myTeam;
             playerAvatar.GetComponent<Health>().SetPlayerTeam(myTeam);
-
+            //Join Team Channel
+            VivoxManager.instance.LeaveChannel();
+            StartCoroutine(joinn());
+            InGameManager.instance.GameState = InGameManager.State.StartGame;
 
         }
        
 
     }
+
+    //Channel Join Funtions
+    IEnumerator joinn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (VivoxManager.instance.canJoin)
+        {
+            DelayedJoin();
+            StopCoroutine(joinn());
+        }
+        else
+            StartCoroutine(joinn());
+    }
+
+    private void DelayedJoin()
+    {
+        Debug.Log(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString() + myTeam.ToString());
+        VivoxManager.instance.JoinChannel(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString()+myTeam.ToString(), true, false, true, VivoxUnity.ChannelType.NonPositional);
+        Destroy(gameObject);
+    }
+
+    #region RPC
+
 
     [PunRPC]
     void RPC_GetTeam()
@@ -128,5 +166,11 @@ public class PhotonPlayer : MonoBehaviour
         myTeam = wichTeam;
     }
 
+    [PunRPC]
+    void RPC_UpdateMatchCounter(float timer)
+    {
+        MatchTimerManager.instance.timer = timer;
+    }
 
+    #endregion RPC
 }

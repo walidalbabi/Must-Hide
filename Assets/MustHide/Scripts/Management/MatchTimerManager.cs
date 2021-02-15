@@ -15,12 +15,13 @@ public class MatchTimerManager : MonoBehaviour
     public GameObject HuntersPanel;
     public GameObject MonstersPanel;
     public GameObject StartPanel;
+    public GameObject EscapePanel;
     public GameObject EndPanel;
 
-    [SerializeField]
-    private Text GameEndText;
+  
+    public Text GameEndText;
 
-    private float timer = 10;
+    public float timer = 13;
 
     [SerializeField]
     private Text TimerUI;
@@ -40,7 +41,7 @@ public class MatchTimerManager : MonoBehaviour
     {
         canCount = true;
 
-        Invoke("SetCanCount", 0.3f);
+        Invoke("SetCanCount", 1f);
 
 
     }
@@ -48,56 +49,52 @@ public class MatchTimerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+        Mathf.Clamp(timer,0, MatchTime);
         TimeFormat();
-        CheckIfCanCount();
-        if(timer <= 0)
+        CheckingForTime();
+        CheclIfCanCount();
+    }
+
+
+    private void CheckingForTime()
+    {
+        if (timer <= 0)
         {
             if (isChoosePanel)
             {
                 isChoosePanel = false;
                 createPlayer = true;
                 canCount = false;
-                Invoke("SetCanCount", 0.3f);
+                Invoke("SetCanCount", 1f);
             }
             else
             {
-                //Monsters Win
+                //Hunters Win
+                InGameManager.instance.WinnerTeam = 2;
+                InGameManager.instance.SetWinnerTeam();
                 EndPanel.SetActive(true);
                 timer = 0;
-                GameEndText.text = "Game End Monsters Win";
+                GameEndText.text = "Game End Hunters Win";
             }
         }
         else
         {
-            //If GameOver
-            if (InGameManager.instance.GameIsOver)
+            if (timer <= 60f && !isChoosePanel && canCount)
             {
-                EndPanel.SetActive(true);
-                if(InGameManager.instance.MonstersDead >= 5)
-                {
-                    //Hunters Win
-                    GameEndText.text = "Game End Hunters Win";
-                }
-                if (InGameManager.instance.HuntersDead >= 5)
-                {
-                    //Monsters Win
-                    GameEndText.text = "Game End Monsters Win";
-                }
-                timer = 0;
+                InGameManager.instance.GameState = InGameManager.State.EscapeTime;
             }
+
+
         }
 
-        if(!isChoosePanel)
+        if (!isChoosePanel)
         {
             HuntersPanel.SetActive(false);
             MonstersPanel.SetActive(false);
         }
-
     }
 
-    //if i can count and count state
-    private void CheckIfCanCount()
+    private void CheclIfCanCount()
     {
 
         if (isChoosePanel && !canCount)
@@ -106,15 +103,14 @@ public class MatchTimerManager : MonoBehaviour
         }
         else if (!isChoosePanel && !canCount)
         {
-            
+
             timer = MatchTime;
         }
 
-        if (canCount )
+        if (canCount)
         {
             timer -= Time.deltaTime;
         }
-
     }
 
     private void SetCanCount()

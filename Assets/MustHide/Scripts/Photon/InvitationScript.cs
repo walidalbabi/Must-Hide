@@ -25,7 +25,6 @@ public class InvitationScript : MonoBehaviour
 
         LoadingScript.instance.StartLoading("Joining"); 
         VivoxManager.instance.LeaveChannel();
-        //Invoke("DelayedJoin", 3f);
 
         StartCoroutine(joinn());
         

@@ -72,7 +72,7 @@ public class PropsController : MonoBehaviour
             }else
             if (isProp)
             {
-                BackToTransformation();
+                BackToTransformation(false);
             }
         }
     }
@@ -121,13 +121,12 @@ public class PropsController : MonoBehaviour
        
 
             if (counter >= timeToTransformBack)
-                BackToTransformation();
+                BackToTransformation(false);
 
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.HideIncreaseSound, 15f, 0, 1f, true);
-                counter = 0f;
+                IncreaseHideTime();
             }
 
             transform.position = transform.position;
@@ -174,10 +173,14 @@ public class PropsController : MonoBehaviour
         
     }
 
-
+    public void IncreaseHideTime()
+    {
+        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.HideIncreaseSound, 15f, 0, 1f, true);
+        counter = 0f;
+    }
     //Change Back to you transformation
 
-    public void BackToTransformation()
+    public void BackToTransformation(bool forced)
     {
         if (propCol == null)
             return;
@@ -197,6 +200,8 @@ public class PropsController : MonoBehaviour
         propCol.GetComponent<PropEnableDisableComponents>().OnPropDeselected();
         propCol = null;
 
+        if(forced)
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.RightProp, 10f, 0, 1f, true);
 
     }
 
@@ -218,6 +223,7 @@ public class PropsController : MonoBehaviour
         if (sr != null)
             sr.color = Color.white;
 
+        GetComponent<PlayerMovement>().isMoving = false;
         GetComponent<PlayerMovement>().enabled = false;
         propCol.GetComponent<PhotonView>().TransferOwnership(PV.OwnerActorNr);
         propCol.GetComponent<PropEnableDisableComponents>().OnPropSelected();

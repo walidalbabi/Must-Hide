@@ -13,8 +13,6 @@ public class PropEnableDisableComponents : MonoBehaviour
     public BlocksScript blockScript;
     [HideInInspector]
     public PhotonTransformView photonTransformView;
-    [HideInInspector]
-    public PropSyncFix propSyncFix;
 
     private void Start()
     {

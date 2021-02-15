@@ -82,7 +82,28 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected To Master Server");
         if (!PhotonNetwork.InLobby)
-            PhotonNetwork.JoinLobby();      
+            PhotonNetwork.JoinLobby();
+
+       
+    }
+
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+        switch (cause)
+        {
+            case DisconnectCause.MaxCcuReached:
+                ErrorScript.instance.StartErrorMsg("Servers Are Full Please Try Again", false, true);
+                break;
+            case DisconnectCause.ServerTimeout:
+                ErrorScript.instance.StartErrorMsg("Server Timeout Please Try Again", false, true);
+                break;
+            case DisconnectCause.ClientTimeout:
+                ErrorScript.instance.StartErrorMsg("Client Timeout Please Try Again", false, true);
+                break;
+        }
+           
     }
 
     public override void OnCreatedRoom()
@@ -186,6 +207,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         RoomOptions option = new RoomOptions();
         option.MaxPlayers = _MaxPlayers;
         option.PublishUserId = true;
+        option.PlayerTtl = 20;
         Hashtable roomProperties = new Hashtable() {{ GAME_MODE_PROP_KEY, true } };
 
         string[] lobbyProperties = { GAME_MODE_PROP_KEY };
@@ -194,9 +216,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         option.CustomRoomPropertiesForLobby = lobbyProperties;
         option.CustomRoomProperties = roomProperties;
         if (expectedPlayers[0] != "")
-            PhotonNetwork.CreateRoom("Rank " + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
+            PhotonNetwork.CreateRoom("Rk" + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
         else
-            PhotonNetwork.CreateRoom("Rank " + RoomName.ToString(), option, TypedLobby.Default);
+            PhotonNetwork.CreateRoom("Rk" + RoomName.ToString(), option, TypedLobby.Default);
     }
 
    public  string[] expectedPlayers = new string[4];
@@ -241,9 +263,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         option.CustomRoomProperties = roomProperties;
 
         if (expectedPlayers[0] != "")
-            PhotonNetwork.CreateRoom("Casual " + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
+            PhotonNetwork.CreateRoom("Cl" + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
         else
-            PhotonNetwork.CreateRoom("Casual " + RoomName.ToString(), option, TypedLobby.Default);
+            PhotonNetwork.CreateRoom("Cl" + RoomName.ToString(), option, TypedLobby.Default);
     }
 
     public void JoinCasualMatch()

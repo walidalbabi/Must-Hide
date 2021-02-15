@@ -118,13 +118,15 @@ public class Health : MonoBehaviour
                 if (GetComponent<PropsController>().isBuff)
                     GetComponent<PropsController>().buffCounter = 0;
 
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BloodParticle"), transform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "BloodParticle"), transform.position, Quaternion.identity);
 
                 if (splashIndex == 1)
                     splashIndex = 2;
                 else
                     splashIndex = 1;
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Splash_"+splashIndex), transform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "Splash_"+splashIndex), transform.position, Quaternion.identity);
+
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterGetShot, 10f, 0,1f, true);
 
             }
            

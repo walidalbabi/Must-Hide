@@ -24,5 +24,6 @@ public class FriendList : MonoBehaviourPunCallbacks
         PlayFabLogin.instance.GetFriendList();
 
         yield return new WaitForSeconds(2f);
+        StartCoroutine(RefreshFriends());
     }
 }

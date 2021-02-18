@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
+using Photon.Realtime;
 public class PhotonPlayer : MonoBehaviour
 {
 
@@ -15,22 +15,24 @@ public class PhotonPlayer : MonoBehaviour
     private string characterName;
     
     public bool isChoosPanel = true;
-
-    public float GameTimer;
-
+    public bool isPlayerDead;
+    public string UserID;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+
     }
+
 
     void Start()
     {
         //Getting Team
         if (PV.IsMine)
         {
-                PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);     
-        }
+                PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
+                PV.RPC("RPC_SetphotonPlayer", RpcTarget.AllBuffered);
 
+        }
 
 
     }
@@ -40,16 +42,6 @@ public class PhotonPlayer : MonoBehaviour
     {
         if (!PV.IsMine)
             return;
-
-        //Setting Timer by the Master Client
-        GameTimer = MatchTimerManager.instance.timer;
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-             PV.RPC("RPC_UpdateMatchCounter", RpcTarget.Others, GameTimer);
-        }
-
-
 
         SpawnCharacter();
 
@@ -119,6 +111,7 @@ public class PhotonPlayer : MonoBehaviour
             }
             InGameManager.instance.CurrentTeam = myTeam;
             playerAvatar.GetComponent<Health>().SetPlayerTeam(myTeam);
+            playerAvatar.GetComponent<Health>().photonPlayer = this;
             //Join Team Channel
             VivoxManager.instance.LeaveChannel();
             StartCoroutine(joinn());
@@ -146,11 +139,14 @@ public class PhotonPlayer : MonoBehaviour
     {
         Debug.Log(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString() + myTeam.ToString());
         VivoxManager.instance.JoinChannel(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString()+myTeam.ToString(), true, false, true, VivoxUnity.ChannelType.NonPositional);
-        Destroy(gameObject);
     }
 
     #region RPC
 
+    public void SetIsDead(bool isDead)
+    {
+        PV.RPC("RPC_SetIsDead", RpcTarget.AllBuffered, isDead);
+    }
 
     [PunRPC]
     void RPC_GetTeam()
@@ -167,10 +163,16 @@ public class PhotonPlayer : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_UpdateMatchCounter(float timer)
+    void RPC_SetphotonPlayer()
     {
-        MatchTimerManager.instance.timer = timer;
+        UserID = PV.Owner.UserId;
+        InGameManager.instance.photonPlayer.Add(this);
     }
 
+    [PunRPC]
+    void RPC_SetIsDead(bool deadbool)
+    {
+        isPlayerDead = deadbool;
+    }
     #endregion RPC
 }

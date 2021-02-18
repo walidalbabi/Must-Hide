@@ -10,6 +10,7 @@ TagManager:
   - HealZone
   - Hunter
   - Monster
+  - Portal
   layers:
   - Default
   - TransparentFX

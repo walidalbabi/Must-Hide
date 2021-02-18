@@ -42,6 +42,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Instance 
     public static NetworkManager instance;
 
+
+    private ExitGames.Client.Photon.Hashtable _myCustomPropertie = new ExitGames.Client.Photon.Hashtable();
+
     private void Awake()
     {
         if (instance != null && instance != this)//if already exist
@@ -83,7 +86,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Connected To Master Server");
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
-
+        LoadingScript.instance.StopLoading();
        
     }
 
@@ -110,6 +113,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Succesful Create Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
+        _myCustomPropertie["Team"] = 0;
+        PhotonNetwork.LocalPlayer.CustomProperties = _myCustomPropertie;
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -121,6 +126,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Succesful Join Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
+        _myCustomPropertie["Team"] = 0;
+        PhotonNetwork.LocalPlayer.CustomProperties = _myCustomPropertie;
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)

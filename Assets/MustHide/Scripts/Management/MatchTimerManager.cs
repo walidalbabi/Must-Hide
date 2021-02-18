@@ -21,12 +21,14 @@ public class MatchTimerManager : MonoBehaviour
   
     public Text GameEndText;
 
-    public float timer = 13;
+    public float timer;
 
     [SerializeField]
     private Text TimerUI;
-    public bool isChoosePanel, canCount, createPlayer;
-
+    public bool  canCount, createPlayer;
+    public double StartTime;
+    public double TimeInBetween;
+    public double CurrentServerTime;
 
     private void Awake()
     {
@@ -40,15 +42,14 @@ public class MatchTimerManager : MonoBehaviour
     void Start()
     {
         canCount = true;
-
-        Invoke("SetCanCount", 1f);
-
-
+        StartTime = Photon.Pun.PhotonNetwork.Time;
+        TimeInBetween = StartTime + ReadyTime;
     }
 
     // Update is called once per frame
     void Update()
     {
+        CurrentServerTime = Photon.Pun.PhotonNetwork.Time;
         Mathf.Clamp(timer,0, MatchTime);
         TimeFormat();
         CheckingForTime();
@@ -58,36 +59,26 @@ public class MatchTimerManager : MonoBehaviour
 
     private void CheckingForTime()
     {
-        if (timer <= 0)
-        {
-            if (isChoosePanel)
-            {
-                isChoosePanel = false;
-                createPlayer = true;
-                canCount = false;
-                Invoke("SetCanCount", 1f);
-            }
-            else
-            {
-                //Hunters Win
-                InGameManager.instance.WinnerTeam = 2;
-                InGameManager.instance.SetWinnerTeam();
-                EndPanel.SetActive(true);
-                timer = 0;
-                GameEndText.text = "Game End Hunters Win";
-            }
-        }
-        else
-        {
-            if (timer <= 60f && !isChoosePanel && canCount)
-            {
-                InGameManager.instance.GameState = InGameManager.State.EscapeTime;
-            }
 
 
+        if(CurrentServerTime >= TimeInBetween && InGameManager.instance.GameState == InGameManager.State.ChooseCharacter)
+        {
+            createPlayer = true;
+            StartTime = Photon.Pun.PhotonNetwork.Time;
+            TimeInBetween = StartTime + MatchTime;
         }
 
-        if (!isChoosePanel)
+        if (CurrentServerTime >= (TimeInBetween - 60d) && InGameManager.instance.GameState == InGameManager.State.StartGame)
+        {
+            InGameManager.instance.GameState = InGameManager.State.EscapeTime;
+        }
+
+        if (CurrentServerTime >= TimeInBetween && InGameManager.instance.GameState == InGameManager.State.EscapeTime)
+        {
+            InGameManager.instance.GameState = InGameManager.State.EndGame;
+        }
+
+        if (InGameManager.instance.GameState != InGameManager.State.ChooseCharacter)
         {
             HuntersPanel.SetActive(false);
             MonstersPanel.SetActive(false);
@@ -97,20 +88,7 @@ public class MatchTimerManager : MonoBehaviour
     private void CheclIfCanCount()
     {
 
-        if (isChoosePanel && !canCount)
-        {
-            timer = ReadyTime;
-        }
-        else if (!isChoosePanel && !canCount)
-        {
-
-            timer = MatchTime;
-        }
-
-        if (canCount)
-        {
-            timer -= Time.deltaTime;
-        }
+        timer = ((float)(CurrentServerTime % StartTime)- (float)(TimeInBetween % StartTime)) * -1f ;
     }
 
     private void SetCanCount()

@@ -5,8 +5,9 @@ using Photon.Pun;
 using System.IO;
 using UnityEngine.UI;
 using VivoxUnity;
+using Photon.Realtime;
 
-public class InGameManager : MonoBehaviour
+public class InGameManager : MonoBehaviourPunCallbacks
 {
 
 
@@ -39,11 +40,13 @@ public class InGameManager : MonoBehaviour
     private bool isPortalActive = true;
 
     public int WinnerTeam;
-
+    public bool isPortalWin;
     [SerializeField]
     private Text MuteBtnText;
     [SerializeField]
     private Text DefeanBtnText;
+
+    public List<PhotonPlayer> photonPlayer = new List<PhotonPlayer>();
     void Awake()
     {
         if (instance == null)
@@ -67,10 +70,10 @@ public class InGameManager : MonoBehaviour
         switch (GameState)
         {
             case State.ChooseCharacter:
-                MatchTimerManager.instance.isChoosePanel = true;
+               
                 break;
             case State.StartGame:
-                MatchTimerManager.instance.isChoosePanel = false;
+             
                 if (!TasksAndEffects[0].activeInHierarchy)
                     TasksAndEffects[0].SetActive(true);
                 break;
@@ -101,18 +104,33 @@ public class InGameManager : MonoBehaviour
             MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win";
 
             if (PhotonNetwork.IsMasterClient)
-                WinnerTeam = 1;
-        }
-        if (HuntersDead >= 3)
+                WinnerTeam = 2;
+
+        }else if (HuntersDead >= 3)
         {
             //Monsters Win
             MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win";
 
             if (PhotonNetwork.IsMasterClient)
-                WinnerTeam = 2;
+                WinnerTeam = 1;
         }
+        else if (isPortalWin)
+        {
+            //Monsters Win
+            MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win";
+
+            if (PhotonNetwork.IsMasterClient)
+                WinnerTeam = 1;
+        }
+        else
+        {
+            //Hunters Win
+            WinnerTeam = 2;
+            MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win";
+        }
+
+
         SetWinnerTeam();
-        MatchTimerManager.instance.timer = 0;
     }
 
     private void Escape_State()
@@ -209,6 +227,10 @@ public class InGameManager : MonoBehaviour
         MonstersDead++;
     }
 
+    public void SetPortal(bool portalBool)
+    {
+        GetComponent<Photon.Pun.PhotonView>().RPC("RPC_SetPortal", RpcTarget.AllBuffered, portalBool);
+    }
 
     public void UpdateHuntersDead()
     {
@@ -224,6 +246,12 @@ public class InGameManager : MonoBehaviour
         public AudioClip audioClip;
     }
 
+    [PunRPC]
+    private void RPC_SetPortal(bool portalBool)
+    {
+        isPortalWin = portalBool;
+        GameState = State.EndGame;
+    }
 
    [PunRPC]
    private void RPC_WinnerTeam()
@@ -232,6 +260,17 @@ public class InGameManager : MonoBehaviour
         WinnerTeam = WinnerTeam;
 #pragma warning restore CS1717 // Assignment made to same variable
     }
+    [PunRPC]
+    private void RPC_UpdateHuntersDead()
+    {
+        UpdateHuntersDead();
+    }
+
+    [PunRPC]
+    private void RPC_UpdateMonstersDead()
+    {
+        UpdateMonsterDead();
+    }
 
     public void SetWinnerTeam()
     {
@@ -239,5 +278,46 @@ public class InGameManager : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
             GetComponent<PhotonView>().RPC("RPC_WinnerTeam", RpcTarget.Others);
     }
+
+
+    //Handle If Player Left Or Disconnect
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+      
+    }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        foreach (var playerList in photonPlayer)
+        {
+            if(playerList.UserID == otherPlayer.UserId)
+            {
+                    if (playerList.myTeam == 0)
+                    {
+                        PhotonNetwork.LeaveRoom(true);
+                        ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false);
+                    }
+                    else if (playerList.myTeam == 1 && !playerList.isPlayerDead)
+                    {
+                        GetComponent<PhotonView>().RPC("RPC_UpdateMonstersDead", RpcTarget.AllBuffered);
+                    }
+                    else if (playerList.myTeam == 2 && !playerList.isPlayerDead)
+                    {
+                        GetComponent<PhotonView>().RPC("RPC_UpdateHuntersDead", RpcTarget.AllBuffered);
+                    }  
+            }
+            else
+            {
+                Debug.Log("Player Not in List");
+            }
+        }
+
+
+        Debug.Log("Nick Name : "+otherPlayer.NickName+ "--- UserID: "+ otherPlayer.UserId);
+        Debug.Log("Custom Properties : ");
+    }
+
     #endregion  GameManager
 }

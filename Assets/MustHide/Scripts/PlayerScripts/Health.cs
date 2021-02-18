@@ -27,7 +27,7 @@ public class Health : MonoBehaviour
     [SerializeField]
     private Text playerNameTxt;
 
-    private bool isDead;
+    public bool isDead;
 
     public float HP { get { return _HP; }}
 
@@ -35,13 +35,13 @@ public class Health : MonoBehaviour
 
     private int splashIndex = 1;
     //Components
+    public PhotonPlayer photonPlayer;
 
     private void Start()
     {
-        playerNameTxt.text = Photon.Pun.PhotonNetwork.AuthValues.UserId;
+        playerNameTxt.text = GetComponent<PhotonView>().Owner.NickName;
 
-
-        if(PlayerTeam == InGameManager.instance.CurrentTeam)
+        if (PlayerTeam == InGameManager.instance.CurrentTeam)
         {
             if (GetComponent<PhotonView>().IsMine)
             {
@@ -59,6 +59,8 @@ public class Health : MonoBehaviour
              slider.gameObject.SetActive(false);
         }
 
+    
+
     }
 
 
@@ -72,7 +74,14 @@ public class Health : MonoBehaviour
         if (_HP <= 0 && !isDead)
         {
             GetComponent<PhotonView>().RPC("Dead", RpcTarget.AllBuffered);
+            photonPlayer.SetIsDead(true);
         }
+    }
+
+
+    private void SetPhotonPlayerDelady()
+    {
+        GetComponent<PhotonView>().RPC("RPC_SetPlayerPhoton", RpcTarget.AllBuffered);
     }
 
     //Setting Player Team for Network
@@ -91,6 +100,10 @@ public class Health : MonoBehaviour
         {
             canHeal = true;
                 StartCoroutine(Heal());      
+        }
+        if (collision.gameObject.CompareTag("Portal") && gameObject.tag == "Monster")
+        {
+            InGameManager.instance.SetPortal(true);
         }
     }
 
@@ -180,6 +193,14 @@ public class Health : MonoBehaviour
             InGameManager.instance.UpdateHuntersDead();
         }
 
+    }
+
+    [PunRPC]
+    void RPC_SetPlayerPhoton()
+    {
+#pragma warning disable CS1717 // Assignment made to same variable
+        photonPlayer = photonPlayer;
+#pragma warning restore CS1717 // Assignment made to same variable
     }
 
 }

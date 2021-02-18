@@ -7,6 +7,8 @@ public class ErrorScript : MonoBehaviour
     [SerializeField]
     private Text _Text;
     [SerializeField]
+    private GameObject CloseBtn;
+    [SerializeField]
     private GameObject ErrorPanel;
     [SerializeField]
     private GameObject RestartGameBtn;
@@ -41,6 +43,9 @@ public class ErrorScript : MonoBehaviour
         else
             ReconnectGameBtn.SetActive(false);
 
+        if (!isReconnect && !isRestart)
+            CloseBtn.SetActive(true);
+
     }
 
     public void StopErrorMsg()
@@ -51,11 +56,13 @@ public class ErrorScript : MonoBehaviour
     public void RestartGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        StopErrorMsg();
     }
 
     public void Reconnect()
     {
         Photon.Pun.PhotonNetwork.Reconnect();
         LoadingScript.instance.StartLoading("Reconnecting...");
+        StopErrorMsg();
     }
 }

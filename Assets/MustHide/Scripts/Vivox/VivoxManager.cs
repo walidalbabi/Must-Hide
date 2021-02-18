@@ -159,11 +159,7 @@ public class VivoxManager : MonoBehaviour
     }
 
     #endregion
-
-
-
-
-
+    
 
     #region Login Methods
 
@@ -208,7 +204,7 @@ public class VivoxManager : MonoBehaviour
             {
                 Bind_Login_Callback_Listeners(false, vivox.loginSession);
                 Bind_Directed_Message_Callbacks(false, vivox.loginSession);
-                LoadingScript.instance.StartLoading("Failed To Login To Vivox");
+                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox", true , false);
                 Debug.Log(e.Message);
             }
             // run more code here 

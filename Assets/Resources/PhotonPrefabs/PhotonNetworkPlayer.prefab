@@ -70,4 +70,5 @@ MonoBehaviour:
   canCreatePlayer: 0
   characterName: 
   isChoosPanel: 1
-  GameTimer: 0
+  isPlayerDead: 0
+  UserID: 

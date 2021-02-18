@@ -45,7 +45,7 @@ public class RecruiterHunter : MonoBehaviour
     public Transform Muzzle;
     public GameObject Muzzlefalsh;
     public GameObject bullet;
-
+    public bool AutoFire;
 
     //Components
     private PlayerMovement playerMove;
@@ -84,17 +84,30 @@ public class RecruiterHunter : MonoBehaviour
         //for shooting
         Aim();
         Reload();
-
+        Debug.DrawRay(GunLight.position, GunLight.transform.up, Color.red);
         if (SystemInfo.deviceType == DeviceType.Desktop)
         {
             if (Input.GetButton("Fire1") && !isReload)
             {
                 Debug.Log("Fire");
-                Shoot();
+                Shoot(true);
             }
             if (Input.GetButtonUp("Fire1"))
             {
                 Debug.Log("Stop Fire");
+                if (Muzzlefalsh.activeInHierarchy)
+                    Muzzlefalsh.SetActive(false);
+            }
+        }else if (SystemInfo.deviceType == DeviceType.Handheld && AutoFire)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(GunLight.position, GunLight.transform.up, 10f);
+          
+            if (hit.collider.gameObject.CompareTag("Monster"))
+            {
+                Shoot(true);
+            }
+            else
+            {
                 if (Muzzlefalsh.activeInHierarchy)
                     Muzzlefalsh.SetActive(false);
             }
@@ -212,7 +225,7 @@ public class RecruiterHunter : MonoBehaviour
             if (xMovementRightJoystick1 != 0 || yMovementRightJoystick1 != 0)
             {
                 if (!isReload)
-                    Shoot();
+                    Shoot(true);
                
                 // calculate the player's direction based on angle
                 float tempAngle1 = Mathf.Atan2(yMovementRightJoystick1, xMovementRightJoystick1) * Mathf.Rad2Deg;
@@ -246,8 +259,11 @@ public class RecruiterHunter : MonoBehaviour
 
     }
 
-    void Shoot()
+    public void Shoot(bool isCanShoot)
     {
+        if (!isCanShoot)
+            return;
+
         if (!isReload)
         {
             //FireRate Counting

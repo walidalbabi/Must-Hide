@@ -2318,8 +2318,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c0067fde58ec140800e9d82e46dc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 8133582002952711975}
+  isHunter: 0
   propController: {fileID: 6287034770563733466}
   IncreaceHideTimeBtn: {fileID: 529097510407743788}
+  recruiterHunter: {fileID: 0}
+  ShootBtn: {fileID: 0}
+  ShootAndAimJoystick: {fileID: 0}
+  AutoShootText: {fileID: 0}
 --- !u!1 &9028781742913919229
 GameObject:
   m_ObjectHideFlags: 0

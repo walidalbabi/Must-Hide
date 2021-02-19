@@ -292,8 +292,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (expectedPlayers[0] != "")
             PhotonNetwork.JoinRandomRoom(roomProperties, (byte)expectedMaxPlayer.Count, MatchmakingMode.FillRoom, TypedLobby.Default, sqlLobbyFilter, expectedPlayers);
         else
+        {
             PhotonNetwork.JoinRandomRoom(roomProperties, 0);
-        Debug.Log("Casusal");
+            Debug.Log("Casusal");
+        }
+
     }
 
     public void JoinRoom(string roomName)

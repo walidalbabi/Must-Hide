@@ -45,6 +45,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private Text MuteBtnText;
     [SerializeField]
     private Text DefeanBtnText;
+    int playerIndex;
+
 
     public List<PhotonPlayer> photonPlayer = new List<PhotonPlayer>();
     void Awake()
@@ -70,7 +72,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
         switch (GameState)
         {
             case State.ChooseCharacter:
-               
+                PhotonNetwork.CurrentRoom.IsOpen = false;
                 break;
             case State.StartGame:
              
@@ -313,9 +315,19 @@ public class InGameManager : MonoBehaviourPunCallbacks
                 Debug.Log("Player Not in List");
             }
         }
+       
+        foreach (var playerList in photonPlayer)
+        {
+            if(playerList == null)
+            {
+                playerIndex++;
+            }
+        }
 
+        if (playerIndex >= 6)
+            PhotonNetwork.CurrentRoom.RemovedFromList = true;
 
-        Debug.Log("Nick Name : "+otherPlayer.NickName+ "--- UserID: "+ otherPlayer.UserId);
+            Debug.Log("Nick Name : "+otherPlayer.NickName+ "--- UserID: "+ otherPlayer.UserId);
         Debug.Log("Custom Properties : ");
     }
 

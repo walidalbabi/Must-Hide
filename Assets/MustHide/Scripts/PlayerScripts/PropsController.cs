@@ -186,6 +186,7 @@ public class PropsController : MonoBehaviour
             return;
         HideTimeSlider.gameObject.SetActive(false);
         //Its not a prop anymore
+        isBuff = true;
         canTransformTo = true;
         isProp = false;
         isCount = false;
@@ -222,6 +223,8 @@ public class PropsController : MonoBehaviour
 
         if (sr != null)
             sr.color = Color.white;
+
+        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterTransform, 10f, 0, 1f, true);
 
         GetComponent<PlayerMovement>().isMoving = false;
         GetComponent<PlayerMovement>().enabled = false;

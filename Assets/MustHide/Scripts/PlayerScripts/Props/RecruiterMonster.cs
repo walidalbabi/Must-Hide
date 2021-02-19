@@ -10,8 +10,9 @@ public class RecruiterMonster : MonoBehaviour
 
 
     private bool isAbility;
-
-
+    [SerializeField]
+    private GameObject FootPrint;
+    private ParticleSystem.MainModule main;
     //Components
     private PlayerMovement playerMove;
     [SerializeField]
@@ -20,7 +21,7 @@ public class RecruiterMonster : MonoBehaviour
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-
+        main = FootPrint.GetComponent<ParticleSystem>().main;
         if (!GetComponent<PhotonView>().IsMine)
         {
             PlayerLight.SetActive(false);
@@ -31,7 +32,34 @@ public class RecruiterMonster : MonoBehaviour
     private void Update()
     {
         if (playerMove.isMoving)
+        {
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 2f, 0, 0.05f, true);
+            if (!FootPrint.GetComponent<ParticleSystem>().isPlaying)
+                GetComponent<PhotonView>().RPC("RPC_FootPrints", RpcTarget.AllBuffered, true);
+      
+            if (playerMove.movement.x > 0)
+            {
+                main.startRotationZ = -90f;
+            }
+            else if (playerMove.movement.x < 0)
+            {
+                main.startRotationZ = 90f;
+            }
+            else if (playerMove.movement.y > 0)
+            {
+                main.startRotationZ = 0f;
+            }
+            else if (playerMove.movement.y < 0)
+            {
+                main.startRotationZ = 180f;
+            }
+        }
+        else
+        {
+            if(FootPrint.GetComponent<ParticleSystem>().isPlaying)
+                GetComponent<PhotonView>().RPC("RPC_FootPrints", RpcTarget.AllBuffered, false);
+        }
+  
 
         IfAbility();
     }
@@ -47,6 +75,16 @@ public class RecruiterMonster : MonoBehaviour
         {
             playerMove.moveSpeed = normalMovementSpeed;
         }
+    }
+
+
+    [PunRPC]
+    private void RPC_FootPrints(bool isActive)
+    {
+        if (!isActive)
+            FootPrint.GetComponent<ParticleSystem>().Stop();
+        else
+            FootPrint.GetComponent<ParticleSystem>().Play();
     }
 
 

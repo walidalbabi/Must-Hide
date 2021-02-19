@@ -59,6 +59,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity);
+        PhotonNetwork.CurrentRoom.IsOpen = false;
     }
 
     void Update()

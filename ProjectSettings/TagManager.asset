@@ -20,9 +20,9 @@ TagManager:
   - UI
   - Player
   - Wall
-  - Checkers
-  - 
-  - 
+  - MiniMap
+  - Monsters
+  - Hunters
   - 
   - 
   - 
@@ -53,4 +53,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 605639393
+    locked: 0
+  - name: MiniMap
+    uniqueID: 1455899513
     locked: 0

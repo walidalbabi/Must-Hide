@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isMoving;
 
-    Vector2 movement;
+    public Vector2 movement;
 
     //Components
 

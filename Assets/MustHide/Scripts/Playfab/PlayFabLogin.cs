@@ -10,6 +10,8 @@ public class PlayFabLogin : MonoBehaviour
 
     public static PlayFabLogin instance;
 
+    public bool isLoggedIn;
+
     [SerializeField]
     private string userEmail;
 
@@ -47,6 +49,8 @@ public class PlayFabLogin : MonoBehaviour
         #else
                 Debug.unityLogger.logEnabled = false;
         #endif
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Start()
@@ -57,9 +61,10 @@ public class PlayFabLogin : MonoBehaviour
             PlayFabSettings.TitleId = "5A92F"; // Please change this value to your own titleId from PlayFab Game Manager
         }
 
+
         if (PlayerPrefs.HasKey("EMAIL") && PlayerPrefs.HasKey("PASSWORD"))
         {
-            LoadingScript.instance.StartLoading("Loging in");
+            LoadingScript.instance.StartGameLoading("Logging in..");
             userEmail = PlayerPrefs.GetString("EMAIL");
             userPassword = PlayerPrefs.GetString("PASSWORD");
             var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
@@ -71,8 +76,7 @@ public class PlayFabLogin : MonoBehaviour
     #region CallBacks
     private void OnLoginSuccess(LoginResult result)
     {
-        LoadingScript.instance.StopLoading();
-        Debug.Log("Congratulations, you made your first successful API call!");
+        isLoggedIn = true;
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
         GetAccountInfo();
@@ -81,18 +85,16 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        LoadingScript.instance.StopLoading();
-        Debug.Log("Congratulations, you made your first successful API call!");
+        isLoggedIn = true;
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
         UpdateContactEmail();
-        GetAccountInfo();
         MenuManager.instance.ShowHome();
     }
 
     private void OnLoginFailure(PlayFabError error)
     {
-        LoadingScript.instance.StopLoading();
+
         Debug.LogError(error.GenerateErrorReport());
         LoginFailedText.text = "Email address: is not valid Password: is not valid";
         ResetPassBtn.SetActive(true);
@@ -100,7 +102,7 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnRegisterFailure(PlayFabError error)
     {
-        LoadingScript.instance.StopLoading();
+
         Debug.LogError(error.GenerateErrorReport());
         RegisterFailedText.text = "Email address/Nickname already exists";
     }
@@ -123,17 +125,26 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnGetAccountInfoSuccess(GetAccountInfoResult result)
     {
-        LoadingScript.instance.StopLoading();
         NetworkManager.instance.ConnectToServer(result.AccountInfo.Username);
         NetworkManager.instance.CreateName(result.AccountInfo.Username);
-        VivoxManager.instance.Login(result.AccountInfo.Username, VivoxUnity.SubscriptionMode.Accept);
+        //VivoxManager.instance.Login(result.AccountInfo.Username, VivoxUnity.SubscriptionMode.Accept);
         PlayerIDText.text =  NetworkManager.instance.GetUserID();
     }
 
+    private void OnUpdateAccountInfoSuccess(AddOrUpdateContactEmailResult result)
+    {
+        GetAccountInfo();
+
+    }
+
+    private void OnUpdateAccountInfoFaill(PlayFabError error)
+    {
+        Debug.LogError(error.GenerateErrorReport());
+        UpdateContactEmail();
+    }
 
     private void OnGetAccountInfoFail(PlayFabError error)
     {
-        LoadingScript.instance.StopLoading();
         Debug.LogError(error.GenerateErrorReport());
         PlayerIDText.text = error.ToString();
     }
@@ -213,30 +224,27 @@ public class PlayFabLogin : MonoBehaviour
 
     private void UpdateContactEmail()
     {
-        LoadingScript.instance.StartLoading("Updating Contact Info..");
+        LoadingScript.instance.StartGameLoading("Updating Contact Info..");
         var requestAddInfo = new AddOrUpdateContactEmailRequest { EmailAddress = userEmail };
-        PlayFabClientAPI.AddOrUpdateContactEmail(requestAddInfo, result => {
-
-            Debug.Log("Contact Email Updated");
-        }, FailUpdateCallBack);
+        PlayFabClientAPI.AddOrUpdateContactEmail(requestAddInfo, OnUpdateAccountInfoSuccess, OnUpdateAccountInfoFaill);
     }
 
     private void GetAccountInfo()
     {
-        LoadingScript.instance.StartLoading("Getting Contact Info..");
+        LoadingScript.instance.StartGameLoading("Getting Contact Info..");
         GetAccountInfoRequest request = new GetAccountInfoRequest();
         PlayFabClientAPI.GetAccountInfo(request, OnGetAccountInfoSuccess, OnGetAccountInfoFail);
     }
     public void OnClickLogin()
     {
-        LoadingScript.instance.StartLoading("Loging in..");
+        LoadingScript.instance.StartGameLoading("Logging in..");
         var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
 
     public void OnClickRegister()
     {
-        LoadingScript.instance.StartLoading("Registering..");
+        LoadingScript.instance.StartGameLoading("Registering..");
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = userPassword, Username = userName };
         
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRegisterFailure);
@@ -304,5 +312,10 @@ public class PlayFabLogin : MonoBehaviour
 
 
     #endregion Functions
+
+    public void DestroyObj()
+    {
+        Destroy(gameObject);
+    }
 
 }

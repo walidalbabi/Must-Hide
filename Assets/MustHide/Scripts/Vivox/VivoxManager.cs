@@ -8,10 +8,10 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class VivoxManager : MonoBehaviour
+public class  VivoxManager : MonoBehaviour
 {
 
-    public VivoxCredentials vivox = new VivoxCredentials();
+    public  VivoxCredentials vivox = new VivoxCredentials();
 
     public static VivoxManager instance;
     public string CurrentChannel;
@@ -19,16 +19,13 @@ public class VivoxManager : MonoBehaviour
 
     public bool disconnectedFromChannel, disconnectedFromAudio, disconnectedFromText, canJoin;
 
-    [SerializeField]
-    private Transform _content;
-    [SerializeField]
-    private PartyListingScript _partyListing;
+    public bool isVivoxLoggedIn;
 
-    [HideInInspector]
+
     public List<PartyListingScript> _listings = new List<PartyListingScript>();
 
 
-    private int m_LastPhotonACKTime = 0; private double m_LastPhotonACKTimeReceived = 0d;
+  
 
     private void Awake()
     {
@@ -37,7 +34,7 @@ public class VivoxManager : MonoBehaviour
         else Destroy(gameObject);
 
         vivox.client = new Client();
-        vivox.client.Uninitialize();
+    //    vivox.client.Uninitialize();
         vivox.client.Initialize();
         DontDestroyOnLoad(gameObject);
     }
@@ -58,33 +55,7 @@ public class VivoxManager : MonoBehaviour
             canJoin = false;
         }
 
-        //Checking For Connections
-
-        if (Application.internetReachability == NetworkReachability.NotReachable)
-        {
-            ErrorScript.instance.StartErrorMsg("No Internet Connection, Please Check Your Internet Connection And Restart The Game", true, false);
-        }
-    
-        if (PhotonNetwork.IsConnected)
-        {
-            if (m_LastPhotonACKTime != PhotonNetwork.NetworkingClient.LoadBalancingPeer.LastSendAckTime)
-            {
-                m_LastPhotonACKTime = PhotonNetwork.NetworkingClient.LoadBalancingPeer.LastSendAckTime;
-                m_LastPhotonACKTimeReceived = PhotonNetwork.Time;
-            }
-            else if (0d != m_LastPhotonACKTimeReceived && PhotonNetwork.Time - m_LastPhotonACKTimeReceived > 15)
-            {
-                ErrorScript.instance.StartErrorMsg("You have Bad Connection , Please Check Your Connection than Reconnect", false, true);
-                PhotonNetwork.Disconnect();
-            }
-        }
-
-        //if (_content == null)
-        //    //_content = GameObject.Find("PartyLayoutGroup").transform;
-        //else
-        //{
-        //    return;
-        //}
+       
     }
 
 
@@ -222,13 +193,14 @@ public class VivoxManager : MonoBehaviour
             {
                 case LoginState.LoggingIn:
                     Debug.Log("Logging In");
-                    LoadingScript.instance.StartLoading("Logging in To Vivox");
+                    LoadingScript.instance.StartGameLoading("Connecting To Chat Services...");
                     break;
 
                 case LoginState.LoggedIn:
                     Debug.Log($"Logged In {vivox.loginSession.LoginSessionId.Name}");
                     JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, VivoxUnity.ChannelType.NonPositional);
-                    LoadingScript.instance.StopLoading();
+                    isVivoxLoggedIn = true;
+                    LoadingScript.instance.StopGameLoading();
                     break;
             }
         }
@@ -286,12 +258,40 @@ public class VivoxManager : MonoBehaviour
         });
     }
 
-    public void LeaveChannel()
+    public void LeaveChannel(bool isForce)
     {
         vivox.channelSession.Disconnect();
-     
+
+        if (isForce)
+            StartCoroutine(joinn());
+
     }
 
+
+    private void StartCouroutineLeave()
+    {
+        Debug.Log("Start Disconnecting");
+        StartCoroutine(joinn());
+    }
+
+    IEnumerator joinn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (canJoin)
+        {
+            DelayedJoin();
+            StopCoroutine(joinn());
+        }
+        else
+            StartCoroutine(joinn());
+    }
+
+    private void DelayedJoin()
+    {
+        JoinChannel(BeforeChannel, true, false, true, ChannelType.NonPositional);
+     
+
+    }
 
     public void On_Channel_Status_Changed(object sender, PropertyChangedEventArgs channelArgs)
     {
@@ -309,7 +309,6 @@ public class VivoxManager : MonoBehaviour
                 case ConnectionState.Connected:
                     Debug.Log($"{source.Channel.Name} Connected");
                     BeforeChannel = CurrentChannel;
-
                     LoadingScript.instance.StopLoading();
                     disconnectedFromChannel = false;        
                     CurrentChannel = source.Channel.Name;
@@ -406,7 +405,7 @@ public class VivoxManager : MonoBehaviour
 
         IParticipant user = source[participantArgs.Key];
 
-        if (_content != null && _partyListing != null)
+        if (MenuManager.instance._Partycontent != null && MenuManager.instance._partyListing != null)
         {
             foreach (var participant in user.ParentChannelSession.Participants)
             {
@@ -429,7 +428,7 @@ public class VivoxManager : MonoBehaviour
 
         IParticipant user = source[participantArgs.Key];
 
-        if (_content != null && _partyListing != null)
+        if (MenuManager.instance._Partycontent != null && MenuManager.instance._partyListing != null)
         {
             if (!user.IsSelf)
                 RemovePlayerListing(user);
@@ -465,7 +464,7 @@ public class VivoxManager : MonoBehaviour
         }
         else
         {
-            PartyListingScript listing = Instantiate(_partyListing, _content);
+            PartyListingScript listing = Instantiate(MenuManager.instance._partyListing, MenuManager.instance._Partycontent);
 
             if (listing != null)
             {
@@ -597,5 +596,11 @@ public class VivoxManager : MonoBehaviour
 
 
     #endregion
+
+
+    public void DestroyObj()
+    {
+        Destroy(gameObject);
+    }
 
 }

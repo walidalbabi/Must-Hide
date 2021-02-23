@@ -68,7 +68,7 @@ public class MatchTimerManager : MonoBehaviour
             TimeInBetween = StartTime + MatchTime;
         }
 
-        if (CurrentServerTime >= (TimeInBetween - 60d) && InGameManager.instance.GameState == InGameManager.State.StartGame)
+        if (CurrentServerTime >= (TimeInBetween - 120d) && InGameManager.instance.GameState == InGameManager.State.StartGame)
         {
             InGameManager.instance.GameState = InGameManager.State.EscapeTime;
         }

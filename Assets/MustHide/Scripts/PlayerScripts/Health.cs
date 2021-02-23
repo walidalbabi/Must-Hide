@@ -85,11 +85,9 @@ public class Health : MonoBehaviour
     }
 
     //Setting Player Team for Network
-    public void SetPlayerTeam(int team)
+    public void SetPlayerTeam(byte team)
     {
-        PlayerTeam = team;
-
-        GetComponent<PhotonView>().RPC("RPC_SetPlayerTeam", RpcTarget.AllBuffered);
+       GetComponent<PhotonView>().RPC("RPC_SetPlayerTeam", RpcTarget.AllBuffered, team);
     }
 
     //Checking Triggers
@@ -101,10 +99,7 @@ public class Health : MonoBehaviour
             canHeal = true;
                 StartCoroutine(Heal());      
         }
-        if (collision.gameObject.CompareTag("Portal") && gameObject.tag == "Monster")
-        {
-            InGameManager.instance.SetPortal(true);
-        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -124,7 +119,7 @@ public class Health : MonoBehaviour
 
             if (gameObject.tag == "Monster")
             {
-                GetComponent<PhotonView>().RPC("DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
+                GetComponent<PhotonView>().RPC("RPC_DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
 
                 GetComponent<PropsController>().isBuff = true;
 
@@ -160,21 +155,27 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void DoDamage(float Damage)
+    {
+        GetComponent<PhotonView>().RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
+    }
 
     [PunRPC]
-    public void DoDamage(float Damage)
+    private void RPC_DoDamage(float Damage)
     {
         _HP -= Damage;
         slider.value = _HP;
     }
 
     [PunRPC]
-#pragma warning disable CS1717 // Assignment made to same variable
-    public void RPC_SetPlayerTeam() { PlayerTeam = PlayerTeam; }
-#pragma warning restore CS1717 // Assignment made to same variable
+    private void RPC_SetPlayerTeam(byte pTeam) 
+    {
+        PlayerTeam = pTeam;      
+    }
+
 
     [PunRPC]
-    public void Dead()
+    private void Dead()
     {
         isDead = true;
         GetComponent<PlayerMovement>().gameObject.SetActive(false);

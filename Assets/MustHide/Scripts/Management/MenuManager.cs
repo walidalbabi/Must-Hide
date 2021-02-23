@@ -45,6 +45,33 @@ public class MenuManager : MonoBehaviour
     public static MenuManager instance;
 
 
+    //Important Var's
+    public Transform _Friendcontent;
+    public FriendScript _FriendListing;
+    public Text searchFriendField;
+
+    public Transform _Partycontent;
+    public PartyListingScript _partyListing;
+
+    private void OnEnable()
+    {
+        if (PlayFabLogin.instance.isLoggedIn)
+        {
+            LoginPanel.SetActive(false);
+            PlayPanel.SetActive(true);
+        }
+
+        if(VivoxManager.instance.CurrentChannel != "")
+        {
+            if (VivoxManager.instance.CurrentChannel != VivoxManager.instance.BeforeChannel)
+            {
+                LoadingScript.instance.StartLoading("Loading...");
+                Invoke("LeaveCurrentChannel", 1f);
+         
+            }
+        }
+    }
+
     private void Awake()
     {
         if (instance != null && instance != this)//if already exist
@@ -57,6 +84,31 @@ public class MenuManager : MonoBehaviour
     }
 
 
+    private void LeaveCurrentChannel()
+    {
+        VivoxManager.instance.LeaveChannel(true);
+    }
+
+    #region Photon
+
+    public void JoinCasual()
+    {
+        NetworkManager.instance.JoinCasualMatch();
+    }
+    public void JoinRank()
+    {
+        NetworkManager.instance.JoinRankMatch();
+    }
+
+    public void StartMatch()
+    {
+        VivoxManager.instance._listings = new List<PartyListingScript>();
+        NetworkManager.instance.ChangeScene();
+    }
+
+    #endregion Photon
+
+    #region Vivox
     public void MuteMic()
     {
         if (VivoxManager.instance.vivox.client.AudioInputDevices.Muted == true)
@@ -92,9 +144,9 @@ public class MenuManager : MonoBehaviour
 
     public void LeaveParty()
     {
-      
 
-        VivoxManager.instance.LeaveChannel();
+
+        VivoxManager.instance.LeaveChannel(false);
         LoadingScript.instance.StartLoading("Leaving Party");
 
         //  Invoke("JoinChannelAfterLeave", 3f);
@@ -116,7 +168,7 @@ public class MenuManager : MonoBehaviour
 
     private void JoinChannelAfterLeave()
     {
-      //  LoadingScript.instance.StopLoading();
+        //  LoadingScript.instance.StopLoading();
         VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, ChannelType.NonPositional);
     }
 
@@ -127,6 +179,10 @@ public class MenuManager : MonoBehaviour
         else
             LeavePartyBtn.SetActive(false);
     }
+    #endregion Vivox
+
+    #region UIManager
+
 
     public void ShowHome()
     {
@@ -149,15 +205,15 @@ public class MenuManager : MonoBehaviour
 
     public void Back(string state)
     {
-        if(state == "Menu")
+        if (state == "Menu")
         {
             StartPanel.SetActive(true);
             PlayPanel.SetActive(false);
             CreateCustomMatchPanel.SetActive(false);
             JoinRoomPanel.SetActive(false);
         }
-        
-        if(state == "Play")
+
+        if (state == "Play")
         {
             StartPanel.SetActive(false);
             PlayPanel.SetActive(true);
@@ -203,7 +259,9 @@ public class MenuManager : MonoBehaviour
         CurrentRoomPanel.SetActive(false);
         NetworkManager.instance.LeaveRoom();
     }
+    #endregion UIManager
 
+    #region Playfab
     public void GoToLogin()
     {
         LoginPanel.SetActive(true);
@@ -221,6 +279,10 @@ public class MenuManager : MonoBehaviour
         LoginPanel.SetActive(false);
         RecoveryPanel.SetActive(true);
     }
+
+    #endregion Playfab
+
+
 
 
 }

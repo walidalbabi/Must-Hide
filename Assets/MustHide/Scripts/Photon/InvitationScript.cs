@@ -24,7 +24,7 @@ public class InvitationScript : MonoBehaviour
     {
 
         LoadingScript.instance.StartLoading("Joining"); 
-        VivoxManager.instance.LeaveChannel();
+        VivoxManager.instance.LeaveChannel(false);
 
         StartCoroutine(joinn());
         

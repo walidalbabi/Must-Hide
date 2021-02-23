@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 public class RecruiterMonster : MonoBehaviour
 {
@@ -10,18 +11,21 @@ public class RecruiterMonster : MonoBehaviour
 
 
     private bool isAbility;
-    [SerializeField]
-    private GameObject FootPrint;
-    private ParticleSystem.MainModule main;
     //Components
     private PlayerMovement playerMove;
     [SerializeField]
     private GameObject PlayerLight;
 
+    [SerializeField]
+    private float _footPrintsCounter;
+    [SerializeField]
+    private float _footPrintsTime = 0.2f;
+    [SerializeField]
+    int feetIndex = 1;
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-        main = FootPrint.GetComponent<ParticleSystem>().main;
+
         if (!GetComponent<PhotonView>().IsMine)
         {
             PlayerLight.SetActive(false);
@@ -34,30 +38,51 @@ public class RecruiterMonster : MonoBehaviour
         if (playerMove.isMoving)
         {
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 2f, 0, 0.05f, true);
-            if (!FootPrint.GetComponent<ParticleSystem>().isPlaying)
-                GetComponent<PhotonView>().RPC("RPC_FootPrints", RpcTarget.AllBuffered, true);
-      
-            if (playerMove.movement.x > 0)
+
+
+            //Foot Prints
+            if (_footPrintsCounter >= _footPrintsTime)
             {
-                main.startRotationZ = -90f;
+                if (playerMove.movement.x > 0)
+                {
+                    if (feetIndex == 1)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, -90f));
+                    else if (feetIndex == 2)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, -90f));
+                }
+                else if (playerMove.movement.x < 0)
+                {
+                    if (feetIndex == 1)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 90f));
+                    else if (feetIndex == 2)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 90f));
+                }
+                else if (playerMove.movement.y > 0)
+                {
+                    if (feetIndex == 1)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    else if (feetIndex == 2)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                }
+                else if (playerMove.movement.y < 0)
+                {
+                    if (feetIndex == 1)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                    else if (feetIndex == 2)
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                }
+
+                if (feetIndex == 1)
+                    feetIndex = 2;
+                else
+                    feetIndex = 1;
+          
+                _footPrintsCounter = 0;
             }
-            else if (playerMove.movement.x < 0)
+            else
             {
-                main.startRotationZ = 90f;
+                _footPrintsCounter += Time.deltaTime;
             }
-            else if (playerMove.movement.y > 0)
-            {
-                main.startRotationZ = 0f;
-            }
-            else if (playerMove.movement.y < 0)
-            {
-                main.startRotationZ = 180f;
-            }
-        }
-        else
-        {
-            if(FootPrint.GetComponent<ParticleSystem>().isPlaying)
-                GetComponent<PhotonView>().RPC("RPC_FootPrints", RpcTarget.AllBuffered, false);
         }
   
 
@@ -78,14 +103,6 @@ public class RecruiterMonster : MonoBehaviour
     }
 
 
-    [PunRPC]
-    private void RPC_FootPrints(bool isActive)
-    {
-        if (!isActive)
-            FootPrint.GetComponent<ParticleSystem>().Stop();
-        else
-            FootPrint.GetComponent<ParticleSystem>().Play();
-    }
 
 
 }

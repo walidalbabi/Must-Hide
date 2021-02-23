@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public PhotonView PV;
     public SpriteRenderer SR;
-    private Health health;
     [SerializeField]
     private Animator animator;
     [SerializeField]
@@ -35,12 +34,14 @@ public class PlayerMovement : MonoBehaviour
     private Camera cam;
     public Transform target;
 
+    [SerializeField]
+    private GameObject miniMap;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
-        health = GetComponent<Health>();
         PV = GetComponent<PhotonView>();
         target = GetComponent<Transform>();
         if (SR == null)
@@ -65,7 +66,11 @@ public class PlayerMovement : MonoBehaviour
             cancameraFollow = true;
         }
         else
+        {
+            miniMap.SetActive(false);
             cancameraFollow = false;
+        }
+
         GetComponent<AudioManager>().Initialize();
     }
 
@@ -74,6 +79,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!PV.IsMine)
             return;
+
+        if (movement.x != 0 || movement.y != 0)
+            isMoving = true;
+        else
+            isMoving = false;
 
         GetInputs();
 
@@ -92,11 +102,6 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         Move();
-
-        if (movement.x != 0 || movement.y != 0)
-            isMoving = true;
-        else
-            isMoving = false;
     }
 
 

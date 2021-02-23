@@ -326,11 +326,13 @@ public class PropsController : MonoBehaviour
         {
             sprite.SetActive(false);
             col.enabled = false;
+            gameObject.tag = "Untagged";
         }
         else
         {
             sprite.SetActive(true);
             col.enabled = true;
+            gameObject.tag = "Monster";
         }
     }
 }

@@ -15,22 +15,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private string _Map;
 
-    public string StagingRoom;
-
-
     public const string MAP_PROP_KEY = "map";
     public const string GAME_MODE_PROP_KEY = "gm";
 
 
-    public Text searchFriendField;
+  
     [SerializeField]
     private string FriendName;
 
-    [SerializeField]
-    private Transform _content;
 
-    [SerializeField]
-    private FriendScript _FriendListing;
 
     [HideInInspector]
     public List<FriendScript> _listings = new List<FriendScript>();
@@ -43,20 +36,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public static NetworkManager instance;
 
 
-    private ExitGames.Client.Photon.Hashtable _myCustomPropertie = new ExitGames.Client.Photon.Hashtable();
+    private int m_LastPhotonACKTime = 0; private double m_LastPhotonACKTimeReceived = 0d;
+
 
     private void Awake()
     {
-        if (instance != null && instance != this)//if already exist
-            gameObject.SetActive(false);
-        else
-        {
-            //set the instance
+        if (instance == null)
             instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        else
+            Destroy(gameObject);
 
 
+        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -72,9 +63,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.InRoom)
         {
-            if(PhotonNetwork.CurrentRoom.PlayerCount == _MaxPlayers)
+            if(PhotonNetwork.CurrentRoom.Players.Count == _MaxPlayers)
             {
-              //  ChangeScene();
+               ChangeScene();
+            }
+        }
+
+        //Checking For Connections
+
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            ErrorScript.instance.StartErrorMsg("No Internet Connection, Please Check Your Internet Connection And Restart The Game", true, false);
+        }
+
+        if (PhotonNetwork.IsConnected)
+        {
+            if (m_LastPhotonACKTime != PhotonNetwork.NetworkingClient.LoadBalancingPeer.LastSendAckTime)
+            {
+                m_LastPhotonACKTime = PhotonNetwork.NetworkingClient.LoadBalancingPeer.LastSendAckTime;
+                m_LastPhotonACKTimeReceived = PhotonNetwork.Time;
+            }
+            else if (0d != m_LastPhotonACKTimeReceived && PhotonNetwork.Time - m_LastPhotonACKTimeReceived > 15)
+            {
+                ErrorScript.instance.StartErrorMsg("You have Bad Connection , Please Check Your Connection than Reconnect", false, true);
+                PhotonNetwork.Disconnect();
             }
         }
     }
@@ -86,10 +98,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Connected To Master Server");
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
-        LoadingScript.instance.StopLoading();
-       
-    }
+        ErrorScript.instance.StopErrorMsg();
+        if (!VivoxManager.instance.isVivoxLoggedIn)
+            VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
 
+    }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
@@ -113,8 +126,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Succesful Create Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
-        _myCustomPropertie["Team"] = 0;
-        PhotonNetwork.LocalPlayer.CustomProperties = _myCustomPropertie;
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -126,8 +137,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Succesful Join Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
-        _myCustomPropertie["Team"] = 0;
-        PhotonNetwork.LocalPlayer.CustomProperties = _myCustomPropertie;
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -149,6 +158,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
+
     }
 
     public override void OnFriendListUpdate(List<FriendInfo> friendList)
@@ -172,7 +182,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            var listing = Instantiate(_FriendListing, _content);
+            var listing = Instantiate(MenuManager.instance._FriendListing, MenuManager.instance._Friendcontent);
 
             if (listing != null)
             {
@@ -200,7 +210,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SetPlayerID(ID);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
-        LoadingScript.instance.StartLoading("Connecting To Master...");
+        LoadingScript.instance.StartGameLoading("Connecting To Game Server...");
     }
 
     //Rank
@@ -352,6 +362,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public string GetUserID()
     {
         return PhotonNetwork.AuthValues.UserId;
+    }
+
+
+
+    public void DestroyObj()
+    {
+        Destroy(gameObject);
     }
 
 }

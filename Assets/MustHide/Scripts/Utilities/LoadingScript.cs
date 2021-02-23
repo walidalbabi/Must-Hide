@@ -7,7 +7,11 @@ public class LoadingScript : MonoBehaviour
     [SerializeField]
     private Text _Text;
     [SerializeField]
+    private Text _GameText;
+    [SerializeField]
     private GameObject LoadingPanel;
+    [SerializeField]
+    private GameObject GameLoadingPanel;
 
     public static LoadingScript instance;
     void Awake()
@@ -32,5 +36,17 @@ public class LoadingScript : MonoBehaviour
     public void StopLoading()
     {
         LoadingPanel.SetActive(false);
+    }
+
+    public void StartGameLoading(string txtLoading)
+    {
+        _GameText.text = txtLoading;
+        if (!GameLoadingPanel.activeInHierarchy)
+            GameLoadingPanel.SetActive(true);
+    }
+
+    public void StopGameLoading()
+    {
+        GameLoadingPanel.SetActive(false);
     }
 }

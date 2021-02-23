@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7233115732645477009}
   - component: {fileID: 56417349137284782}
+  - component: {fileID: 7108151931546717798}
   - component: {fileID: 6588909492126560331}
-  - component: {fileID: 5582456273228978705}
+  - component: {fileID: 8449493276907440841}
   m_Layer: 0
   m_Name: FootPrint
   m_TagString: Untagged
@@ -4739,6 +4740,28 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &7108151931546717798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160451313756033184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!199 &6588909492126560331
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4805,7 +4828,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &5582456273228978705
+--- !u!114 &8449493276907440841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4814,10 +4837,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6160451313756033184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a4f5aaae3309fa45b31437cf53c31ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  playerMovement: {fileID: 0}
+  FootPrintparticle: {fileID: 56417349137284782}

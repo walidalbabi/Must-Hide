@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DestroyAfter : MonoBehaviour
 {
+    [SerializeField]
+    private bool footPrints;
+
     public float LifeTime;
     float startTime;
     SpriteRenderer sprite;
@@ -37,7 +40,8 @@ public class DestroyAfter : MonoBehaviour
             value -= Time.deltaTime * 0.05f;
             if (sprite)
                 sprite.color = new Color(color.r, color.g, color.b, value);
-            transform.localScale = new Vector3(value, value, value);
+            if (!footPrints)
+                transform.localScale = new Vector3(value, value, value);
             yield return new WaitForEndOfFrame();
         }
         Destroy(gameObject);

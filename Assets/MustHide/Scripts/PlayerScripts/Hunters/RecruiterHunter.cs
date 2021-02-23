@@ -56,6 +56,8 @@ public class RecruiterHunter : MonoBehaviour
     private void Awake()
     {
         playerMove = GetComponent<PlayerMovement>();
+
+        objectPooler = ObjectPooler.instance;
     }
     private void Start()
     {
@@ -84,23 +86,21 @@ public class RecruiterHunter : MonoBehaviour
         //for shooting
         Aim();
         Reload();
-        Debug.DrawRay(GunLight.position, GunLight.transform.up, Color.red);
+     //   Debug.DrawRay(GunLight.position, GunLight.transform.up, Color.red);
         if (SystemInfo.deviceType == DeviceType.Desktop)
         {
             if (Input.GetButton("Fire1") && !isReload)
             {
-                Debug.Log("Fire");
                 Shoot(true);
             }
             if (Input.GetButtonUp("Fire1"))
             {
-                Debug.Log("Stop Fire");
                 if (Muzzlefalsh.activeInHierarchy)
                     Muzzlefalsh.SetActive(false);
             }
         }else if (SystemInfo.deviceType == DeviceType.Handheld && AutoFire)
         {
-            RaycastHit2D hit = Physics2D.Raycast(GunLight.position, GunLight.transform.up, 10f);
+            RaycastHit2D hit = Physics2D.Raycast(GunLight.position, GunLight.transform.up, 5f);
           
             if (hit.collider.gameObject.CompareTag("Monster"))
             {
@@ -258,7 +258,7 @@ public class RecruiterHunter : MonoBehaviour
 
 
     }
-
+    ObjectPooler objectPooler;
     public void Shoot(bool isCanShoot)
     {
         if (!isCanShoot)
@@ -266,6 +266,9 @@ public class RecruiterHunter : MonoBehaviour
 
         if (!isReload)
         {
+
+
+
             //FireRate Counting
             fireRateCounter += Time.deltaTime;
             if (fireRateCounter >= fireRate)
@@ -278,16 +281,15 @@ public class RecruiterHunter : MonoBehaviour
             if (!canShoot)
                 return;
 
-
-
             //Shooting
             canShoot = false;
             magazinCounter--;
             StartCoroutine(_MuzzleFlash());
-            GameObject Bullet = Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), Muzzle.position, Muzzle.rotation);
-            Bullet.GetComponent<BulletScript>().SetBulletPlayerHealth(GetComponent<Health>());
-            Rigidbody2D bulletRB = Bullet.GetComponent<Rigidbody2D>();
-            bulletRB.AddForce(Muzzle.right * bulletforce, ForceMode2D.Impulse);
+             GameObject Bullet = Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), Muzzle.position, Muzzle.rotation);
+          // GameObject Bullet = objectPooler.SpawFromPool("Bullet", Muzzle.position, Muzzle.rotation);
+             Bullet.GetComponent<BulletScript>().SetBulletPlayerHealth(GetComponent<Health>());
+            //Rigidbody2D bulletRB = Bullet.GetComponent<Rigidbody2D>();
+            //bulletRB.AddForce(Muzzle.right * bulletforce, ForceMode2D.Impulse);
             GetComponent<CameraShake>().Shake(.05f, .1f);
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Shoot, 35f, 0, 1f, true);
         }

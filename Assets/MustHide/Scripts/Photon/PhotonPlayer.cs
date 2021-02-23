@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Photon.Realtime;
 public class PhotonPlayer : MonoBehaviour
 {
 
@@ -110,10 +109,10 @@ public class PhotonPlayer : MonoBehaviour
                 }
             }
             InGameManager.instance.CurrentTeam = myTeam;
-            playerAvatar.GetComponent<Health>().SetPlayerTeam(myTeam);
+            playerAvatar.GetComponent<Health>().SetPlayerTeam((byte)myTeam);
             playerAvatar.GetComponent<Health>().photonPlayer = this;
             //Join Team Channel
-            VivoxManager.instance.LeaveChannel();
+            VivoxManager.instance.LeaveChannel(false);
             StartCoroutine(joinn());
             InGameManager.instance.GameState = InGameManager.State.StartGame;
 

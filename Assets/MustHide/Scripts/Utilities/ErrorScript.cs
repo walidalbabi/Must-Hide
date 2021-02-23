@@ -55,6 +55,11 @@ public class ErrorScript : MonoBehaviour
 
     public void RestartGame()
     {
+
+        NetworkManager.instance.DestroyObj();
+        PlayFabLogin.instance.DestroyObj();
+        VivoxManager.instance.DestroyObj();
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         StopErrorMsg();
     }
@@ -62,7 +67,7 @@ public class ErrorScript : MonoBehaviour
     public void Reconnect()
     {
         Photon.Pun.PhotonNetwork.Reconnect();
-        LoadingScript.instance.StartLoading("Reconnecting...");
-        StopErrorMsg();
+        StartErrorMsg("Reconnecting...", false, false);
+      
     }
 }

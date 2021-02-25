@@ -73,7 +73,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            ErrorScript.instance.StartErrorMsg("No Internet Connection, Please Check Your Internet Connection And Restart The Game", true, false);
+            ErrorScript.instance.StartErrorMsg("No Internet Connection, Please Check Your Internet Connection And Restart The Game", false, true, "photon");
         }
 
         if (PhotonNetwork.IsConnected)
@@ -85,7 +85,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
             else if (0d != m_LastPhotonACKTimeReceived && PhotonNetwork.Time - m_LastPhotonACKTimeReceived > 15)
             {
-                ErrorScript.instance.StartErrorMsg("You have Bad Connection , Please Check Your Connection than Reconnect", false, true);
+                ErrorScript.instance.StartErrorMsg("You have Bad Connection , Please Check Your Connection than Reconnect", false, true, "photon");
                 PhotonNetwork.Disconnect();
             }
         }
@@ -110,13 +110,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         switch (cause)
         {
             case DisconnectCause.MaxCcuReached:
-                ErrorScript.instance.StartErrorMsg("Servers Are Full Please Try Again", false, true);
+                ErrorScript.instance.StartErrorMsg("Servers Are Full Please Try Again", false, true, "photon");
                 break;
             case DisconnectCause.ServerTimeout:
-                ErrorScript.instance.StartErrorMsg("Server Timeout Please Try Again", false, true);
+                ErrorScript.instance.StartErrorMsg("Server Timeout Please Try Again", false, true, "photon");
                 break;
             case DisconnectCause.ClientTimeout:
-                ErrorScript.instance.StartErrorMsg("Client Timeout Please Try Again", false, true);
+                ErrorScript.instance.StartErrorMsg("Client Timeout Please Try Again", false, true, "photon");
                 break;
         }
            

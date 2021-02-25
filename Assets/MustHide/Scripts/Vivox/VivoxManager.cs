@@ -24,8 +24,8 @@ public class  VivoxManager : MonoBehaviour
 
     public List<PartyListingScript> _listings = new List<PartyListingScript>();
 
-
-  
+    [SerializeField]
+    string msgSended;
 
     private void Awake()
     {
@@ -175,7 +175,7 @@ public class  VivoxManager : MonoBehaviour
             {
                 Bind_Login_Callback_Listeners(false, vivox.loginSession);
                 Bind_Directed_Message_Callbacks(false, vivox.loginSession);
-                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox", true , false);
+                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox", false , true, "vivox");
                 Debug.Log(e.Message);
             }
             // run more code here 
@@ -289,8 +289,7 @@ public class  VivoxManager : MonoBehaviour
     private void DelayedJoin()
     {
         JoinChannel(BeforeChannel, true, false, true, ChannelType.NonPositional);
-     
-
+        LoadingScript.instance.StopLoading();
     }
 
     public void On_Channel_Status_Changed(object sender, PropertyChangedEventArgs channelArgs)
@@ -552,11 +551,11 @@ public class  VivoxManager : MonoBehaviour
 
     #region Send Direct Messages
 
-    public void Send_Direct_Message(string userToSend, string message)
+    public void Send_Direct_Message(string userToSend, string key ,string message)
     {
         var accountID = new AccountId(vivox.issuer, userToSend, vivox.domain);
 
-        vivox.loginSession.BeginSendDirectedMessage(accountID, message, ar =>
+        vivox.loginSession.BeginSendDirectedMessage(accountID,key + message, ar =>
         {
             try
             {
@@ -577,11 +576,37 @@ public class  VivoxManager : MonoBehaviour
         {
            var msg = msgSender.Dequeue().Message;
             Debug.Log(txtMsgArgs.Value.Message);
-            var invitation = Instantiate(MenuManager.instance.invitation, MenuManager.instance._ChatContent);
 
-            if(invitation != null)
+             msgSended = txtMsgArgs.Value.Message.Substring(0,3);
+
+            if (msgSended == "inv")
             {
-                invitation.SetInvitationInfo(txtMsgArgs.Value.Sender.Name, txtMsgArgs.Value.Message);
+                var invitation = Instantiate(MenuManager.instance.invitation, MenuManager.instance._ChatContent);
+
+                if (invitation != null)
+                {
+                    invitation.SetInvitationInfo(txtMsgArgs.Value.Sender.Name, txtMsgArgs.Value.Message.Substring(3));
+                }
+            }
+
+            if (msgSended == "add")
+            {
+                var addFriend = Instantiate(MenuManager.instance.addFriend, MenuManager.instance._ChatContent);
+
+                if (addFriend != null)
+                {
+                    addFriend.SetInvitationInfo(txtMsgArgs.Value.Sender.Name, txtMsgArgs.Value.Message.Substring(3));
+                }
+            }      
+            
+            if (msgSended == "acc")
+            {
+                PlayFabLogin.instance.AddFriends(txtMsgArgs.Value.Message.Substring(3));
+            }
+
+            if (msgSended == "rmv")
+            {
+                PlayFabLogin.instance.RemoveFriends(txtMsgArgs.Value.Message.Substring(3));
             }
         }
     }

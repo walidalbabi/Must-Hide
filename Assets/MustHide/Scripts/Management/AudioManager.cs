@@ -14,7 +14,8 @@ public class AudioManager : MonoBehaviour
         Running,
         HideIncreaseSound,
         MonsterGetShot,
-        Die,
+        MonsterDead,
+        HunterDead,
         RightProp,
         MonsterTransform,
     }
@@ -30,6 +31,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(Sound sound, float MaxDistance , int target, float Volume, bool isNetwork) 
     {
+        if (GetComponent<Health>().isDead)
+            return;
+
         if (camPlaySound(sound))
         {
             if (isNetwork)

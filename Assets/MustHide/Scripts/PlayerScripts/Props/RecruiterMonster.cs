@@ -13,8 +13,8 @@ public class RecruiterMonster : MonoBehaviour
     private bool isAbility;
     //Components
     private PlayerMovement playerMove;
-    [SerializeField]
-    private GameObject PlayerLight;
+
+    public GameObject PlayerLight;
 
     [SerializeField]
     private float _footPrintsCounter;
@@ -37,6 +37,9 @@ public class RecruiterMonster : MonoBehaviour
     {
         if (playerMove.isMoving)
         {
+            if (GetComponent<Health>().isDead)
+                return;
+
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 2f, 0, 0.05f, true);
 
 
@@ -69,7 +72,7 @@ public class RecruiterMonster : MonoBehaviour
                     if (feetIndex == 1)
                         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
                     else if (feetIndex == 2)
-                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 180f));
                 }
 
                 if (feetIndex == 1)

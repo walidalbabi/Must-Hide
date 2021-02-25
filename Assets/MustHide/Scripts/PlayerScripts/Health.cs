@@ -20,12 +20,14 @@ public class Health : MonoBehaviour
     [SerializeField]
     private int PlayerTeam;
 
-    [SerializeField]
-    private Slider slider;
+   
+    public Slider slider;
     [SerializeField]
     private Image healthBarFill;
     [SerializeField]
     private Text playerNameTxt;
+    [SerializeField]
+    private GameObject Ghost;
 
     public bool isDead;
 
@@ -37,13 +39,53 @@ public class Health : MonoBehaviour
     //Components
     public PhotonPlayer photonPlayer;
 
+    private PhotonView PV;
+
+
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
+
     private void Start()
     {
-        playerNameTxt.text = GetComponent<PhotonView>().Owner.NickName;
+        playerNameTxt.text = PV.Owner.NickName;
 
+        Invoke("SetHealthBar", 2f);
+
+    }
+
+
+
+    private void Update()
+    {
+        if (!PV.IsMine)
+            return;
+
+
+        if (_HP <= 0 && !isDead)
+        {
+            PV.RPC("Dead", RpcTarget.AllBuffered);
+            photonPlayer.SetIsDead(true);
+
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bones"), transform.position, Quaternion.identity);
+
+            Camera.main.GetComponent<Camera>().cullingMask  = (1 << 0 )| (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 11);
+
+            if (isMonster)
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 10f, 0, 1f, true);
+        }
+    }
+
+
+    public void SetHealthBar()
+    {
         if (PlayerTeam == InGameManager.instance.CurrentTeam)
         {
-            if (GetComponent<PhotonView>().IsMine)
+
+            slider.gameObject.SetActive(true);
+
+            if (PV.IsMine)
             {
                 healthBarFill.color = Color.red;
             }
@@ -56,38 +98,19 @@ public class Health : MonoBehaviour
         }
         else
         {
-             slider.gameObject.SetActive(false);
-        }
-
-    
-
-    }
-
-
-
-    private void Update()
-    {
-        if (!GetComponent<PhotonView>().IsMine)
-            return;
-
-
-        if (_HP <= 0 && !isDead)
-        {
-            GetComponent<PhotonView>().RPC("Dead", RpcTarget.AllBuffered);
-            photonPlayer.SetIsDead(true);
+            slider.gameObject.SetActive(false);
         }
     }
 
-
-    private void SetPhotonPlayerDelady()
-    {
-        GetComponent<PhotonView>().RPC("RPC_SetPlayerPhoton", RpcTarget.AllBuffered);
-    }
+    //private void SetPhotonPlayerDelady()
+    //{
+    //    GetComponent<PhotonView>().RPC("RPC_SetPlayerPhoton", RpcTarget.AllBuffered);
+    //}
 
     //Setting Player Team for Network
     public void SetPlayerTeam(byte team)
     {
-       GetComponent<PhotonView>().RPC("RPC_SetPlayerTeam", RpcTarget.AllBuffered, team);
+        PV.RPC("RPC_SetPlayerTeam", RpcTarget.AllBuffered, team);
     }
 
     //Checking Triggers
@@ -119,7 +142,7 @@ public class Health : MonoBehaviour
 
             if (gameObject.tag == "Monster")
             {
-                GetComponent<PhotonView>().RPC("RPC_DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
+                PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
 
                 GetComponent<PropsController>().isBuff = true;
 
@@ -157,7 +180,7 @@ public class Health : MonoBehaviour
 
     public void DoDamage(float Damage)
     {
-        GetComponent<PhotonView>().RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
+        PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
     }
 
     [PunRPC]
@@ -178,11 +201,31 @@ public class Health : MonoBehaviour
     private void Dead()
     {
         isDead = true;
-        GetComponent<PlayerMovement>().gameObject.SetActive(false);
-        GetComponent<PlayerMovement>().enabled = false;
+        gameObject.tag = "Untagged";
+
+        GetComponent<PlayerMovement>().SR.enabled = false;
+
         if (GetComponent<PropsController>())
-            GetComponent<PropsController>().enabled = false;
+            GetComponent<PropsController>().enabled = false;  
+        
+        if (GetComponent<RecruiterHunter>())
+        {
+            GetComponent<RecruiterHunter>().Gun.gameObject.SetActive(false);
+            GetComponent<RecruiterHunter>().PlayerLight.SetActive(false);
+            GetComponent<RecruiterHunter>().enabled = false;
+
+        }
+
+        if (GetComponent<RecruiterMonster>())
+        {
+            GetComponent<RecruiterMonster>().PlayerLight.SetActive(false);
+            GetComponent<RecruiterMonster>().enabled = false;
+
+        }
+
         GetComponent<BoxCollider2D>().enabled = false;
+        Ghost.SetActive(true);
+        slider.gameObject.layer = 11;
 
 
         if (isMonster)
@@ -196,12 +239,12 @@ public class Health : MonoBehaviour
 
     }
 
-    [PunRPC]
-    void RPC_SetPlayerPhoton()
-    {
-#pragma warning disable CS1717 // Assignment made to same variable
-        photonPlayer = photonPlayer;
-#pragma warning restore CS1717 // Assignment made to same variable
-    }
+//    [PunRPC]
+//    void RPC_SetPlayerPhoton()
+//    {
+//#pragma warning disable CS1717 // Assignment made to same variable
+//        photonPlayer = photonPlayer;
+//#pragma warning restore CS1717 // Assignment made to same variable
+//    }
 
 }

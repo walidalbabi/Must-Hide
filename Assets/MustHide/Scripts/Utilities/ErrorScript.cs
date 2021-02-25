@@ -15,6 +15,9 @@ public class ErrorScript : MonoBehaviour
     [SerializeField]
     private GameObject ReconnectGameBtn;
     public static ErrorScript instance;
+
+
+    private string ReconnectTo;
     void Awake()
     {
         DontDestroyOnLoad(this);
@@ -28,8 +31,11 @@ public class ErrorScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void StartErrorMsg(string txtError, bool isRestart, bool isReconnect)
+    public void StartErrorMsg(string txtError, bool isRestart, bool isReconnect, string whatToReconnect)
     {
+
+        ReconnectTo = whatToReconnect;
+
         _Text.text = txtError;
         ErrorPanel.SetActive(true);
 
@@ -66,8 +72,15 @@ public class ErrorScript : MonoBehaviour
 
     public void Reconnect()
     {
-        Photon.Pun.PhotonNetwork.Reconnect();
-        StartErrorMsg("Reconnecting...", false, false);
+        if (ReconnectTo == "photon")
+        {
+            Photon.Pun.PhotonNetwork.Reconnect();
+            StartErrorMsg("Reconnecting...", false, false, "");
+        }
+        else if (ReconnectTo == "vivox")
+            VivoxManager.instance.Login(Photon.Pun.PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
+
+ 
       
     }
 }

@@ -20,7 +20,7 @@ public class FriendScript : MonoBehaviour
     {
         if (FriendInfo != null)
         {
-            VivoxManager.instance.Send_Direct_Message(FriendInfo.UserId, "channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId);
+            VivoxManager.instance.Send_Direct_Message(FriendInfo.UserId, "inv" , "channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId);
             Debug.Log("Invite Sended");
         }
 
@@ -28,6 +28,7 @@ public class FriendScript : MonoBehaviour
 
     public void Remove()
     {
+        VivoxManager.instance.Send_Direct_Message(FriendInfo.UserId, "rmv", Photon.Pun.PhotonNetwork.AuthValues.UserId);
         PlayFabLogin.instance.RemoveFriends(FriendInfo.UserId);
         Destroy(gameObject);
     }

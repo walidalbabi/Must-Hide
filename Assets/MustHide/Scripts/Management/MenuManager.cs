@@ -39,6 +39,7 @@ public class MenuManager : MonoBehaviour
 
     public Transform _ChatContent;
     public InvitationScript invitation;
+    public AddFriendScript addFriend;
 
 
 
@@ -53,6 +54,8 @@ public class MenuManager : MonoBehaviour
     public Transform _Partycontent;
     public PartyListingScript _partyListing;
 
+    private string friendName;
+
     private void OnEnable()
     {
         if (PlayFabLogin.instance.isLoggedIn)
@@ -66,7 +69,8 @@ public class MenuManager : MonoBehaviour
             if (VivoxManager.instance.CurrentChannel != VivoxManager.instance.BeforeChannel)
             {
                 LoadingScript.instance.StartLoading("Loading...");
-                Invoke("LeaveCurrentChannel", 1f);
+                LeaveCurrentChannel();
+             //   Invoke("LeaveCurrentChannel", 1f);
          
             }
         }
@@ -179,11 +183,29 @@ public class MenuManager : MonoBehaviour
         else
             LeavePartyBtn.SetActive(false);
     }
+
+
+    public void SendAddFriendRequest()
+    {
+        if(friendName != "")
+        {
+            VivoxManager.instance.Send_Direct_Message(friendName, "add", Photon.Pun.PhotonNetwork.AuthValues.UserId);
+            Debug.Log("Invite Sended");
+        }
+        
+    }
+
     #endregion Vivox
 
     #region UIManager
 
-
+    public void GetFriendName(string friendNameIn)
+    {
+        InputField input = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.
+       gameObject.GetComponent<InputField>();
+        friendNameIn = input.text;
+        friendName = friendNameIn;
+    }
     public void ShowHome()
     {
         StartPanel.SetActive(true);

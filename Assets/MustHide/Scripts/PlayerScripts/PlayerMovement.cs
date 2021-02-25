@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (PV.IsMine)
         {
+            miniMap.SetActive(true);
             cancameraFollow = true;
         }
         else

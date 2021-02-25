@@ -326,12 +326,14 @@ public class PropsController : MonoBehaviour
         {
             sprite.SetActive(false);
             col.enabled = false;
+            GetComponent<Health>().slider.gameObject.SetActive(false);
             gameObject.tag = "Untagged";
         }
         else
         {
             sprite.SetActive(true);
             col.enabled = true;
+            GetComponent<Health>().SetHealthBar();
             gameObject.tag = "Monster";
         }
     }

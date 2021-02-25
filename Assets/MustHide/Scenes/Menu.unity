@@ -1655,6 +1655,7 @@ MonoBehaviour:
   canJoin: 0
   isVivoxLoggedIn: 0
   _listings: []
+  msgSended: 
 --- !u!1 &283334760
 GameObject:
   m_ObjectHideFlags: 0
@@ -2396,9 +2397,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 615145822}
-        m_TargetAssemblyTypeName: PlayFabLogin, Assembly-CSharp
-        m_MethodName: AddFriends
+      - m_Target: {fileID: 1129553744}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: SendAddFriendRequest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3293,12 +3294,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a748d3200e62a342b6eafaf673046f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxPlayers: 6
+  _MaxPlayers: 10
   _Map: House
   FriendName: 
   _listings: []
   MyID: 
   expectedPlayers:
+  - 
   - 
   - 
   - 
@@ -6790,6 +6792,8 @@ MonoBehaviour:
   _ChatContent: {fileID: 10708194}
   invitation: {fileID: 4937580117332587674, guid: 94b4b40dd4b91354fa4df1637c039e2b,
     type: 3}
+  addFriend: {fileID: 1321609143894537260, guid: 4b6bf60efdd8b7f4e891767445100f94,
+    type: 3}
   _Friendcontent: {fileID: 1573765416}
   _FriendListing: {fileID: 3426380026884165969, guid: ddbb8ee63007d2c4a9d19f4b0db7b460,
     type: 3}
@@ -8978,7 +8982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00024414062, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 615.5771, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1548044403
@@ -12062,8 +12066,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 615145822}
-        m_TargetAssemblyTypeName: PlayFabLogin, Assembly-CSharp
+      - m_Target: {fileID: 1129553744}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: GetFriendName
         m_Mode: 5
         m_Arguments:

@@ -213,15 +213,6 @@ public class PlayFabLogin : MonoBehaviour
         userName = userNameIn;
     }
 
-
-    public void GetFriendName(string friendNameIn)
-    {
-        InputField input = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.
-       gameObject.GetComponent<InputField>();
-        friendNameIn = input.text;
-        friendName = friendNameIn;
-    }
-
     private void UpdateContactEmail()
     {
         LoadingScript.instance.StartGameLoading("Updating Contact Info..");
@@ -237,14 +228,14 @@ public class PlayFabLogin : MonoBehaviour
     }
     public void OnClickLogin()
     {
-        LoadingScript.instance.StartGameLoading("Logging in..");
+       // LoadingScript.instance.StartGameLoading("Logging in..");
         var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
     }
 
     public void OnClickRegister()
     {
-        LoadingScript.instance.StartGameLoading("Registering..");
+      //  LoadingScript.instance.StartGameLoading("Registering..");
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = userPassword, Username = userName };
         
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRegisterFailure);
@@ -269,7 +260,7 @@ public class PlayFabLogin : MonoBehaviour
 
     #region Functions
 
-    public void AddFriends()
+    public void AddFriends(string friendName)
     {
         if (friendName != "")
         {

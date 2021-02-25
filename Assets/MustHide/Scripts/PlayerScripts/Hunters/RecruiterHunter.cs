@@ -18,14 +18,15 @@ public class RecruiterHunter : MonoBehaviour
     [SerializeField]
     private float reloadTime = 2f;
     [Tooltip("Bullet Speed/Force")]
-    [SerializeField]
-    private float bulletforce = 20f;
 
 
+
+    
+    public GameObject PlayerLight;
 
     //for shooting
-    [SerializeField]
-    private Transform Gun;
+
+    public Transform Gun;
     [SerializeField]
     private Transform GunLight;
     [SerializeField]
@@ -78,7 +79,11 @@ public class RecruiterHunter : MonoBehaviour
         if (!playerMove.PV.IsMine)
             return;
 
-        if(playerMove.isMoving)
+        if (GetComponent<Health>().isDead)
+            return;
+
+
+        if (playerMove.isMoving)
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 5f, 0, 0.05f, true);
 
         IfAbility();
@@ -100,7 +105,7 @@ public class RecruiterHunter : MonoBehaviour
             }
         }else if (SystemInfo.deviceType == DeviceType.Handheld && AutoFire)
         {
-            RaycastHit2D hit = Physics2D.Raycast(GunLight.position, GunLight.transform.up, 5f);
+            RaycastHit2D hit = Physics2D.Raycast(GunLight.position, GunLight.transform.up, 6.5f);
           
             if (hit.collider.gameObject.CompareTag("Monster"))
             {
@@ -286,10 +291,7 @@ public class RecruiterHunter : MonoBehaviour
             magazinCounter--;
             StartCoroutine(_MuzzleFlash());
              GameObject Bullet = Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), Muzzle.position, Muzzle.rotation);
-          // GameObject Bullet = objectPooler.SpawFromPool("Bullet", Muzzle.position, Muzzle.rotation);
              Bullet.GetComponent<BulletScript>().SetBulletPlayerHealth(GetComponent<Health>());
-            //Rigidbody2D bulletRB = Bullet.GetComponent<Rigidbody2D>();
-            //bulletRB.AddForce(Muzzle.right * bulletforce, ForceMode2D.Impulse);
             GetComponent<CameraShake>().Shake(.05f, .1f);
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Shoot, 35f, 0, 1f, true);
         }

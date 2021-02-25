@@ -6,74 +6,45 @@ public class FootPrints : MonoBehaviour
 {
 
     [SerializeField]
-    private PlayerMovement playerMovement;
+    private bool footPrints;
 
-    [SerializeField]
-    private ParticleSystem FootPrintparticle;
-    private ParticleSystem.MainModule main;
-    private ParticleSystem.ShapeModule shape;
-
+    public float LifeTime;
+    float startTime;
+    SpriteRenderer sprite;
+    SpriteMask mask;
+    Color color;
+    bool dying;
     // Start is called before the first frame update
     void Start()
     {
-     //  FootPrintparticle = GetComponent<ParticleSystem>();
-        main = FootPrintparticle.main;
-        shape = FootPrintparticle.shape;
+        mask = GetComponent<SpriteMask>();
+        sprite = GetComponent<SpriteRenderer>();
+        if (sprite)
+            color = sprite.color;
+        startTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!GetComponent<PhotonView>().IsMine)
-            return;
-
-        if (playerMovement.isMoving)
+        if (Time.time - startTime > LifeTime && !dying)
         {
-            if (!FootPrintparticle.isPlaying)
-                GetComponent<PhotonView>().RPC("RPC_FootPrintsEnabl", RpcTarget.OthersBuffered);
-
-            if (playerMovement.movement.x > 0)
-            {
-                main.startRotationZ = -1.5707963268f;
-                shape.scale = new Vector3(0.08f, 0.5f, 0.5f);
-            }
-            else if (playerMovement.movement.x < 0)
-            {
-                main.startRotationZ = 1.5707963268f;
-                shape.scale = new Vector3(0.08f, 0.5f, 0.5f);
-            }
-            else if (playerMovement.movement.y > 0)
-            {
-                main.startRotationZ = 0f;
-                shape.scale = new Vector3(0.5f, 0.08f, 0.5f);
-            }
-            else if (playerMovement.movement.y < 0)
-            {
-                main.startRotationZ = 3.1415926536f;
-                shape.scale = new Vector3(0.5f, 0.08f, 0.5f);
-            }
+            dying = true;
+            StartCoroutine(Fade());
         }
-        else
-        {
-            if (FootPrintparticle.isPlaying)
-                GetComponent<PhotonView>().RPC("RPC_FootPrintsDisabl", RpcTarget.OthersBuffered);
-        }
-
-
     }
-
-
-
-    [PunRPC]
-    private void RPC_FootPrintsEnable()
+    IEnumerator Fade()
     {
-            FootPrintparticle.Play();
-    }
+        float value = 1;
+        while (value > 0)
+        {
+            value -= Time.deltaTime * 0.05f *10f;
+            if (sprite)
+                sprite.color = new Color(color.r, color.g, color.b, value);
 
-    [PunRPC]
-    private void RPC_FootPrintsDisable()
-    { 
-            FootPrintparticle.Stop();
+            yield return new WaitForEndOfFrame();
+        }
+        Destroy(gameObject);
     }
 
 }

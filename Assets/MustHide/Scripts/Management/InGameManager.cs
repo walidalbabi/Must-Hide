@@ -66,14 +66,14 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("PhotonNetworkPlayer", transform.position, Quaternion.identity);
         PhotonNetwork.CurrentRoom.IsOpen = false;
     }
 
     void Update()
     {
         pingTxt.text = PhotonNetwork.GetPing().ToString();
-        if (MonstersDead >= 3 || HuntersDead >= 3)
+        if (MonstersDead >= 5 || HuntersDead >= 5)
         {
            GameState = State.EndGame;
         }
@@ -114,7 +114,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private void SetGameOverPanel()
     {
         MatchTimerManager.instance.EndPanel.SetActive(true);
-        if (MonstersDead >= 3)
+        if (MonstersDead >= 5)
         {
             //Hunters Win
             MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win";
@@ -122,7 +122,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
                 WinnerTeam = 2;
 
-        }else if (HuntersDead >= 3)
+        }else if (HuntersDead >= 5)
         {
             //Monsters Win
             MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win";
@@ -257,10 +257,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     public void LeaveGame()
     {
-        //VivoxManager.instance.LeaveChannel(true);
         Photon.Pun.PhotonNetwork.LeaveRoom();
-        //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        //   PhotonNetwork.LoadLevel(0);
     }
 
     public SoundAudioClip[] soundAudioClip;
@@ -321,7 +318,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-
+        playerIndex = 0;
         foreach (var playerList in photonPlayer)
         {
             if(playerList.UserID == otherPlayer.UserId)
@@ -329,7 +326,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
                     if (playerList.myTeam == 0)
                     {
                         PhotonNetwork.LeaveRoom(true);
-                        ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false);
+                        ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false, "");
                     }
                     else if (playerList.myTeam == 1 && !playerList.isPlayerDead)
                     {
@@ -354,7 +351,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        if (playerIndex >= 6)
+        if (playerIndex >= 10)
             PhotonNetwork.CurrentRoom.RemovedFromList = true;
 
             Debug.Log("Nick Name : "+otherPlayer.NickName+ "--- UserID: "+ otherPlayer.UserId);

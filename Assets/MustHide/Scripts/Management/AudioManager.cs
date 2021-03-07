@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
         soundTimerDictionary[Sound.Running] = 0f;
     }
 
-    public void PlaySound(Sound sound, float MaxDistance , int target, float Volume, bool isNetwork) 
+    public void PlaySound(Sound sound, float MaxDistance , int target, float Volume, float SpatialBlend, bool isNetwork) 
     {
         if (GetComponent<Health>().isDead)
             return;
@@ -38,11 +38,11 @@ public class AudioManager : MonoBehaviour
         {
             if (isNetwork)
             {
-                GetComponent<PhotonView>().RPC("RPC_PlaySound", RpcTarget.AllBuffered, sound, MaxDistance, target, Volume);
+                GetComponent<PhotonView>().RPC("RPC_PlaySound", RpcTarget.AllBuffered, sound, MaxDistance, target, Volume, SpatialBlend);
             }
             else
             {
-                RPC_PlaySound(sound, MaxDistance, target, Volume);
+                RPC_PlaySound(sound, MaxDistance, target, Volume, SpatialBlend);
             }
         }
       
@@ -98,12 +98,12 @@ public class AudioManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_PlaySound(Sound sound, float MaxDistance, int target, float Volume)
+    private void RPC_PlaySound(Sound sound, float MaxDistance, int target, float Volume, float SpatialBlend)
     {
         GameObject soundGameObject = new GameObject("Sound");
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
         var DestroyTime = soundGameObject.AddComponent<DestroyAfterDelay>();
-        audioSource.spatialBlend = 1;
+        audioSource.spatialBlend = SpatialBlend;
         audioSource.rolloffMode = AudioRolloffMode.Custom;
         audioSource.maxDistance = MaxDistance;
         audioSource.volume = Volume;

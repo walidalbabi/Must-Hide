@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.UI;
 using VivoxUnity;
 
@@ -56,6 +58,7 @@ public class MenuManager : MonoBehaviour
 
     private string friendName;
 
+
     private void OnEnable()
     {
         if (PlayFabLogin.instance.isLoggedIn)
@@ -69,6 +72,7 @@ public class MenuManager : MonoBehaviour
             if (VivoxManager.instance.CurrentChannel != VivoxManager.instance.BeforeChannel)
             {
                 LoadingScript.instance.StartLoading("Loading...");
+                VivoxManager.instance._listings = new List<PartyListingScript>();
                 LeaveCurrentChannel();
              //   Invoke("LeaveCurrentChannel", 1f);
          
@@ -85,7 +89,16 @@ public class MenuManager : MonoBehaviour
             //set the instance
             instance = this;
         }
+
+#if PLATFORM_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+#endif
+
     }
+
 
 
     private void LeaveCurrentChannel()

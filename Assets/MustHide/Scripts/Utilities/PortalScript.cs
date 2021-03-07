@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 public class PortalScript : MonoBehaviour
 {
@@ -8,14 +9,96 @@ public class PortalScript : MonoBehaviour
     private ParticleSystem[] particle;
     [SerializeField]
     private GameObject portalLight;
+    [SerializeField]
+    private Slider slider;
+
+    [SerializeField]
+    private float portalTimeToColl;
+
+    private float portalCounter;
+
+    bool canCount;
+    bool isCount;
+
+    private PhotonView PV;
+
+    private void Start()
+    {
+        PV =  GetComponent<PhotonView>();
+        slider.maxValue = portalTimeToColl;
+
+
+        PV.TransferOwnership(-1);
+    }
+
+    private void Update()
+    {
+
+        slider.value = portalCounter;
+
+        if (portalCounter <= 0)
+        {
+            slider.gameObject.SetActive(false);
+        }
+        else
+        {
+            slider.gameObject.SetActive(true);
+        }
+
+        if(canCount)
+        if (isCount)
+        {
+            if (portalCounter < portalTimeToColl)
+            {
+                portalCounter += Time.deltaTime;
+            }
+ 
+
+        }
+        else
+        {
+            if (portalCounter > 0)
+            {
+                portalCounter -= Time.deltaTime;
+            }
+            else
+                canCount = false;
+        }
+
+
+
+
+
+        if (portalCounter >= portalTimeToColl && canCount)
+        {
+            canCount = false;
+            PV.RPC("RPC_UpdateCollectedPortals", RpcTarget.AllBuffered);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Monster"))
         {
-            GetComponent<PhotonView>().RPC("RPC_UpdateCollectedPortals", RpcTarget.AllBuffered);
+            canCount = true;
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            isCount = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            isCount = false;
+        }
+    }
 
 
     [PunRPC]
@@ -26,9 +109,16 @@ public class PortalScript : MonoBehaviour
         {
             part.Stop();
         }
-        portalLight.SetActive(false);
+     
+        Invoke("DisableLightAfter" , 2f);
         GetComponent<AudioSource>().Pause();
-        InGameManager.instance.UpdateCollectedPortals();
+
+       InGameManager.instance.UpdateCollectedPortals();
+    }
+
+    private void DisableLightAfter()
+    {
+        Destroy(gameObject);
     }
 
 }

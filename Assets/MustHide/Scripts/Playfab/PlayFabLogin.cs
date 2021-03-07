@@ -238,9 +238,7 @@ public class PlayFabLogin : MonoBehaviour
       //  LoadingScript.instance.StartGameLoading("Registering..");
         var registerRequest = new RegisterPlayFabUserRequest { Email = userEmail, Password = userPassword, Username = userName };
         
-        PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRegisterFailure);
-
-       
+        PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRegisterFailure);   
     }
 
     public void SendCustomAccountRecoveryEmail()

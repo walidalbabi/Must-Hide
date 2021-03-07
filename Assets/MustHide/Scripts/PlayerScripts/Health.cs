@@ -38,13 +38,15 @@ public class Health : MonoBehaviour
     private int splashIndex = 1;
     //Components
     public PhotonPlayer photonPlayer;
-
+    private BoxCollider2D boxCollider;
     private PhotonView PV;
-
+    [SerializeField]
+    private GameObject PlayerLight;
 
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -52,6 +54,9 @@ public class Health : MonoBehaviour
         playerNameTxt.text = PV.Owner.NickName;
 
         Invoke("SetHealthBar", 2f);
+
+        if (!PV.IsMine)
+            PlayerLight.SetActive(false);
 
     }
 
@@ -73,11 +78,20 @@ public class Health : MonoBehaviour
             Camera.main.GetComponent<Camera>().cullingMask  = (1 << 0 )| (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 11);
 
             if (isMonster)
-                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 10f, 0, 1f, true);
+            {
+             //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#00FF08>");
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f,true);
+            }
+            else
+            {
+                //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#FF0000>");
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f,true);
+            }
+                
         }
     }
 
-
+    //Setting Health Properties After Delay
     public void SetHealthBar()
     {
         if (PlayerTeam == InGameManager.instance.CurrentTeam)
@@ -102,10 +116,28 @@ public class Health : MonoBehaviour
         }
     }
 
-    //private void SetPhotonPlayerDelady()
-    //{
-    //    GetComponent<PhotonView>().RPC("RPC_SetPlayerPhoton", RpcTarget.AllBuffered);
-    //}
+    //Reenabling Health Bar After Transfering
+    public void ReEnableHealthBar()
+    {
+        if (PlayerTeam == InGameManager.instance.CurrentTeam)
+        {
+
+            slider.gameObject.SetActive(true);
+
+            if (PV.IsMine)
+            {
+                healthBarFill.color = Color.red;
+            }
+            else
+                healthBarFill.color = Color.green;
+
+            slider.value = _HP;
+        }
+        else
+        {
+            slider.gameObject.SetActive(false);
+        }
+    }
 
     //Setting Player Team for Network
     public void SetPlayerTeam(byte team)
@@ -140,26 +172,37 @@ public class Health : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
 
-            if (gameObject.tag == "Monster")
-            {
+         //   if (gameObject.tag == "Monster")
+        //   {
                 PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
 
+            if (GetComponent<PropsController>())
                 GetComponent<PropsController>().isBuff = true;
 
-                if (GetComponent<PropsController>().isBuff)
-                    GetComponent<PropsController>().buffCounter = 0;
+            if (GetComponent<PropsController>().isBuff)
+                GetComponent<PropsController>().buffCounter = 0;
 
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "BloodParticle"), transform.position, Quaternion.identity);
 
-                if (splashIndex == 1)
-                    splashIndex = 2;
-                else
-                    splashIndex = 1;
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "Splash_"+splashIndex), transform.position, Quaternion.identity);
 
-                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterGetShot, 10f, 0,1f, true);
-
+            if (splashIndex == 1)
+                splashIndex = 2;
+            else
+                splashIndex = 1;
+            if (isMonster)
+            {
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "BloodParticleMonster"), transform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "Splash_" + splashIndex + "Monster"), transform.position, Quaternion.identity);
             }
+            else
+            {
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "BloodParticleHunter"), transform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "Splash_" + splashIndex + "Hunter"), transform.position, Quaternion.identity);
+            }
+
+
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterGetShot, 10f, 0, 1f, 1f,true);
+
+           // }
            
         }
     }
@@ -204,26 +247,23 @@ public class Health : MonoBehaviour
         gameObject.tag = "Untagged";
 
         GetComponent<PlayerMovement>().SR.enabled = false;
+        boxCollider.enabled = false;
+
+        GetComponent<PlayerMovement>().moveSpeed = 6f;
 
         if (GetComponent<PropsController>())
             GetComponent<PropsController>().enabled = false;  
         
-        if (GetComponent<RecruiterHunter>())
+        if (GetComponent<ShootingScript>())
         {
-            GetComponent<RecruiterHunter>().Gun.gameObject.SetActive(false);
-            GetComponent<RecruiterHunter>().PlayerLight.SetActive(false);
-            GetComponent<RecruiterHunter>().enabled = false;
+            GetComponent<ShootingScript>().Gun.gameObject.SetActive(false);
+            GetComponent<ShootingScript>().enabled = false;
 
         }
 
-        if (GetComponent<RecruiterMonster>())
-        {
-            GetComponent<RecruiterMonster>().PlayerLight.SetActive(false);
-            GetComponent<RecruiterMonster>().enabled = false;
+        PlayerLight.SetActive(false);
 
-        }
 
-        GetComponent<BoxCollider2D>().enabled = false;
         Ghost.SetActive(true);
         slider.gameObject.layer = 11;
 
@@ -231,20 +271,20 @@ public class Health : MonoBehaviour
         if (isMonster)
         {
             InGameManager.instance.UpdateMonsterDead();
+            SetGameLogs(true);
         }
         else
         {
             InGameManager.instance.UpdateHuntersDead();
+            SetGameLogs(false);
         }
 
     }
-
-//    [PunRPC]
-//    void RPC_SetPlayerPhoton()
-//    {
-//#pragma warning disable CS1717 // Assignment made to same variable
-//        photonPlayer = photonPlayer;
-//#pragma warning restore CS1717 // Assignment made to same variable
-//    }
-
+    public void SetGameLogs(bool monster)
+    {
+        if (monster)
+            PhotonNetwork.InstantiateRoomObject("LogsMonster", InGameManager.instance.logsContent.position, Quaternion.identity);
+        else
+            PhotonNetwork.InstantiateRoomObject("LogsHunter", InGameManager.instance.logsContent.position, Quaternion.identity);
+    }
 }

@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isMoving;
 
+    [HideInInspector]
+    public bool canMove;
+
     public Vector2 movement;
 
     //Components
@@ -36,10 +39,12 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private GameObject miniMap;
-
+    [SerializeField]
+    private GameObject miniCam;
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
         PV = GetComponent<PhotonView>();
@@ -64,11 +69,13 @@ public class PlayerMovement : MonoBehaviour
         if (PV.IsMine)
         {
             miniMap.SetActive(true);
+            miniCam.SetActive(true);
             cancameraFollow = true;
         }
         else
         {
             miniMap.SetActive(false);
+            miniCam.SetActive(false);
             cancameraFollow = false;
         }
 
@@ -88,6 +95,17 @@ public class PlayerMovement : MonoBehaviour
 
         GetInputs();
 
+        
+    }
+
+    private void FixedUpdate()
+    {
+        if (!PV.IsMine)
+            return;
+
+        Move();
+
+
         if (cancameraFollow)
         {
             Vector3 point = cam.WorldToViewportPoint(target.position);
@@ -97,27 +115,29 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (!PV.IsMine)
-            return;
-
-        Move();
-    }
-
 
 
     protected void GetInputs()
     {
-        if(SystemInfo.deviceType == DeviceType.Desktop)
+        if (canMove)
         {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
-        }else if (SystemInfo.deviceType == DeviceType.Handheld)
-        {
-            movement.x = joystick.Horizontal;
-            movement.y = joystick.Vertical;
+            if (SystemInfo.deviceType == DeviceType.Desktop)
+            {
+                movement.x = Input.GetAxisRaw("Horizontal");
+                movement.y = Input.GetAxisRaw("Vertical");
+            }
+            else if (SystemInfo.deviceType == DeviceType.Handheld)
+            {
+                movement.x = joystick.Horizontal;
+                movement.y = joystick.Vertical;
+            }
         }
+        else
+        {
+            movement.x = 0f;
+            movement.y = 0f;
+        }
+     
 
         animator.SetFloat("Horizontal", Mathf.Round(movement.x));
         animator.SetFloat("Vertical", Mathf.Round(movement.y));

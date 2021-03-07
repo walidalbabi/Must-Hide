@@ -9,12 +9,11 @@ public class RecruiterMonster : MonoBehaviour
     [SerializeField]
     private float normalMovementSpeed;
 
-
     private bool isAbility;
     //Components
     private PlayerMovement playerMove;
 
-    public GameObject PlayerLight;
+  
 
     [SerializeField]
     private float _footPrintsCounter;
@@ -24,13 +23,7 @@ public class RecruiterMonster : MonoBehaviour
     int feetIndex = 1;
     private void Start()
     {
-        playerMove = GetComponent<PlayerMovement>();
-
-        if (!GetComponent<PhotonView>().IsMine)
-        {
-            PlayerLight.SetActive(false);
-        }
-         
+        playerMove = GetComponent<PlayerMovement>();         
     }
 
     private void Update()
@@ -40,7 +33,7 @@ public class RecruiterMonster : MonoBehaviour
             if (GetComponent<Health>().isDead)
                 return;
 
-            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 2f, 0, 0.05f, true);
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.Running, 2f, 0, 0.05f, 1f,true);
 
 
             //Foot Prints
@@ -86,10 +79,12 @@ public class RecruiterMonster : MonoBehaviour
             {
                 _footPrintsCounter += Time.deltaTime;
             }
+
         }
-  
+
 
         IfAbility();
+
     }
 
     //Checking If Ability Is Turned On

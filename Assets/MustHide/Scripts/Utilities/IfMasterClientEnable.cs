@@ -5,12 +5,20 @@ using Photon.Pun;
 
 public class IfMasterClientEnable : MonoBehaviour
 {
+
+    [SerializeField]
+    private GameObject StartBtn;
     // Start is called before the first frame update
     void OnEnable()
     {
+       
+    }
+
+    private void Update()
+    {
         if (PhotonNetwork.IsMasterClient)
-            gameObject.SetActive(true);
+            StartBtn.SetActive(true);
         else
-            gameObject.SetActive(false);
+            StartBtn.SetActive(false);
     }
 }

@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: accd7e9bbe1094e4fb25409f60edd86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletDamage: 10
+  BulletDamage: 3
   healthScript: {fileID: 0}
 --- !u!114 &1929150805992947369
 MonoBehaviour:
@@ -166,12 +166,12 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: 1368935641822694119}
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1368935641822694119

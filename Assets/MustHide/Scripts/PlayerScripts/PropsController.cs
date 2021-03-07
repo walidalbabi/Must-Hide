@@ -47,6 +47,7 @@ public class PropsController : MonoBehaviour
     [SerializeField]
     private Slider BuffTimeSlider;
 
+
     
     // Start is called before the first frame update
     void Start()
@@ -70,7 +71,7 @@ public class PropsController : MonoBehaviour
             {
                 TransformToProp();
             }else
-            if (isProp)
+            if (isProp && canTransformTo)
             {
                 BackToTransformation(false);
             }
@@ -123,6 +124,8 @@ public class PropsController : MonoBehaviour
             if (counter >= timeToTransformBack)
                 BackToTransformation(false);
 
+            if (counter >= 1f)
+                canTransformTo = true;
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -175,7 +178,7 @@ public class PropsController : MonoBehaviour
 
     public void IncreaseHideTime()
     {
-        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.HideIncreaseSound, 15f, 0, 1f, true);
+        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.HideIncreaseSound, 15f, 0, 1f, 1f,true);
         counter = 0f;
     }
     //Change Back to you transformation
@@ -187,22 +190,22 @@ public class PropsController : MonoBehaviour
         HideTimeSlider.gameObject.SetActive(false);
         //Its not a prop anymore
         isBuff = true;
-        canTransformTo = true;
+        canTransformTo = false;
         isProp = false;
         isCount = false;
         counter = 0;
         //set all properties back to default
         PV.RPC("OnTransfering", RpcTarget.AllBuffered, false);
 
-        GetComponent<PlayerMovement>().enabled = true;
-
+        //GetComponent<PlayerMovement>().enabled = true;
+        GetComponent<PlayerMovement>().canMove = true;
         propCol.GetComponent<PhotonView>().TransferOwnership(0);
       //  propCol.GetComponent<BlocksScript>().SetPropController(null);
         propCol.GetComponent<PropEnableDisableComponents>().OnPropDeselected();
         propCol = null;
 
         if(forced)
-            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.RightProp, 10f, 0, 1f, true);
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.RightProp, 10f, 0, 1f, 1f , true);
 
     }
 
@@ -224,10 +227,10 @@ public class PropsController : MonoBehaviour
         if (sr != null)
             sr.color = Color.white;
 
-        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterTransform, 10f, 0, 1f, true);
+        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterTransform, 10f, 0, 1f, 1f ,true);
 
-        GetComponent<PlayerMovement>().isMoving = false;
-        GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<PlayerMovement>().canMove = false;
+        
         propCol.GetComponent<PhotonView>().TransferOwnership(PV.OwnerActorNr);
         propCol.GetComponent<PropEnableDisableComponents>().OnPropSelected();
         Invoke("SetPropController", 0.2f);
@@ -324,18 +327,23 @@ public class PropsController : MonoBehaviour
     {
         if (toProp)
         {
-            sprite.SetActive(false);
+            Invoke("SpriteOffAfter", 0.2f);
             col.enabled = false;
-            GetComponent<Health>().slider.gameObject.SetActive(false);
+            GetComponent<Health>().slider.gameObject.SetActive(false);        
             gameObject.tag = "Untagged";
         }
         else
         {
-            sprite.SetActive(true);
             col.enabled = true;
-            GetComponent<Health>().SetHealthBar();
+            GetComponent<Health>().ReEnableHealthBar();
+            sprite.SetActive(true);
             gameObject.tag = "Monster";
         }
+    }
+
+    private void SpriteOffAfter()
+    {
+        sprite.SetActive(false);
     }
 }
 

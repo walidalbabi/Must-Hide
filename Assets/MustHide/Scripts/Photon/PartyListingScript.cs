@@ -93,9 +93,12 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
         LeaderName = VivoxManager.instance.CurrentChannel.Remove(0 , 7);
         if (myname == VivoxManager.instance.CurrentChannel)
         {
-            _text.text = "(Leader) " + Player.Account.Name;
-            Debug.Log("Leader");
-            isLeader = true;
+         //   if(VivoxManager.instance._listings.Count > 1)
+          //  {
+                _text.text = "(Leader) " + Player.Account.Name;
+                Debug.Log("Leader");
+                isLeader = true;
+        //    }
         }
         else
         {

@@ -53,6 +53,12 @@ public class InGameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject[] Effects;
 
+    
+    public Transform logsContent;
+
+
+    //Addons
+    private bool gameEnded;
 
 
 
@@ -98,7 +104,11 @@ public class InGameManager : MonoBehaviourPunCallbacks
                 break;
             case State.EndGame:
                 //If GameOver
-                Invoke("SetGameOverPanel", 1.5f);
+                if (!gameEnded)
+                {
+                    gameEnded = true;
+                    Invoke("SetGameOverPanel", 1.5f);
+                }
                 break;
         }
     }
@@ -117,7 +127,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
         if (MonstersDead >= 5)
         {
             //Hunters Win
-            MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win";
+            MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win , All Monsters Are Dead";
 
             if (PhotonNetwork.IsMasterClient)
                 WinnerTeam = 2;
@@ -125,7 +135,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
         }else if (HuntersDead >= 5)
         {
             //Monsters Win
-            MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win";
+            MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win , All Hunters Are Dead";
 
             if (PhotonNetwork.IsMasterClient)
                 WinnerTeam = 1;
@@ -133,7 +143,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
         else if (isPortalWin)
         {
             //Monsters Win
-            MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win";
+            MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win , All Gates Are Grouped";
 
             if (PhotonNetwork.IsMasterClient)
                 WinnerTeam = 1;
@@ -142,7 +152,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
         {
             //Hunters Win
             WinnerTeam = 2;
-            MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win";
+            MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win , Monsters Didn't Collect The Gates";
         }
 
 
@@ -157,7 +167,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
             {
                 for (int i = 0; i < EscapeSpawnPoints.Length; i++)
                 {
-                        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Portal"), EscapeSpawnPoints[i].transform.position, Quaternion.identity);
+                     GameObject portal =  PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Portal"), EscapeSpawnPoints[i].transform.position, Quaternion.identity);
                 }
             }
                
@@ -176,7 +186,6 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
 
     #region GameManager
-
 
 
     public void MuteMic()
@@ -306,12 +315,12 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
 
 
+
     //Handle If Player Left Or Disconnect
 
     public override void OnLeftRoom()
     {
-        base.OnLeftRoom();
-        //PhotonNetwork.LoadLevel(0);
+        base.OnLeftRoom();   
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 

@@ -13,15 +13,8 @@ public class PlayerUIMobile : MonoBehaviour
     [SerializeField]
     private GameObject IncreaceHideTimeBtn;
     [SerializeField]
-    private RecruiterHunter recruiterHunter;
-    [SerializeField]
-    private GameObject ShootBtn;
-    [SerializeField]
-    private GameObject ShootAndAimJoystick;
-    [SerializeField]
-    private Text AutoShootText;
+    private ShootingScript shootingScript;
 
-    private bool autoShoot;
     private bool _canShoot;
 
     private void Start()
@@ -64,25 +57,6 @@ public class PlayerUIMobile : MonoBehaviour
         propController.IncreaseHideTime();
     }
 
-    public void AutoShoot()
-    {
-        if (!autoShoot)
-        {
-            autoShoot = true;
-            ShootBtn.SetActive(true);
-            ShootAndAimJoystick.SetActive(false);
-            AutoShootText.text = "Auto:On";
-            recruiterHunter.AutoFire = true;
-        }
-        else
-        {
-            autoShoot = false;
-            ShootBtn.SetActive(false);
-            ShootAndAimJoystick.SetActive(true);
-            AutoShootText.text = "Auto:OFF";
-            recruiterHunter.AutoFire = false;
-        }
-    }
     public void Shoot()
     {
         if (Input.touchCount > 0)
@@ -92,18 +66,14 @@ public class PlayerUIMobile : MonoBehaviour
             {
                 case TouchPhase.Stationary:
                     // do something when touch began like :
-                    recruiterHunter.Shoot(true);
+                    shootingScript.Shoot(true);
                     break;
                 case TouchPhase.Ended:
                     // do something when touch end like :
-                    recruiterHunter.Shoot(false);
+                    shootingScript.Shoot(false);
                     break;
             }
         }
     }
 
-    public void StopShooting()
-    {
-       // recruiterHunter.Shoot(false);
-    }
 }

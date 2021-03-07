@@ -17,6 +17,7 @@ public class MatchTimerManager : MonoBehaviour
     public GameObject StartPanel;
     public GameObject EscapePanel;
     public GameObject EndPanel;
+    public GameObject ExitGamePanel;
 
   
     public Text GameEndText;
@@ -54,6 +55,15 @@ public class MatchTimerManager : MonoBehaviour
         TimeFormat();
         CheckingForTime();
         CheclIfCanCount();
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (ExitGamePanel.activeInHierarchy)
+                ExitGamePanel.SetActive(false);
+            else
+                ExitGamePanel.SetActive(true);
+        }
     }
 
 
@@ -68,7 +78,7 @@ public class MatchTimerManager : MonoBehaviour
             TimeInBetween = StartTime + MatchTime;
         }
 
-        if (CurrentServerTime >= (TimeInBetween - 120d) && InGameManager.instance.GameState == InGameManager.State.StartGame)
+        if (CurrentServerTime >= (TimeInBetween - 180d) && InGameManager.instance.GameState == InGameManager.State.StartGame)
         {
             InGameManager.instance.GameState = InGameManager.State.EscapeTime;
         }

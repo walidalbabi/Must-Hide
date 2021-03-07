@@ -78,9 +78,16 @@ public class ErrorScript : MonoBehaviour
             StartErrorMsg("Reconnecting...", false, false, "");
         }
         else if (ReconnectTo == "vivox")
-            VivoxManager.instance.Login(Photon.Pun.PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
+        {
+            VivoxManager.instance.Logout();
+            Invoke("LoginToVivox", 2f);
+            StartErrorMsg("Reconnecting...", false, false, "");
+        }
+           
+    }
 
- 
-      
+    private void LoginToVivox()
+    {
+        VivoxManager.instance.Login(Photon.Pun.PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
     }
 }

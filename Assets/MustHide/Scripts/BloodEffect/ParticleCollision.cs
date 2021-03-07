@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class ParticleCollision : MonoBehaviour
 {
+    [SerializeField]
+    private bool isMonster;
     ParticleSystem particle;
-    public GameObject splatPrefab;
-    public Transform splatHolder;
+
     private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
    // public AudioSource audioSource;
    // public AudioClip[] sounds;
@@ -38,9 +39,11 @@ public class ParticleCollision : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-           // Instantiate(splatPrefab, collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)), splatHolder);
 
-            Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood" , "SplatRenderer"), collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
+            if (isMonster)
+                Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "SplatRendererMonster"), collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
+            else
+                Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "SplatRendererHunter"), collisionEvents[i].intersection, Quaternion.Euler(0.0f, 0.0f, Random.Range(0.0f, 360.0f)));
             //if (soundsPlayed < MaxSounds)
             //{
             //    soundsPlayed += 1;

@@ -4,9 +4,7 @@ using UnityEngine;
 using VivoxUnity;
 using System.ComponentModel;
 using System;
-using UnityEngine.UI;
-using TMPro;
-using Photon.Pun;
+
 
 public class  VivoxManager : MonoBehaviour
 {
@@ -34,9 +32,13 @@ public class  VivoxManager : MonoBehaviour
         else Destroy(gameObject);
 
         vivox.client = new Client();
-    //    vivox.client.Uninitialize();
-        vivox.client.Initialize();
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        vivox.client.Uninitialize();
+        vivox.client.Initialize();
     }
 
     private void OnApplicationQuit()
@@ -170,18 +172,25 @@ public class  VivoxManager : MonoBehaviour
             try
             {
                 vivox.loginSession.EndLogin(ar);
+                ErrorScript.instance.StopErrorMsg();
             }
             catch (Exception e)
             {
                 Bind_Login_Callback_Listeners(false, vivox.loginSession);
                 Bind_Directed_Message_Callbacks(false, vivox.loginSession);
-                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox", false , true, "vivox");
+                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox : " + e.Message, false , true, "vivox");
+                LoadingScript.instance.StopGameLoading();
                 Debug.Log(e.Message);
             }
             // run more code here 
         });
     }
 
+    public void Logout()
+    {
+        vivox.loginSession.Logout();
+        Bind_Login_Callback_Listeners(false , vivox.loginSession);
+    }
 
     public void Login_Status(object sender, PropertyChangedEventArgs loginArgs)
     {
@@ -267,12 +276,6 @@ public class  VivoxManager : MonoBehaviour
 
     }
 
-
-    private void StartCouroutineLeave()
-    {
-        Debug.Log("Start Disconnecting");
-        StartCoroutine(joinn());
-    }
 
     IEnumerator joinn()
     {

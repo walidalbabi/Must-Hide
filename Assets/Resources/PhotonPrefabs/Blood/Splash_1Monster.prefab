@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1090167758387686260, guid: a61ac38c4a79a2e4d8a5923cbc9de85e,
         type: 3}
       propertyPath: m_Name
-      value: Splash_1
+      value: Splash_1Monster
       objectReference: {fileID: 0}
     - target: {fileID: 5390340339284538020, guid: a61ac38c4a79a2e4d8a5923cbc9de85e,
         type: 3}

@@ -92,6 +92,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
         switch (GameState)
         {
             case State.ChooseCharacter:
+                if(PhotonNetwork.CurrentRoom != null)
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 break;
             case State.StartGame:

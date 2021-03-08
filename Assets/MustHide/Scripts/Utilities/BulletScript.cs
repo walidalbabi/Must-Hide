@@ -7,11 +7,11 @@ public class BulletScript : MonoBehaviour, IPooledObjects
 
     public float BulletDamage = 5f;
     public Health healthScript;
-
+    private float multiplier = 1f;
 
     private void Update()
     {
-        transform.Translate(Vector2.right * Time.deltaTime * 20f);
+        transform.Translate(Vector2.right * Time.deltaTime * 20f * multiplier);
     }
 
 
@@ -33,6 +33,15 @@ public class BulletScript : MonoBehaviour, IPooledObjects
                 healthScript.DoDamage(5);
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (GetComponent<PhotonView>().IsMine)
+            if (collision.gameObject.CompareTag("Shield"))
+            {
+                multiplier = -1f;
+            }
     }
 
 

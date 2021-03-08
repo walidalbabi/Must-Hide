@@ -172,15 +172,22 @@ public class Health : MonoBehaviour
         if (collision.gameObject.CompareTag("Bullet"))
         {
 
+            if (GetComponent<Bomog>())
+                if (GetComponent<Bomog>().isAbility)
+                    return;
+
          //   if (gameObject.tag == "Monster")
         //   {
                 PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
 
             if (GetComponent<PropsController>())
+            {
                 GetComponent<PropsController>().isBuff = true;
 
-            if (GetComponent<PropsController>().isBuff)
-                GetComponent<PropsController>().buffCounter = 0;
+                if (GetComponent<PropsController>().isBuff)
+                    GetComponent<PropsController>().buffCounter = 0;
+            }
+ 
 
 
 

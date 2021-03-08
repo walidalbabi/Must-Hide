@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4319359705424138969, guid: 5399a62e0d67f5946af67b9daad71a72,
         type: 3}
       propertyPath: m_Name
-      value: SplatRenderer
+      value: SplatRendererMonster
       objectReference: {fileID: 0}
     - target: {fileID: 9087748317877259017, guid: 5399a62e0d67f5946af67b9daad71a72,
         type: 3}

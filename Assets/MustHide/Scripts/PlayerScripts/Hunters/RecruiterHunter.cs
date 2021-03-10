@@ -59,7 +59,18 @@ public class RecruiterHunter : MonoBehaviour
 
         IfAbility();
 
-      
+        //Slow Movement Down
+        if (GetComponent<ShootingScript>().isReload || playerMove.isSlowingDown)
+        {
+            GetComponent<ShootingScript>().anim.speed = 0.5f;
+            playerMove.moveSpeed = normalMovementSpeed / 2f;
+        }
+        else
+        {
+            GetComponent<ShootingScript>().anim.speed = 1f;
+            playerMove.moveSpeed = normalMovementSpeed;
+        }
+
     }
 
    
@@ -67,14 +78,20 @@ public class RecruiterHunter : MonoBehaviour
     //Checking If Ability Is Turned On
     private void IfAbility()
     {
+
+
         if (isAbility)
         {
-            //
+
+            if (!playerMove.isSlowingDown)
+                playerMove.moveSpeed = NormalMovementSpeed;
         }
         else
         {
-            
-               
+
+            if (!playerMove.isSlowingDown)
+                playerMove.moveSpeed = NormalMovementSpeed;
+
         }
     }
 

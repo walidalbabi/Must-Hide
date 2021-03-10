@@ -73,7 +73,7 @@ public class ObjectPooler : MonoBehaviour
 
         if(pooledObj != null)
         {
-            pooledObj.OnObjectsSpawn();
+           // pooledObj.OnObjectsSpawn();
         }
 
 

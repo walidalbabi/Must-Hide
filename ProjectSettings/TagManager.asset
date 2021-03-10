@@ -12,6 +12,8 @@ TagManager:
   - Monster
   - Portal
   - Shield
+  - SpiderWeb
+  - FreezeTrap
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - Monsters
   - Hunters
   - Ghost
-  - 
+  - Bullets
   - 
   - 
   - 

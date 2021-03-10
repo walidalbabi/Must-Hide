@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
         HunterDead,
         RightProp,
         MonsterTransform,
+        NightVision,
     }
 
     private Dictionary<Sound, float> soundTimerDictionary;

@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private Joystick joystick;
     [SerializeField]
     private GameObject MobileUI;
+
     //Camera
     public float dampTime = 0.25f;
     private Vector3 velocity = Vector3.zero;
@@ -41,6 +42,12 @@ public class PlayerMovement : MonoBehaviour
     private GameObject miniMap;
     [SerializeField]
     private GameObject miniCam;
+
+    //Traps
+    [HideInInspector]
+    public bool isSlowingDown;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -163,6 +170,41 @@ public class PlayerMovement : MonoBehaviour
     protected void Move()
     {
          rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.CompareTag("SpiderWeb"))
+        {
+            if (!GetComponent<PropsController>())
+                isSlowingDown = true;
+        }
+
+
+        if (collision.gameObject.CompareTag("FreezeTrap"))
+        {
+            if (GetComponent<PropsController>())
+                canMove = false;
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.CompareTag("SpiderWeb"))
+        {
+            if (!GetComponent<PropsController>())
+                isSlowingDown = false;
+        }
+
+        if (collision.gameObject.CompareTag("FreezeTrap"))
+        {
+            if (GetComponent<PropsController>())
+                canMove = true;
+        }
     }
 
 

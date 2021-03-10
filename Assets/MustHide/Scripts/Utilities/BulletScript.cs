@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class BulletScript : MonoBehaviour, IPooledObjects
+public class BulletScript : MonoBehaviour
 {
 
     public float BulletDamage = 5f;
@@ -15,24 +15,21 @@ public class BulletScript : MonoBehaviour, IPooledObjects
     }
 
 
-    public void OnObjectsSpawn()
-    {
-        GetComponent<PhotonView>().RPC("RPC_SycnActive", RpcTarget.OthersBuffered);
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
-
-
-        if(GetComponent<PhotonView>().IsMine)
-        if (collision.gameObject.CompareTag("Props"))
-        {
-            if (!collision.gameObject.GetComponent<BlocksScript>().isActiveAndEnabled)
+        if (GetComponent<PhotonView>().IsMine)
+            if (collision.gameObject.CompareTag("Props"))
             {
-                healthScript.DoDamage(5);
+                if (!collision.gameObject.GetComponent<BlocksScript>().isActiveAndEnabled)
+                {
+                    healthScript.DoDamage(5);
+                }
             }
-        }
+
+        DestroyBullet();
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,12 +54,4 @@ public class BulletScript : MonoBehaviour, IPooledObjects
 
         Destroy(gameObject);
     }
-
-    [PunRPC]
-    private void RPC_SycnActive()
-    {
-
-        gameObject.SetActive(true);
-    }
-
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9164782085649491070}
   - component: {fileID: 1929150805992947369}
   - component: {fileID: 1368935641822694119}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1044716694908237236}
   - component: {fileID: 222496295270840928}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sprite Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7445708161690605029}
   - component: {fileID: 5517598213983205172}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}

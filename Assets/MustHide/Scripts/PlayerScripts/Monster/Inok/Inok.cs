@@ -32,11 +32,12 @@ public class Inok : MonoBehaviour
     [SerializeField]
     private Slider AbilitySlider;
     private PlayerMovement playerMove;
+    private Health healthScript;
 
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-
+        healthScript = GetComponent<Health>();
         Counter = CoolDown;
         AbilitySlider.maxValue = CoolDown;
     }
@@ -44,10 +45,12 @@ public class Inok : MonoBehaviour
     private void Update()
     {
 
+        if (!playerMove.PV.IsMine)
+            return;
 
         if (playerMove.isMoving)
         {
-            if (GetComponent<Health>().isDead)
+            if (healthScript.isDead)
             {
                 if (AbilitySlider.gameObject.activeInHierarchy)
                     AbilitySlider.gameObject.SetActive(false);

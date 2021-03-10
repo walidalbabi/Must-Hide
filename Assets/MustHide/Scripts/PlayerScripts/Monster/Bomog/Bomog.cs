@@ -55,9 +55,13 @@ public class Bomog : MonoBehaviour
 
     private void Update()
     {
+
+        if (!playerMove.PV.IsMine)
+            return;
+
         if (playerMove.isMoving)
         {
-            if (GetComponent<Health>().isDead)
+            if (healthScript.isDead)
             {
                 if (AbilitySlider.gameObject.activeInHierarchy)
                     AbilitySlider.gameObject.SetActive(false);
@@ -142,6 +146,7 @@ public class Bomog : MonoBehaviour
 
         if (isAbility)
         {
+       
             playerMove.moveSpeed = AbilitySpeed;
 
             if (!ShieldEffect.activeInHierarchy)

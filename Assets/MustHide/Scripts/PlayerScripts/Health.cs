@@ -30,6 +30,7 @@ public class Health : MonoBehaviour
     private GameObject Ghost;
 
     public bool isDead;
+ 
 
     public float HP { get { return _HP; }}
 
@@ -149,6 +150,8 @@ public class Health : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+         if(isMonster)
         if (collision.gameObject.CompareTag("HealZone") && _HP < MaxHealth)
         {
             canHeal = true;
@@ -159,6 +162,7 @@ public class Health : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if(isMonster)
         if (collision.gameObject.CompareTag("HealZone"))
         {
             canHeal = false;
@@ -232,11 +236,27 @@ public class Health : MonoBehaviour
     {
         PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
     }
+    public void HealForAmount(float amount)
+    {
+        PV.RPC("RPC_HealForAmount", RpcTarget.AllBuffered, amount);
+    }
+
 
     [PunRPC]
     private void RPC_DoDamage(float Damage)
     {
         _HP -= Damage;
+        slider.value = _HP;
+    }
+
+    [PunRPC]
+    private void RPC_HealForAmount(float amount)
+    {
+        if ((MaxHealth - _HP) >= 30)
+            _HP += amount;
+        else
+            _HP = MaxHealth;
+
         slider.value = _HP;
     }
 

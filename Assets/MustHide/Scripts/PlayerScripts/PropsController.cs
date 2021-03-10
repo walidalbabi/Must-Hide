@@ -215,6 +215,9 @@ public class PropsController : MonoBehaviour
     {
         if (propCol == null)
             return;
+        if (!GetComponent<PlayerMovement>().canMove)
+            return;
+
         HideTimeSlider.gameObject.SetActive(true);
         canTransformTo = false;
         //Its  a prop now!

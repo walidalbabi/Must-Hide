@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 public class ShootingScript : MonoBehaviour
 {
-
-
-    private float normalMovementSpeed;
-
     private float fireRate;
 
     private int magazin;
@@ -28,7 +24,8 @@ public class ShootingScript : MonoBehaviour
     private float counter;
     private bool canShoot;
     private float fireRateCounter;
-    private bool isReload;
+    [HideInInspector]
+    public bool isReload;
 
     //bullet
     public Transform Muzzle;
@@ -36,8 +33,8 @@ public class ShootingScript : MonoBehaviour
     public bool AutoFire;
 
 
-    [SerializeField]
-    Animator anim;
+    
+    public Animator anim;
     [SerializeField]
     private Slider ReloadTimeSlider;
     [SerializeField]
@@ -55,10 +52,33 @@ public class ShootingScript : MonoBehaviour
 
         if (GetComponent<RecruiterHunter>())
         {
-            normalMovementSpeed = GetComponent<RecruiterHunter>().NormalMovementSpeed;
             fireRate = GetComponent<RecruiterHunter>().FireRate;
             magazin = GetComponent<RecruiterHunter>().Magazin;
             reloadTime = GetComponent<RecruiterHunter>().ReloadTime;
+        }
+        else if (GetComponent<Angler>())
+        {
+            fireRate = GetComponent<Angler>().FireRate;
+            magazin = GetComponent<Angler>().Magazin;
+            reloadTime = GetComponent<Angler>().ReloadTime;
+        }
+        else if (GetComponent<Falcon>())
+        {
+            fireRate = GetComponent<Falcon>().FireRate;
+            magazin = GetComponent<Falcon>().Magazin;
+            reloadTime = GetComponent<Falcon>().ReloadTime;
+        }
+        else if (GetComponent<Fiddler>())
+        {
+            fireRate = GetComponent<Fiddler>().FireRate;
+            magazin = GetComponent<Fiddler>().Magazin;
+            reloadTime = GetComponent<Fiddler>().ReloadTime;
+        }
+        else if (GetComponent<Bright>())
+        {
+            fireRate = GetComponent<Bright>().FireRate;
+            magazin = GetComponent<Bright>().Magazin;
+            reloadTime = GetComponent<Bright>().ReloadTime;
         }
     }
 
@@ -116,18 +136,6 @@ public class ShootingScript : MonoBehaviour
                 if (Muzzlefalsh.activeInHierarchy)
                     Muzzlefalsh.SetActive(false);
             }
-        }
-
-        //Slow Movement When Reloading
-        if (isReload)
-        {
-            anim.speed = 0.5f;
-            playerMove.moveSpeed = normalMovementSpeed / 2f;
-        }
-        else
-        {
-            anim.speed = 1f;
-            playerMove.moveSpeed = normalMovementSpeed;
         }
 
     }
@@ -253,7 +261,7 @@ public class ShootingScript : MonoBehaviour
         }
 
     }
-    IEnumerator _MuzzleFlash()
+    public IEnumerator _MuzzleFlash()
     {
         Muzzlefalsh.SetActive(true);
         yield return new WaitForSeconds(fireRate / 3f);

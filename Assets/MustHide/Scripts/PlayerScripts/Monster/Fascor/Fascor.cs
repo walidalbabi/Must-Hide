@@ -35,22 +35,25 @@ public class Fascor : MonoBehaviour
     //Components
     [SerializeField]
     private Slider AbilitySlider;
+    private Health healthScript;
     private PlayerMovement playerMove;
 
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();
-
+        healthScript = GetComponent<Health>();
         Counter = CoolDown;
         AbilitySlider.maxValue = CoolDown;
     }
 
     private void Update()
     {
+        if (!playerMove.PV.IsMine)
+            return;
 
         if (playerMove.isMoving)
         {
-            if (GetComponent<Health>().isDead)
+            if (healthScript.isDead)
             {
                 if (AbilitySlider.gameObject.activeInHierarchy)
                     AbilitySlider.gameObject.SetActive(false);
@@ -130,6 +133,7 @@ public class Fascor : MonoBehaviour
     {
         if (isAbility)
         {
+
             playerMove.moveSpeed = AbilitySpeed;
         }
         else

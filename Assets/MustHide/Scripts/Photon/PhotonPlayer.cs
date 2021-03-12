@@ -16,10 +16,14 @@ public class PhotonPlayer : MonoBehaviour
     public bool isChoosPanel = true;
     public bool isPlayerDead;
     public string UserID;
+
+    public GameObject selectedChar, beforeChar;
+    public string Charc;
+    public GameObject[] Monsters;
+    public GameObject[] Hunters;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-
     }
 
 
@@ -33,16 +37,69 @@ public class PhotonPlayer : MonoBehaviour
 
         }
 
+        Invoke("SetChooseCharVar", 2f);
+    }
 
+    //Setting GameObjects After Scene Loaded
+    private void SetChooseCharVar()
+    {
+        Monsters = new GameObject[ChooseCharScript.instance.Monsters.Length];
+        Hunters = new GameObject[ChooseCharScript.instance.Hunters.Length];
+
+        for (int i = 0; i < ChooseCharScript.instance.Monsters.Length; i++)
+        {
+            Monsters[i] = ChooseCharScript.instance.Monsters[i];
+        }
+
+
+        for (int i = 0; i < ChooseCharScript.instance.Hunters.Length; i++)
+        {
+            Hunters[i] = ChooseCharScript.instance.Hunters[i];
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (!PV.IsMine)
             return;
 
+
+        //Check Selected Character In Choose Character Panel
+        if (InGameManager.instance.GameState == InGameManager.State.ChooseCharacter && PV.IsMine)
+        {
+            if (ChooseCharScript.instance.Name != "" || ChooseCharScript.instance.Name != "Recruiter")
+            {
+                if (myTeam == 1)
+                    foreach (GameObject obj in Monsters)
+                    {
+                        if (obj.name == ChooseCharScript.instance.Name)
+                        {
+                            if (selectedChar != obj)
+                                PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
+                        }
+
+                    }
+
+                if (myTeam == 2)
+                    foreach (GameObject obj in Hunters)
+                    {
+                        if (obj.name == ChooseCharScript.instance.Name)
+                        {
+                            if (selectedChar != obj)
+                                PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
+                        }
+
+                    }
+            }
+        }
+
+
         SpawnCharacter();
+
+      
+       
 
         //Enable The Choose Character Panel
         if(isChoosPanel)
@@ -134,6 +191,7 @@ public class PhotonPlayer : MonoBehaviour
             StartCoroutine(joinn());
     }
 
+
     private void DelayedJoin()
     {
         Debug.Log(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString() + myTeam.ToString());
@@ -174,4 +232,56 @@ public class PhotonPlayer : MonoBehaviour
         isPlayerDead = deadbool;
     }
     #endregion RPC
+
+    #region ChoosePanel
+    [PunRPC]
+    private void RPC_CharVariables(string name)
+    {
+        if (selectedChar != null)
+            PV.RPC("RPC_ChooseChar", RpcTarget.AllBuffered, true);
+        Charc = name;
+        Invoke("SetSelectedChar", 0.3f);
+        Invoke("SyncChoosePanelAfter", 0.45f);
+
+
+    }
+    [PunRPC]
+    private void RPC_ChooseChar(bool activate)
+    {
+        if (selectedChar != null)
+            selectedChar.SetActive(activate);
+    }
+
+    private void SetSelectedChar()
+    {
+        if (myTeam == 1)
+            foreach (GameObject obj in Monsters)
+            {
+                if (obj.name == Charc)
+                {
+                    if (obj.activeInHierarchy)
+                        selectedChar = obj;
+                }
+            }
+
+        if (myTeam == 2)
+            foreach (GameObject obj in Hunters)
+            {
+                if (obj.name == Charc)
+                {
+                    if (obj.activeInHierarchy)
+                        selectedChar = obj;
+                }
+            }
+
+    }
+
+    private void SyncChoosePanelAfter()
+    {
+        if (selectedChar.activeInHierarchy)
+        {
+            PV.RPC("RPC_ChooseChar", RpcTarget.AllBuffered, false);
+        }
+    }
+    #endregion ChoosePanel
 }

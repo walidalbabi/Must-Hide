@@ -29,6 +29,10 @@ public class Bright : MonoBehaviour
     [SerializeField]
     private Transform Muzzle;
 
+
+    [SerializeField]
+    private Text HealMagazin;
+
     public float NormalMovementSpeed { get { return normalMovementSpeed; } }
 
     public float FireRate { get { return fireRate; } }
@@ -73,12 +77,15 @@ public class Bright : MonoBehaviour
         if (!playerMove.PV.IsMine)
             return;
 
+
         if (healthScript.isDead)
         {
             if (AbilitySlider.gameObject.activeInHierarchy)
                 AbilitySlider.gameObject.SetActive(false);
             return;
         }
+
+        HealMagazin.text = "Heal : " + HealBulletsCapacity;
 
         if (playerMove.isMoving)
         {

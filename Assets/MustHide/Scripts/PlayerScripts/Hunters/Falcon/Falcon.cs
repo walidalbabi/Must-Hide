@@ -27,7 +27,8 @@ public class Falcon : MonoBehaviour
     [SerializeField]
     private float reloadTime = 2f;
 
-
+    [SerializeField]
+    private Text TrapsTxt;
 
     public float NormalMovementSpeed { get { return normalMovementSpeed; } }
 
@@ -81,6 +82,7 @@ public class Falcon : MonoBehaviour
             return;
         }
 
+        TrapsTxt.text = "Traps : " + TrapsCapacity;
 
         if (playerMove.isMoving)
         {

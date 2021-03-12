@@ -82,11 +82,13 @@ public class Health : MonoBehaviour
             {
              //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#00FF08>");
                 GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f,true);
+                SetGameLogs(true);
             }
             else
             {
                 //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#FF0000>");
                 GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f,true);
+                SetGameLogs(false);
             }
                 
         }
@@ -298,20 +300,18 @@ public class Health : MonoBehaviour
         if (isMonster)
         {
             InGameManager.instance.UpdateMonsterDead();
-            SetGameLogs(true);
         }
         else
         {
             InGameManager.instance.UpdateHuntersDead();
-            SetGameLogs(false);
         }
 
     }
     public void SetGameLogs(bool monster)
     {
         if (monster)
-            PhotonNetwork.InstantiateRoomObject("LogsMonster", InGameManager.instance.logsContent.position, Quaternion.identity);
+            PhotonNetwork.Instantiate("LogsMonster", InGameManager.instance.logsContent.position, Quaternion.identity);
         else
-            PhotonNetwork.InstantiateRoomObject("LogsHunter", InGameManager.instance.logsContent.position, Quaternion.identity);
+            PhotonNetwork.Instantiate("LogsHunter", InGameManager.instance.logsContent.position, Quaternion.identity);
     }
 }

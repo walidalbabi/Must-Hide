@@ -1906,6 +1906,7 @@ MonoBehaviour:
   animator: {fileID: 5134125253222392369}
   joystick: {fileID: 8046084644880535092}
   MobileUI: {fileID: 8975017056827549621}
+  PlayerUI: {fileID: 8125207009279067645}
   dampTime: 0.25
   target: {fileID: 0}
   miniMap: {fileID: 7447248266727488505}

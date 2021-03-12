@@ -31,7 +31,8 @@ public class PlayerMovement : MonoBehaviour
     private Joystick joystick;
     [SerializeField]
     private GameObject MobileUI;
-
+    [SerializeField]
+    private GameObject PlayerUI;
     //Camera
     public float dampTime = 0.25f;
     private Vector3 velocity = Vector3.zero;
@@ -58,6 +59,9 @@ public class PlayerMovement : MonoBehaviour
         target = GetComponent<Transform>();
         if (SR == null)
             SR = GetComponent<SpriteRenderer>();
+
+        if (!PV.IsMine)
+            PlayerUI.SetActive(false);
 
         if (SystemInfo.deviceType == DeviceType.Desktop)
         {

@@ -186,6 +186,8 @@ public class MenuManager : MonoBehaviour
     private void JoinChannelAfterLeave()
     {
         //  LoadingScript.instance.StopLoading();
+
+        VivoxManager.instance.BeforeChannel = "channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId;
         VivoxManager.instance.JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, ChannelType.NonPositional);
     }
 

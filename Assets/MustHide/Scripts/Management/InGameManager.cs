@@ -234,7 +234,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     public void UpdatePlayerTeam()
     {
-        if(nextPlayerTeam == 1)
+        if (nextPlayerTeam == 1)
         {
             nextPlayerTeam = 2;
         }

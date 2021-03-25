@@ -61,8 +61,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private bool gameEnded;
 
 
-
     public List<PhotonPlayer> photonPlayer = new List<PhotonPlayer>();
+
     void Awake()
     {
         if (instance == null)
@@ -114,12 +114,6 @@ public class InGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-
-
-
-
-
-
     #region HanldeGameState
 
     private void SetGameOverPanel()
@@ -158,6 +152,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
 
         SetWinnerTeam();
+
+        Invoke("SetFinishPanel", 3f);
     }
 
     private void Escape_State()
@@ -182,6 +178,57 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     }
 
+
+    //Invoke
+    private void SetFinishPanel()
+    {
+        MatchTimerManager.instance.EndPanel.SetActive(false);
+        MatchTimerManager.instance.FinishPanel.SetActive(true);
+        foreach (var player in photonPlayer)
+        {
+            if (player.PV.IsMine)
+                if(player.myTeam == WinnerTeam)
+                {
+                    MatchTimerManager.instance.FinishTitle.text = "You Won!";
+                    MatchTimerManager.instance.Stats[0].text = "+300";
+                    MatchTimerManager.instance.Stats[1].text = "+0";
+
+                    MatchTimerManager.instance.XPSlider.maxValue = PlayfabCloudSaving.instance._MaxXp;
+                    MatchTimerManager.instance.XPSlider.value = PlayfabCloudSaving.instance._Xp;
+                    MatchTimerManager.instance.XPSliderExtras.maxValue = PlayfabCloudSaving.instance._MaxXp;
+                    MatchTimerManager.instance.XPSliderExtras.value = PlayfabCloudSaving.instance._Xp + 1000;
+
+                    MatchTimerManager.instance.XPText.text = PlayfabCloudSaving.instance._Xp + "<Color=#FAFF00>" + "+1000" +"</Color>" + " /" + PlayfabCloudSaving.instance._MaxXp;
+
+                    PlayfabCloudSaving.instance.Update_XP(1000, false);
+                    PlayfabCloudSaving.instance.Update_Nova(300);
+                    PlayfabCloudSaving.instance.StartCloudPlayerStats();
+
+                    MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
+
+                }
+                else
+                {
+                    MatchTimerManager.instance.FinishTitle.text = "You Lose!";
+                    MatchTimerManager.instance.Stats[0].text = "+100";
+                    MatchTimerManager.instance.Stats[1].text = "+0";
+
+                    MatchTimerManager.instance.XPSlider.maxValue = PlayfabCloudSaving.instance._MaxXp;
+                    MatchTimerManager.instance.XPSlider.value = PlayfabCloudSaving.instance._Xp;
+                    MatchTimerManager.instance.XPSliderExtras.maxValue = PlayfabCloudSaving.instance._MaxXp;
+                    MatchTimerManager.instance.XPSliderExtras.value = PlayfabCloudSaving.instance._Xp + 500;
+
+                    MatchTimerManager.instance.XPText.text = PlayfabCloudSaving.instance._Xp + "<Color=#FAFF00>" + "+500" + "</Color>" + " /" + PlayfabCloudSaving.instance._MaxXp;
+
+                    PlayfabCloudSaving.instance.Update_XP(500, false);
+                    PlayfabCloudSaving.instance.Update_Nova(100);
+                    PlayfabCloudSaving.instance.StartCloudPlayerStats();
+
+                    MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
+                }
+        }
+      
+    }
 
     #endregion HanldeGameState
 

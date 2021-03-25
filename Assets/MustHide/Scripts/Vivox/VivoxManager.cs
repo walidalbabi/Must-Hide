@@ -291,7 +291,7 @@ public class  VivoxManager : MonoBehaviour
 
     private void DelayedJoin()
     {
-        JoinChannel(BeforeChannel, true, false, true, ChannelType.NonPositional);
+        JoinChannel("channel" + Photon.Pun.PhotonNetwork.AuthValues.UserId, true, false, true, ChannelType.NonPositional);
         LoadingScript.instance.StopLoading();
     }
 
@@ -611,6 +611,12 @@ public class  VivoxManager : MonoBehaviour
             {
                 PlayFabLogin.instance.RemoveFriends(txtMsgArgs.Value.Message.Substring(3));
             }
+
+            if (msgSended == "kck")
+            {
+                LeaveChannel(true);
+            }
+
         }
     }
 

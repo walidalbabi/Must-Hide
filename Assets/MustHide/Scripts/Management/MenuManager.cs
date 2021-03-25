@@ -19,7 +19,26 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject PlayPanel;
     [SerializeField]
+    private GameObject ShopPanel;
+    [SerializeField]
     private GameObject FriendListPanel;
+    [SerializeField]
+    private GameObject ProfilePanel;
+    [SerializeField]
+    private Image ProfileImg;
+    [SerializeField]
+    private Text[] ProfileInfo;
+    [SerializeField]
+    private Slider XPSlider;
+
+    [SerializeField]
+    private GameObject[] BtnLockMonsters; 
+    [SerializeField]
+    private Button[] InteractableBtnMonsters;
+    [SerializeField]
+    private GameObject[] BtnLockHunters; 
+    [SerializeField]
+    private Button[] InteractableBtnHunters;
 
     [SerializeField]
     private GameObject[] MatchMackingButtons;
@@ -101,10 +120,7 @@ public class MenuManager : MonoBehaviour
 
 
 
-    private void LeaveCurrentChannel()
-    {
-        VivoxManager.instance.LeaveChannel(true);
-    }
+
 
     #region Photon
 
@@ -210,6 +226,11 @@ public class MenuManager : MonoBehaviour
         
     }
 
+    private void LeaveCurrentChannel()
+    {
+        VivoxManager.instance.LeaveChannel(true);
+    }
+
     #endregion Vivox
 
     #region UIManager
@@ -228,6 +249,33 @@ public class MenuManager : MonoBehaviour
         RegisterPanel.SetActive(false);
     }
 
+    public void SetProfileInfo()
+    {
+        StartCoroutine(LoadPlayerImg());
+        ProfileInfo[0].text = Photon.Pun.PhotonNetwork.AuthValues.UserId;
+        ProfileInfo[1].text = "Level : "+ PlayfabCloudSaving.instance._Level;
+        ProfileInfo[2].text = "Nova : " + PlayfabCloudSaving.instance._Nova;
+        ProfileInfo[3].text = "Eyes : " + PlayfabCloudSaving.instance._Eyes;
+        ProfileInfo[4].text = "Total Wins : " + PlayfabCloudSaving.instance._TotalWins;
+        ProfileInfo[5].text = "Total Loses : " + PlayfabCloudSaving.instance._TotalLoses; 
+        ProfileInfo[6].text = "Total Kills : " + PlayfabCloudSaving.instance._TotalKills;
+        ProfileInfo[7].text = PlayfabCloudSaving.instance._Xp + "/" + PlayfabCloudSaving.instance._MaxXp;
+
+        XPSlider.maxValue = PlayfabCloudSaving.instance._MaxXp;
+        XPSlider.value = PlayfabCloudSaving.instance._Xp;
+
+
+    }
+    IEnumerator LoadPlayerImg()
+    {
+        ProfileImg.color = Color.red;
+        var playerImgUrl = PlayFabLogin.instance.PlayerInfo.AccountInfo.TitleInfo.AvatarUrl;
+        WWW wwwLoader = new WWW(playerImgUrl);
+        yield return wwwLoader;
+        var imgSprite = Sprite.Create(wwwLoader.texture, new Rect(0, 0, 512, 512), Vector2.zero);
+        ProfileImg.sprite = imgSprite;
+        ProfileImg.color = Color.white;
+    }
 
     public void Play()
     {
@@ -248,6 +296,7 @@ public class MenuManager : MonoBehaviour
             PlayPanel.SetActive(false);
             CreateCustomMatchPanel.SetActive(false);
             JoinRoomPanel.SetActive(false);
+            ShopPanel.SetActive(false);
         }
 
         if (state == "Play")
@@ -257,8 +306,15 @@ public class MenuManager : MonoBehaviour
             CreateCustomMatchPanel.SetActive(false);
             JoinRoomPanel.SetActive(false);
             FriendListPanel.SetActive(false);
+            ShopPanel.SetActive(false);
         }
 
+    }
+
+    public void ShowShopPanel()
+    {
+        ShopPanel.SetActive(true);
+        StartPanel.SetActive(false);
     }
 
     public void CreateCustomMatch()
@@ -267,6 +323,10 @@ public class MenuManager : MonoBehaviour
         CreateCustomMatchPanel.SetActive(true);
     }
 
+    public void CloseProfilePanel()
+    {
+        ProfilePanel.SetActive(false);
+    }
 
     public void Public()
     {
@@ -296,6 +356,11 @@ public class MenuManager : MonoBehaviour
         CurrentRoomPanel.SetActive(false);
         NetworkManager.instance.LeaveRoom();
     }
+
+    public void ShowPlayerProfile()
+    {
+        ProfilePanel.SetActive(true);
+    }
     #endregion UIManager
 
     #region Playfab
@@ -317,6 +382,33 @@ public class MenuManager : MonoBehaviour
         RecoveryPanel.SetActive(true);
     }
 
+    public void SetUpData()
+    {
+        for (int i = 0; i < PlayfabCloudSaving.instance.MonstersCharacters.Length; i++)
+        {
+            BtnLockMonsters[i].SetActive(!PlayfabCloudSaving.instance.MonstersCharacters[i]);
+            InteractableBtnMonsters[i].interactable = !PlayfabCloudSaving.instance.MonstersCharacters[i];
+        } 
+        for (int i = 0; i < PlayfabCloudSaving.instance.HuntersCharacters.Length; i++)
+        {
+            BtnLockHunters[i].SetActive(!PlayfabCloudSaving.instance.HuntersCharacters[i]);
+            InteractableBtnHunters[i].interactable = !PlayfabCloudSaving.instance.HuntersCharacters[i];
+        }
+    }
+
+    public void UnlockMonster(int index)
+    {
+        PlayfabCloudSaving.instance.MonstersCharacters[index] = true;
+        PlayfabCloudSaving.instance.SetUserData(PlayfabCloudSaving.instance.CharatersStringToData(true), true);
+        SetUpData();
+    }
+
+    public void UnlockHunters(int index)
+    {
+        PlayfabCloudSaving.instance.HuntersCharacters[index] = true;
+        PlayfabCloudSaving.instance.SetUserData(PlayfabCloudSaving.instance.CharatersStringToData(false), false);
+        SetUpData();
+    }
     #endregion Playfab
 
 

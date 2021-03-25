@@ -13,6 +13,9 @@ public class PlayFabLogin : MonoBehaviour
     public bool isLoggedIn;
 
     [SerializeField]
+    private string PlayerAvatarUrl;
+
+    [SerializeField]
     private string userEmail;
 
     [SerializeField]
@@ -37,6 +40,9 @@ public class PlayFabLogin : MonoBehaviour
 
     [SerializeField]
     private Text PlayerIDText;
+
+    [HideInInspector]
+    public GetAccountInfoResult PlayerInfo;
 
     private void Awake()
     {
@@ -80,6 +86,7 @@ public class PlayFabLogin : MonoBehaviour
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
         GetAccountInfo();
+        PlayfabCloudSaving.instance.GetUserData(result.PlayFabId);
         MenuManager.instance.ShowHome();
     }
 
@@ -89,6 +96,7 @@ public class PlayFabLogin : MonoBehaviour
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
         UpdateContactEmail();
+        PlayfabCloudSaving.instance.GetUserData(result.PlayFabId);
         MenuManager.instance.ShowHome();
     }
 
@@ -125,8 +133,10 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnGetAccountInfoSuccess(GetAccountInfoResult result)
     {
+        PlayerInfo = result;
         NetworkManager.instance.ConnectToServer(result.AccountInfo.Username);
         NetworkManager.instance.CreateName(result.AccountInfo.Username);
+        PlayfabCloudSaving.instance.GetStatistics();
         //VivoxManager.instance.Login(result.AccountInfo.Username, VivoxUnity.SubscriptionMode.Accept);
         PlayerIDText.text =  NetworkManager.instance.GetUserID();
     }
@@ -218,6 +228,7 @@ public class PlayFabLogin : MonoBehaviour
         LoadingScript.instance.StartGameLoading("Updating Contact Info..");
         var requestAddInfo = new AddOrUpdateContactEmailRequest { EmailAddress = userEmail };
         PlayFabClientAPI.AddOrUpdateContactEmail(requestAddInfo, OnUpdateAccountInfoSuccess, OnUpdateAccountInfoFaill);
+        //UpdateAvatarRequest();
     }
 
     private void GetAccountInfo()
@@ -253,7 +264,18 @@ public class PlayFabLogin : MonoBehaviour
         PlayFabClientAPI.SendAccountRecoveryEmail(request, OnRecoveryEmailSuccess, OnRecoveryEmailFailed);
     }
 
+    public void UpdateAvatarRequest()
+    {
+        var requestUpdateAvatar = new UpdateAvatarUrlRequest { ImageUrl = PlayerAvatarUrl };
+        PlayFabClientAPI.UpdateAvatarUrl(requestUpdateAvatar, null, null);
+        MenuManager.instance.SetProfileInfo();
+    }
 
+    public void SetPlayerAvatarUrl(string Url)
+    {
+        PlayerAvatarUrl = Url;
+        UpdateAvatarRequest();
+    }
     #endregion Authentication
 
     #region Functions

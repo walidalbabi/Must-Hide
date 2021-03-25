@@ -157,9 +157,9 @@ TextureImporter:
       name: FalconWeapon_2
       rect:
         serializedVersion: 2
-        x: 351
+        x: 0
         y: 205
-        width: 1011
+        width: 1362
         height: 377
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

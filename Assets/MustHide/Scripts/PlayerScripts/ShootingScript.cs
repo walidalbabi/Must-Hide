@@ -257,7 +257,16 @@ public class ShootingScript : MonoBehaviour
             GameObject Bullet = Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bullet"), Muzzle.position, Muzzle.rotation);
             Bullet.GetComponent<BulletScript>().SetBulletPlayerHealth(GetComponent<Health>());
             GetComponent<CameraShake>().Shake(.05f, .1f);
-            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Shoot, 35f, 0, 1f, 1f, true);
+            if (GetComponent<RecruiterHunter>())
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Shoot, 35f, 0, 1f, 1f, true);
+                else if (GetComponent<Angler>())
+                    GetComponent<AudioManager>().PlaySound(AudioManager.Sound.G36, 35f, 0, 1f, 1f, true);
+                    else if (GetComponent<Bright>())
+                          GetComponent<AudioManager>().PlaySound(AudioManager.Sound.AK47, 35f, 0, 1f, 1f, true);
+                        else if (GetComponent<Falcon>())
+                            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP445, 35f, 0, 1f, 1f, true);
+                            else if (GetComponent<Fiddler>())
+                                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.SA80, 35f, 0, 1f, 1f, true);
         }
 
     }

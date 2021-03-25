@@ -10,6 +10,10 @@ public class AudioManager : MonoBehaviour
     public enum Sound
     {
         MP5Shoot,
+        AK47,
+        G36,
+        MP445,
+        SA80,
         MP5Reload,
         Running,
         HideIncreaseSound,
@@ -19,6 +23,7 @@ public class AudioManager : MonoBehaviour
         RightProp,
         MonsterTransform,
         NightVision,
+        GrenadeLauncher,
     }
 
     private Dictionary<Sound, float> soundTimerDictionary;

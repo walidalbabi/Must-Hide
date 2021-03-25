@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using VivoxUnity;
 using Photon.Pun;
 using Photon.Realtime;
+using PlayFab.ClientModels;
 
 public class PartyListingScript : MonoBehaviourPunCallbacks
 {
@@ -15,15 +16,28 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
     [SerializeField]
     private string LeaderName;
     [SerializeField]
-    string myname;
+    string currentChannel;
     [SerializeField]
-    private GameObject MuteBtn;
+    private GameObject LeaderIcon;
+    [SerializeField]
+    private GameObject MemberIcon;
     [SerializeField]
     private Text MuteBtnText;
 
+    //DropDown
+    [SerializeField]
+    private GameObject DropDown;
+    [SerializeField]
+    private GameObject ProfileBtn;
+    [SerializeField]
+    private GameObject MuteBtn;
+    [SerializeField]
+    private GameObject KickBtn;
+
+
     public bool isLeader;
 
-   // [HideInInspector]
+    [HideInInspector]
     public GameObject LeaderGameObj;
 
     [SerializeField]
@@ -33,18 +47,20 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
     {
        StartCoroutine(WaitLeaderToJoin());
 
-        if (!Player.IsSelf)
-        {
-            MuteBtn.SetActive(true);
-        }
-        else
-        {
-            MuteBtn.SetActive(false);
-        }
+        //if (!Player.IsSelf)
+        //{
+        //    MuteBtn.SetActive(true);
+        //}
+        //else
+        //{
+        //    MuteBtn.SetActive(false);
+        //}
+
     }
 
     private void Update()
     {
+      
 
         if (!Player.IsSelf)
             return;
@@ -72,38 +88,36 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
         {
             MenuManager.instance.LockMatchBtns(false);
             MenuManager.instance.ShowLeavePartyBtn(false);
+            LeaderIcon.SetActive(true);
+            MemberIcon.SetActive(false);
         }
         else
         {
             MenuManager.instance.LockMatchBtns(true);
             MenuManager.instance.ShowLeavePartyBtn(true);
+            LeaderIcon.SetActive(false);
+            MemberIcon.SetActive(true);
         }
     }
 
     public void SetPlayerInfo(IParticipant player)
     {
          Player = player;
-         myname = "channel" + Player.Account.Name;
-    
+         currentChannel = "channel" + Player.Account.Name;
+        _text.text = Player.Account.Name;
+
         Invoke("Delay", 1f);
     }
 
     private void Delay()
     {
         LeaderName = VivoxManager.instance.CurrentChannel.Remove(0 , 7);
-        if (myname == VivoxManager.instance.CurrentChannel)
+        if (currentChannel == VivoxManager.instance.CurrentChannel)
         {
-         //   if(VivoxManager.instance._listings.Count > 1)
-          //  {
-                _text.text = "(Leader) " + Player.Account.Name;
-                Debug.Log("Leader");
                 isLeader = true;
-        //    }
         }
         else
         {
-            _text.text = Player.Account.Name;
-            Debug.Log("member");
             isLeader = false;
         }
     }
@@ -123,6 +137,49 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
         }
     }
 
+    public void Kick()
+    {
+        VivoxManager.instance.Send_Direct_Message(Player.Account.Name, "kck", "You are Kicked");
+    }
+
+    public void ViewProfile()
+    {
+        MenuManager.instance.ShowPlayerProfile();
+    }
+
+    public void ViewDropDown()
+    {
+            if (DropDown.activeInHierarchy)
+            {
+                DropDown.SetActive(false);
+            }
+            else
+            {
+                DropDown.SetActive(true);
+                Invoke("DisableDropDown", 3f);
+            }
+
+            if (Player.IsSelf)
+            {
+                ProfileBtn.SetActive(true);
+                MuteBtn.SetActive(false);
+            }
+            else
+            {
+                ProfileBtn.SetActive(false);
+                MuteBtn.SetActive(true);
+            }
+
+            if (isLeader)
+            {
+                KickBtn.SetActive(false);
+            }
+            else
+            {
+                KickBtn.SetActive(true);
+            }
+        
+    }
 
     IEnumerator WaitLeaderToJoin()
     {
@@ -141,13 +198,18 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
     }
 
 
-    public override void OnFriendListUpdate(List<FriendInfo> friendList)
+    public override void OnFriendListUpdate(List<Photon.Realtime.FriendInfo> friendList)
     {
         if (friendList[0].IsInRoom)
         {
             StopAllCoroutines();
             NetworkManager.instance.JoinRoom(friendList[0].Room);
         }
+    }
+
+    private void DisableDropDown()
+    {
+        DropDown.SetActive(false);
     }
 
 }

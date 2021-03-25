@@ -17,10 +17,16 @@ public class MatchTimerManager : MonoBehaviour
     public GameObject StartPanel;
     public GameObject EscapePanel;
     public GameObject EndPanel;
+    public GameObject FinishPanel;
     public GameObject ExitGamePanel;
 
   
     public Text GameEndText;
+    public Text FinishTitle;
+    public Text[] Stats;
+    public Text XPText;
+    public Slider XPSlider;
+    public Slider XPSliderExtras;
 
     public float timer;
 

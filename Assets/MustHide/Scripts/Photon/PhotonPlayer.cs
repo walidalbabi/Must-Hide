@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 public class PhotonPlayer : MonoBehaviour
 {
-
-    private PhotonView PV;
+    [HideInInspector]
+    public PhotonView PV;
     public int myTeam;
     GameObject playerAvatar;
     public bool canCreatePlayer;
@@ -38,25 +39,11 @@ public class PhotonPlayer : MonoBehaviour
         }
 
         Invoke("SetChooseCharVar", 2f);
+
+        
     }
 
-    //Setting GameObjects After Scene Loaded
-    private void SetChooseCharVar()
-    {
-        Monsters = new GameObject[ChooseCharScript.instance.Monsters.Length];
-        Hunters = new GameObject[ChooseCharScript.instance.Hunters.Length];
-
-        for (int i = 0; i < ChooseCharScript.instance.Monsters.Length; i++)
-        {
-            Monsters[i] = ChooseCharScript.instance.Monsters[i];
-        }
-
-
-        for (int i = 0; i < ChooseCharScript.instance.Hunters.Length; i++)
-        {
-            Hunters[i] = ChooseCharScript.instance.Hunters[i];
-        }
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -248,7 +235,7 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     private void RPC_ChooseChar(bool activate)
     {
-        if (selectedChar != null)
+        if (selectedChar != null && selectedChar.name != "Recruiter")
             selectedChar.SetActive(activate);
     }
 
@@ -282,6 +269,50 @@ public class PhotonPlayer : MonoBehaviour
         {
             PV.RPC("RPC_ChooseChar", RpcTarget.AllBuffered, false);
         }
+    }
+
+    //Setting GameObjects After Scene Loaded
+    private void SetChooseCharVar()
+    {
+        Monsters = new GameObject[ChooseCharScript.instance.Monsters.Length];
+        Hunters = new GameObject[ChooseCharScript.instance.Hunters.Length];
+
+        for (int i = 0; i < ChooseCharScript.instance.Monsters.Length; i++)
+        {
+            Monsters[i] = ChooseCharScript.instance.Monsters[i];
+        }
+
+
+        for (int i = 0; i < ChooseCharScript.instance.Hunters.Length; i++)
+        {
+            Hunters[i] = ChooseCharScript.instance.Hunters[i];
+        }
+
+        if (myTeam == 1)
+            for (int i = 1; i < Monsters.Length; i++)
+            {
+                if (PlayfabCloudSaving.instance.MonstersCharacters[i - 1] == false)
+                {
+                    Monsters[i].GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    Monsters[i].GetComponent<Button>().interactable = true;
+                }
+            }
+
+        if (myTeam == 2)
+            for (int i = 1; i < Hunters.Length; i++)
+            {
+                if (PlayfabCloudSaving.instance.HuntersCharacters[i - 1] == false)
+                {
+                    Hunters[i].GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    Hunters[i].GetComponent<Button>().interactable = true;
+                }
+            }
     }
     #endregion ChoosePanel
 }

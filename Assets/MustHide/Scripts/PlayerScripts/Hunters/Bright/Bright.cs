@@ -139,7 +139,7 @@ public class Bright : MonoBehaviour
      //   StartCoroutine(GetComponent<ShootingScript>()._MuzzleFlash());
         GameObject Bullet = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", "Abilities", "HealBullet"), Muzzle.position, Muzzle.rotation);
         GetComponent<CameraShake>().Shake(.05f, .1f);
-        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MP5Shoot, 35f, 0, 1f, 1f, true);
+        GetComponent<AudioManager>().PlaySound(AudioManager.Sound.GrenadeLauncher, 35f, 0, 1f, 1f, true);
     }
 
     //Ability Cooldown

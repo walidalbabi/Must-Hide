@@ -1274,8 +1274,8 @@ SpriteRenderer:
   m_SortingLayerID: 605639393
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b982b9aa9745579459efdb3897eca74b, type: 3}
-  m_Color: {r: 0.123161554, g: 1, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 26e722bfe9b918341b0f12e4cccfc856, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1328,8 +1328,8 @@ MonoBehaviour:
   - {fileID: 2955376427825866781}
   - {fileID: 2955376427051678270}
   m_Bounds:
-    m_Center: {x: 0.0056809783, y: -0.048983037, z: 0}
-    m_Extent: {x: 0.3652104, y: 0.6024405, z: 0}
+    m_Center: {x: -0.0046204925, y: -0.042120755, z: 0}
+    m_Extent: {x: 0.32041466, y: 0.5858027, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!114 &2716982119207471278
@@ -1724,7 +1724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMonster: 1
-  MaxHealth: 100
+  MaxHealth: 150
   PlayerTeam: 0
   slider: {fileID: 8629553607942574013}
   healthBarFill: {fileID: 7125571917896274937}

@@ -265,7 +265,7 @@ public class PhotonPlayer : MonoBehaviour
 
     private void SyncChoosePanelAfter()
     {
-        if (selectedChar.activeInHierarchy)
+        if (selectedChar != null && selectedChar.activeInHierarchy)
         {
             PV.RPC("RPC_ChooseChar", RpcTarget.AllBuffered, false);
         }

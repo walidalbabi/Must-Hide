@@ -1,6 +1,6 @@
 using PlayFab;
 using PlayFab.ClientModels;
-using PlayFab.PfEditor.Json;
+using PlayFab.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

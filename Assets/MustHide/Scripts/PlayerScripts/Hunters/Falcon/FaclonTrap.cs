@@ -9,6 +9,9 @@ public class FaclonTrap : MonoBehaviour
 
     private bool isStart;
 
+    [SerializeField]
+    private Animator anim;
+
     private void Start()
     {
         GetComponent<Photon.Pun.PhotonView>().TransferOwnership(-1);
@@ -34,6 +37,7 @@ public class FaclonTrap : MonoBehaviour
 
     IEnumerator StartTrap()
     {
+        anim.SetInteger("State", 1);
         yield return new WaitForSeconds(0.2f);
         gameObject.tag = "FreezeTrap";
         GetComponent<AudioSource>().Play();
@@ -41,6 +45,8 @@ public class FaclonTrap : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         GetComponent<CircleCollider2D>().enabled = true;
         yield return new WaitForSeconds(Delay);
+        anim.SetInteger("State", 2);
+        yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
     }
 }

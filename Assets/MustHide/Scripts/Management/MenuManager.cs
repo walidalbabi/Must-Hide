@@ -315,6 +315,7 @@ public class MenuManager : MonoBehaviour
     {
         ShopPanel.SetActive(true);
         StartPanel.SetActive(false);
+        SetUpData();
     }
 
     public void CreateCustomMatch()

@@ -67,7 +67,7 @@ public class Fascor : MonoBehaviour
 
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled)
+        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
         {
             StartCoroutine(AbilityDelay());
             StartCoroutine(AbilityCooldown());

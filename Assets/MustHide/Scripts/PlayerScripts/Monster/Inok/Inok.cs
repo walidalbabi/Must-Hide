@@ -64,7 +64,7 @@ public class Inok : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isCoolDown && playerMove.enabled)
+        if (Input.GetKeyUp(KeyCode.Space) && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
         {
             StartCoroutine(AbilityCooldown());
             IfAbility();

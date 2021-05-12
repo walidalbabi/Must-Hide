@@ -90,7 +90,7 @@ public class Falcon : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isCoolDown && playerMove.enabled && TrapsCapacity > 0)
+        if (Input.GetKeyUp(KeyCode.Space) && !isCoolDown && playerMove.enabled && healthScript.canUseAbility && TrapsCapacity > 0)
         {
             StartCoroutine(AbilityCooldown());
             IfAbility();

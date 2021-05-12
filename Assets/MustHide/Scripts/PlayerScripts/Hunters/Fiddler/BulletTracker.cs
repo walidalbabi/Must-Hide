@@ -47,6 +47,7 @@ public class BulletTracker : MonoBehaviour
             isHit = true;
             gameObject.layer = 8;
             transform.parent = collision.gameObject.transform;
+            collision.gameObject.GetComponent<Health>().SetCanUseAbility(false);
         }
         else
         {

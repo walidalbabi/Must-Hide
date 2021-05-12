@@ -89,7 +89,7 @@ public class Angler : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled)
+        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
         {
             GetComponent<AudioManager>().PlaySound(AudioManager.Sound.NightVision, 7f, 0, 1f, 1, true);
             StartCoroutine(AbilityDelay());

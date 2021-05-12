@@ -30,7 +30,8 @@ public class Health : MonoBehaviour
     private GameObject Ghost;
 
     public bool isDead;
- 
+
+    public bool canUseAbility = true;
 
     public float HP { get { return _HP; }}
 
@@ -243,6 +244,21 @@ public class Health : MonoBehaviour
         PV.RPC("RPC_HealForAmount", RpcTarget.AllBuffered, amount);
     }
 
+    public void SetCanUseAbility(bool state)
+    {
+        PV.RPC("RPC_SetCanUseAbility", RpcTarget.AllBuffered, state);
+        Invoke("SetBackAbility", 10f);
+    }
+    private void SetBackAbility()
+    {
+        PV.RPC("RPC_SetCanUseAbility", RpcTarget.AllBuffered, true);
+    } 
+
+    [PunRPC]
+    private void RPC_SetCanUseAbility(bool state)
+    {
+        canUseAbility = state;
+    }
 
     [PunRPC]
     private void RPC_DoDamage(float Damage)

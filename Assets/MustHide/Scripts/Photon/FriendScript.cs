@@ -10,10 +10,27 @@ public class FriendScript : MonoBehaviour
 
     public FriendInfo FriendInfo { get; private set; }
 
+    [SerializeField]
+    private Image onlineOffline;
+
+    [SerializeField]
+    private Sprite online, offline;
+
+
+
     public void SetRoomInfo(FriendInfo friendInfo)
     {
         FriendInfo = friendInfo;
-        _text.text = friendInfo.UserId +"/"+friendInfo.IsOnline;
+        _text.text = friendInfo.UserId;
+
+        if (friendInfo.IsOnline)
+        {
+            onlineOffline.sprite = online;
+        }
+        else
+        {
+            onlineOffline.sprite = offline;
+        }
     }
 
     public void Invite()

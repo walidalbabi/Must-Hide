@@ -22,6 +22,10 @@ public class PhotonPlayer : MonoBehaviour
     public string Charc;
     public GameObject[] Monsters;
     public GameObject[] Hunters;
+
+    //For If Not purshased
+    public GameObject[] MonstersX;
+    public GameObject[] HuntersX;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -106,7 +110,7 @@ public class PhotonPlayer : MonoBehaviour
     private void SetChooseCharacterPanel()
     {
         InGameManager.instance.GameState = InGameManager.State.ChooseCharacter;
-        MatchTimerManager.instance.StartPanel.SetActive(false);
+        MatchTimerManager.instance.ActivatePanel(false, MatchTimerManager.instance.StartPanel, MatchTimerManager.instance.exitGameCanvas, 0.5f);
         if (myTeam == 1)
         {
             MatchTimerManager.instance.MonstersPanel.SetActive(true);
@@ -236,7 +240,7 @@ public class PhotonPlayer : MonoBehaviour
     private void RPC_ChooseChar(bool activate)
     {
         if (selectedChar != null && selectedChar.name != "Recruiter")
-            selectedChar.SetActive(activate);
+            selectedChar.GetComponent<Button>().interactable = activate;
     }
 
     private void SetSelectedChar()
@@ -276,6 +280,8 @@ public class PhotonPlayer : MonoBehaviour
     {
         Monsters = new GameObject[ChooseCharScript.instance.Monsters.Length];
         Hunters = new GameObject[ChooseCharScript.instance.Hunters.Length];
+        HuntersX = new GameObject[ChooseCharScript.instance.HuntersX.Length];
+        MonstersX = new GameObject[ChooseCharScript.instance.MonstersX.Length];
 
         for (int i = 0; i < ChooseCharScript.instance.Monsters.Length; i++)
         {
@@ -288,16 +294,31 @@ public class PhotonPlayer : MonoBehaviour
             Hunters[i] = ChooseCharScript.instance.Hunters[i];
         }
 
+        for (int i = 0; i < ChooseCharScript.instance.MonstersX.Length; i++)
+        {
+            MonstersX[i] = ChooseCharScript.instance.MonstersX[i];
+        }
+
+
+        for (int i = 0; i < ChooseCharScript.instance.HuntersX.Length; i++)
+        {
+            HuntersX[i] = ChooseCharScript.instance.HuntersX[i];
+        }
+
         if (myTeam == 1)
             for (int i = 1; i < Monsters.Length; i++)
             {
                 if (PlayfabCloudSaving.instance.MonstersCharacters[i - 1] == false)
                 {
+                 
                     Monsters[i].GetComponent<Button>().interactable = false;
+                    MonstersX[i].SetActive(true);
                 }
                 else
                 {
+
                     Monsters[i].GetComponent<Button>().interactable = true;
+                    MonstersX[i].SetActive(false);
                 }
             }
 
@@ -306,11 +327,15 @@ public class PhotonPlayer : MonoBehaviour
             {
                 if (PlayfabCloudSaving.instance.HuntersCharacters[i - 1] == false)
                 {
+
                     Hunters[i].GetComponent<Button>().interactable = false;
+                    HuntersX[i].SetActive(true);
                 }
                 else
                 {
+   
                     Hunters[i].GetComponent<Button>().interactable = true;
+                    HuntersX[i].SetActive(false);
                 }
             }
     }

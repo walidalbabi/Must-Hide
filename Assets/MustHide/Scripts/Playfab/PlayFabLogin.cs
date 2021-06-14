@@ -73,8 +73,17 @@ public class PlayFabLogin : MonoBehaviour
             LoadingScript.instance.StartGameLoading("Logging in..");
             userEmail = PlayerPrefs.GetString("EMAIL");
             userPassword = PlayerPrefs.GetString("PASSWORD");
-            var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
-            PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+            if (userEmail != "" && userPassword != "")
+            {
+                var request = new LoginWithEmailAddressRequest { Email = userEmail, Password = userPassword };
+                PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+            }
+            else
+            {
+                LoadingScript.instance.StopGameLoading();
+                MenuManager.instance.GoToLogin();
+            }
+
         }
 
     }
@@ -223,6 +232,13 @@ public class PlayFabLogin : MonoBehaviour
         userName = userNameIn;
     }
 
+    public void Logout()
+    {
+        PlayerPrefs.SetString("EMAIL", "");
+        PlayerPrefs.SetString("PASSWORD", "");
+        Application.Quit();
+    }
+
     private void UpdateContactEmail()
     {
         LoadingScript.instance.StartGameLoading("Updating Contact Info..");
@@ -290,6 +306,8 @@ public class PlayFabLogin : MonoBehaviour
             };
 
             PlayFabClientAPI.AddFriend(request, OnAddFriendSuccess, OnAddFriendFailed);
+
+            GetFriendList();
         }
       
     }
@@ -304,7 +322,9 @@ public class PlayFabLogin : MonoBehaviour
             };
 
             PlayFabClientAPI.RemoveFriend(request, OnRemoveFriendSuccess, OnRemoveFriendFailed);
-           
+
+            GetFriendList();
+
         }
 
     }

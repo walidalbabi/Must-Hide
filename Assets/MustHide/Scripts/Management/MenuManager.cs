@@ -21,9 +21,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject ShopPanel;
     [SerializeField]
+    private GameObject SettingsPanel;
+    [SerializeField]
     private GameObject FriendListPanel;
     [SerializeField]
     private GameObject ProfilePanel;
+    [SerializeField]
+    private GameObject FirstLoginPanel;
     [SerializeField]
     private Image ProfileImg;
     [SerializeField]
@@ -31,12 +35,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private Slider XPSlider;
 
-    [SerializeField]
-    private GameObject[] BtnLockMonsters; 
+
     [SerializeField]
     private Button[] InteractableBtnMonsters;
-    [SerializeField]
-    private GameObject[] BtnLockHunters; 
     [SerializeField]
     private Button[] InteractableBtnHunters;
 
@@ -53,9 +54,18 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject RecoveryPanel;
 
+    [SerializeField]
+    private GameObject muteBtn, unMuteBtn;
 
     [SerializeField]
-    private Text MuteBtnText;
+    private GameObject HunterSection, MonsterSection, EyesSection;
+    [SerializeField]
+    private GameObject LogoutPanel;
+
+    private CanvasGroup HunterCanvas, MonsterCanvas, EyesCanvas;
+    private CanvasGroup LogoutPanelCanvas;
+    private CanvasGroup FirstLoginPanelCanvas;
+
 
 
     public Transform _ChatContent;
@@ -76,6 +86,9 @@ public class MenuManager : MonoBehaviour
     public PartyListingScript _partyListing;
 
     private string friendName;
+
+
+    public Slider[] audiSlider; 
 
 
     private void OnEnable()
@@ -118,6 +131,15 @@ public class MenuManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        HunterCanvas = HunterSection.GetComponent<CanvasGroup>();
+        MonsterCanvas = MonsterSection.GetComponent<CanvasGroup>();
+        EyesCanvas = EyesSection.GetComponent<CanvasGroup>();
+        FirstLoginPanelCanvas = FirstLoginPanel.GetComponent<CanvasGroup>();
+        LogoutPanelCanvas = LogoutPanel.GetComponent<CanvasGroup>();
+    }
+
 
 
 
@@ -146,13 +168,15 @@ public class MenuManager : MonoBehaviour
     {
         if (VivoxManager.instance.vivox.client.AudioInputDevices.Muted == true)
         {
-            MuteBtnText.text = "Mute";
             VivoxManager.instance.vivox.client.AudioInputDevices.Muted = false;
+            muteBtn.SetActive(true);
+            unMuteBtn.SetActive(false);
         }
         else
         {
-            MuteBtnText.text = "Muted";
             VivoxManager.instance.vivox.client.AudioInputDevices.Muted = true;
+            muteBtn.SetActive(false);
+            unMuteBtn.SetActive(true);
         }
     }
 
@@ -253,12 +277,12 @@ public class MenuManager : MonoBehaviour
     {
         StartCoroutine(LoadPlayerImg());
         ProfileInfo[0].text = Photon.Pun.PhotonNetwork.AuthValues.UserId;
-        ProfileInfo[1].text = "Level : "+ PlayfabCloudSaving.instance._Level;
-        ProfileInfo[2].text = "Nova : " + PlayfabCloudSaving.instance._Nova;
-        ProfileInfo[3].text = "Eyes : " + PlayfabCloudSaving.instance._Eyes;
-        ProfileInfo[4].text = "Total Wins : " + PlayfabCloudSaving.instance._TotalWins;
-        ProfileInfo[5].text = "Total Loses : " + PlayfabCloudSaving.instance._TotalLoses; 
-        ProfileInfo[6].text = "Total Kills : " + PlayfabCloudSaving.instance._TotalKills;
+        ProfileInfo[1].text = "Level : " + PlayfabCloudSaving.instance._Level.ToString();
+        ProfileInfo[2].text = PlayfabCloudSaving.instance._Nova.ToString();
+        ProfileInfo[3].text = PlayfabCloudSaving.instance._Eyes.ToString();
+        ProfileInfo[4].text = PlayfabCloudSaving.instance._TotalWins.ToString();
+        ProfileInfo[5].text = PlayfabCloudSaving.instance._TotalLoses.ToString(); 
+        ProfileInfo[6].text = PlayfabCloudSaving.instance._TotalKills.ToString();
         ProfileInfo[7].text = PlayfabCloudSaving.instance._Xp + "/" + PlayfabCloudSaving.instance._MaxXp;
 
         XPSlider.maxValue = PlayfabCloudSaving.instance._MaxXp;
@@ -297,6 +321,7 @@ public class MenuManager : MonoBehaviour
             CreateCustomMatchPanel.SetActive(false);
             JoinRoomPanel.SetActive(false);
             ShopPanel.SetActive(false);
+            SettingsPanel.SetActive(false);
         }
 
         if (state == "Play")
@@ -307,6 +332,7 @@ public class MenuManager : MonoBehaviour
             JoinRoomPanel.SetActive(false);
             FriendListPanel.SetActive(false);
             ShopPanel.SetActive(false);
+            SettingsPanel.SetActive(false);
         }
 
     }
@@ -362,6 +388,24 @@ public class MenuManager : MonoBehaviour
     {
         ProfilePanel.SetActive(true);
     }
+
+    public void ShowSettings()
+    {
+        SettingsPanel.SetActive(true);
+        StartPanel.SetActive(false);
+    }
+
+    public void ShowFirstTimeLogin()
+    {
+        if (FirstLoginPanel.activeInHierarchy)
+            FirstLoginPanel.SetActive(false);
+        else
+        {
+            FirstLoginPanel.SetActive(true);
+            FirstLoginPanelCanvas.alpha = 0;
+            FirstLoginPanelCanvas.LeanAlpha(1f, 0.3f);
+        }
+    }
     #endregion UIManager
 
     #region Playfab
@@ -377,6 +421,25 @@ public class MenuManager : MonoBehaviour
         RegisterPanel.SetActive(true);
     }
 
+    public void Logout()
+    {
+        if (LogoutPanel.activeInHierarchy)
+            LogoutPanel.SetActive(false);
+        else
+        {
+            LogoutPanel.SetActive(true);
+            LogoutPanel.transform.localScale = Vector3.zero;
+            LogoutPanel.transform.LeanScale(new Vector3(1f,1f,1f), 0.3f);
+            LogoutPanelCanvas.alpha = 0;
+            LogoutPanelCanvas.LeanAlpha(1f, 0.3f);
+        }
+
+    }
+
+    public void LogoutAndRestart()
+    {
+        PlayFabLogin.instance.Logout();
+    }
     public void GoToForgetPassword()
     {
         LoginPanel.SetActive(false);
@@ -387,15 +450,40 @@ public class MenuManager : MonoBehaviour
     {
         for (int i = 0; i < PlayfabCloudSaving.instance.MonstersCharacters.Length; i++)
         {
-            BtnLockMonsters[i].SetActive(!PlayfabCloudSaving.instance.MonstersCharacters[i]);
             InteractableBtnMonsters[i].interactable = !PlayfabCloudSaving.instance.MonstersCharacters[i];
         } 
         for (int i = 0; i < PlayfabCloudSaving.instance.HuntersCharacters.Length; i++)
         {
-            BtnLockHunters[i].SetActive(!PlayfabCloudSaving.instance.HuntersCharacters[i]);
             InteractableBtnHunters[i].interactable = !PlayfabCloudSaving.instance.HuntersCharacters[i];
         }
     }
+
+    public void HunterSectionInShop()
+    {
+        MonsterSection.SetActive(false);
+        EyesSection.SetActive(false);
+        HunterSection.SetActive(true);
+        HunterCanvas.alpha = 0;
+        HunterCanvas.LeanAlpha(1f, 0.2f);
+    }
+
+    public void MonsterSectionInShop()
+    {
+        MonsterSection.SetActive(true);
+        EyesSection.SetActive(false);
+        HunterSection.SetActive(false);
+        MonsterCanvas.alpha = 0;
+        MonsterCanvas.LeanAlpha(1f, 0.2f);
+    }
+    public void EyesSectionInShop()
+    {
+        MonsterSection.SetActive(false);
+        EyesSection.SetActive(true);
+        HunterSection.SetActive(false);
+        EyesCanvas.alpha = 0;
+        EyesCanvas.LeanAlpha(1f, 0.2f);
+    }
+
 
     public void UnlockMonster(int index)
     {

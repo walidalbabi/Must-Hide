@@ -8,6 +8,8 @@ public class ChooseCharScript : MonoBehaviour
 
     public GameObject[] Monsters;
     public GameObject[] Hunters;
+    public GameObject[] HuntersX;
+    public GameObject[] MonstersX;
 
     public string Name;
     private void Awake()

@@ -47,11 +47,11 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
+  observableSearch: 2
   ObservedComponents: []
-  viewIdField: 0
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7719360193726002726
@@ -66,9 +66,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d53948535267c4e9ed9a933f9128ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 0}
   myTeam: 0
   canCreatePlayer: 0
   characterName: 
   isChoosPanel: 1
   isPlayerDead: 0
   UserID: 
+  selectedChar: {fileID: 0}
+  beforeChar: {fileID: 0}
+  Charc: 
+  Monsters: []
+  Hunters: []
+  MonstersX: []
+  HuntersX: []

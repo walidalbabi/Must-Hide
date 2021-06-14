@@ -109,6 +109,7 @@ public class AudioManager : MonoBehaviour
         GameObject soundGameObject = new GameObject("Sound");
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
         var DestroyTime = soundGameObject.AddComponent<DestroyAfterDelay>();
+        audioSource.outputAudioMixerGroup = InGameManager.instance.audioMixer[1];
         audioSource.spatialBlend = SpatialBlend;
         audioSource.rolloffMode = AudioRolloffMode.Custom;
         audioSource.maxDistance = MaxDistance;

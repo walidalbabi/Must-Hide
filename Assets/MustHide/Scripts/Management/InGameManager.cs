@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.UI;
 using VivoxUnity;
 using Photon.Realtime;
+using UnityEngine.Audio;
 
 public class InGameManager : MonoBehaviourPunCallbacks
 {
@@ -37,11 +38,13 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public int CurrentTeam;
 
     [SerializeField]
-    private Text MuteBtnText;
+    private CanvasGroup MuteBtn;
     [SerializeField]
-    private Text DefeanBtnText;
+    private CanvasGroup DefeanBtn;
     [SerializeField]
     private Text pingTxt;
+    [SerializeField]
+    private Text portalsCounterTxt;
 
     public Transform[] MonstersSpawnPoints;
     public Transform[] HuntersSpawnPoints;
@@ -63,6 +66,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     public List<PhotonPlayer> photonPlayer = new List<PhotonPlayer>();
 
+    public AudioMixerGroup[] audioMixer;
+
     void Awake()
     {
         if (instance == null)
@@ -78,7 +83,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        pingTxt.text = PhotonNetwork.GetPing().ToString();
+        pingTxt.text = "Ping : " + PhotonNetwork.GetPing().ToString();
         if (MonstersDead >= 5 || HuntersDead >= 5)
         {
            GameState = State.EndGame;
@@ -183,7 +188,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private void SetFinishPanel()
     {
         MatchTimerManager.instance.EndPanel.SetActive(false);
-        MatchTimerManager.instance.FinishPanel.SetActive(true);
+        MatchTimerManager.instance.ActivatePanel(true ,MatchTimerManager.instance.FinishPanel, MatchTimerManager.instance.finishPanellCanvas, 0.7f);
         foreach (var player in photonPlayer)
         {
             if (player.PV.IsMine)
@@ -202,6 +207,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
                     PlayfabCloudSaving.instance.Update_XP(1000, false);
                     PlayfabCloudSaving.instance.Update_Nova(300);
+                    PlayfabCloudSaving.instance.Update_TotalWins();
                     PlayfabCloudSaving.instance.StartCloudPlayerStats();
 
                     MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
@@ -222,6 +228,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
                     PlayfabCloudSaving.instance.Update_XP(500, false);
                     PlayfabCloudSaving.instance.Update_Nova(100);
+                    PlayfabCloudSaving.instance.Update_TotalLoses();
                     PlayfabCloudSaving.instance.StartCloudPlayerStats();
 
                     MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
@@ -240,12 +247,12 @@ public class InGameManager : MonoBehaviourPunCallbacks
     {
         if (VivoxManager.instance.vivox.client.AudioInputDevices.Muted == true)
         {
-            MuteBtnText.text = "Mute";
+            MuteBtn.alpha = 1f;
             VivoxManager.instance.vivox.client.AudioInputDevices.Muted = false;
         }
         else
         {
-            MuteBtnText.text = "Muted";
+            MuteBtn.alpha = 0.5f;
             VivoxManager.instance.vivox.client.AudioInputDevices.Muted = true;
         }
     }
@@ -263,12 +270,12 @@ public class InGameManager : MonoBehaviourPunCallbacks
                     if (participant.LocalMute == false)
                     {
                         participant.LocalMute = true;
-                        DefeanBtnText.text = "Defeaned";
+                        DefeanBtn.alpha = 0.5f;
                     }
                     else
                     {
                         participant.LocalMute = false;
-                        DefeanBtnText.text = "Defean";
+                        DefeanBtn.alpha = 1f;
                     }
                 }
                 else
@@ -305,6 +312,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public void UpdateCollectedPortals()
     {
         CollectedPortals++;
+        portalsCounterTxt.text = CollectedPortals.ToString() + " / 4";
     }
 
     public void SetPortal(bool portalBool)

@@ -207,6 +207,9 @@ public class PlayfabCloudSaving : MonoBehaviour
 
         if(isDataSynced && _firstLogin == 0)
         {
+            MenuManager.instance.ShowFirstTimeLogin();
+            MenuManager.instance.UnlockHunters(Random.Range(0, 3));
+            MenuManager.instance.UnlockMonster(Random.Range(0, 3));
             Update_FirstLogin();
             Update_MaxXP(1000);
             Update_Level();
@@ -232,12 +235,12 @@ public class PlayfabCloudSaving : MonoBehaviour
         _totalWins++;
     }
 
-    public void Update_TotalLoses(int amount)
+    public void Update_TotalLoses()
     {
         _totalLoses++;
     }
 
-    public void Update_TotalKills(int amount)
+    public void Update_TotalKills()
     {
         _totalKills++;
     }

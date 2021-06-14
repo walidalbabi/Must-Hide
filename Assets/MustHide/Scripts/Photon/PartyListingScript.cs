@@ -20,8 +20,6 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject LeaderIcon;
     [SerializeField]
-    private GameObject MemberIcon;
-    [SerializeField]
     private Text MuteBtnText;
 
     //DropDown
@@ -84,20 +82,7 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
         }
 
 
-        if (isLeader)
-        {
-            MenuManager.instance.LockMatchBtns(false);
-            MenuManager.instance.ShowLeavePartyBtn(false);
-            LeaderIcon.SetActive(true);
-            MemberIcon.SetActive(false);
-        }
-        else
-        {
-            MenuManager.instance.LockMatchBtns(true);
-            MenuManager.instance.ShowLeavePartyBtn(true);
-            LeaderIcon.SetActive(false);
-            MemberIcon.SetActive(true);
-        }
+       
     }
 
     public void SetPlayerInfo(IParticipant player)
@@ -119,6 +104,19 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
         else
         {
             isLeader = false;
+        }
+
+        if (isLeader)
+        {
+            MenuManager.instance.LockMatchBtns(false);
+            MenuManager.instance.ShowLeavePartyBtn(false);
+            LeaderIcon.SetActive(true);
+        }
+        else
+        {
+            MenuManager.instance.LockMatchBtns(true);
+            MenuManager.instance.ShowLeavePartyBtn(true);
+            LeaderIcon.SetActive(false);
         }
     }
 

@@ -49,7 +49,7 @@ public class ErrorScript : MonoBehaviour
         else
             ReconnectGameBtn.SetActive(false);
 
-        if (!isReconnect && !isRestart)
+        if (!isReconnect && isRestart)
             CloseBtn.SetActive(true);
 
     }

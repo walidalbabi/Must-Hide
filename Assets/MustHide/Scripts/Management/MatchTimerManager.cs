@@ -37,6 +37,14 @@ public class MatchTimerManager : MonoBehaviour
     public double TimeInBetween;
     public double CurrentServerTime;
 
+    //Canvasas
+    [HideInInspector]
+    public CanvasGroup exitGameCanvas;
+    [HideInInspector]
+    public CanvasGroup startPanelCanvas;
+    [HideInInspector]
+    public CanvasGroup finishPanellCanvas;
+
     private void Awake()
     {
         if (instance == null)
@@ -51,6 +59,10 @@ public class MatchTimerManager : MonoBehaviour
         canCount = true;
         StartTime = Photon.Pun.PhotonNetwork.Time;
         TimeInBetween = StartTime + ReadyTime;
+
+        exitGameCanvas = ExitGamePanel.GetComponent<CanvasGroup>();
+        startPanelCanvas = StartPanel.GetComponent<CanvasGroup>();
+        finishPanellCanvas = FinishPanel.GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame
@@ -66,10 +78,40 @@ public class MatchTimerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (ExitGamePanel.activeInHierarchy)
-                ExitGamePanel.SetActive(false);
+            {
+                ActivatePanel(false, ExitGamePanel, exitGameCanvas, 0.3f);
+            }
             else
-                ExitGamePanel.SetActive(true);
+                ActivatePanel(true, ExitGamePanel, exitGameCanvas , 0.3f);
         }
+    }
+
+    //FOr UI Animations
+    public void ActivatePanel(bool activate, GameObject panel, CanvasGroup canvas, float fadeTime)
+    {
+        panel.SetActive(activate);
+        if (activate)
+        {
+            canvas.alpha = 0;
+            canvas.LeanAlpha(1, fadeTime);
+        }
+        else
+        {
+            canvas.alpha = 1;
+            canvas.LeanAlpha(0, fadeTime);
+            StartCoroutine(DisablePanel(panel));
+        }
+    }
+
+    public IEnumerator DisablePanel (GameObject panel)
+    {
+        yield return new WaitForSeconds(0.23f);
+        panel.SetActive(false);
+    }
+
+    public void ResumeGameBtn()
+    {
+        ActivatePanel(false, ExitGamePanel, exitGameCanvas, 0.3f);
     }
 
 

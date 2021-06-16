@@ -158,7 +158,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
         SetWinnerTeam();
 
-        Invoke("SetFinishPanel", 3f);
+    
     }
 
     private void Escape_State()
@@ -336,7 +336,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     public void SetWinnerTeam()
     {
-
+        Invoke("SetFinishPanel", 3f);
         if (PhotonNetwork.IsMasterClient)
             GetComponent<PhotonView>().RPC("RPC_WinnerTeam", RpcTarget.Others);
     }
@@ -354,6 +354,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
     {
 #pragma warning disable CS1717 // Assignment made to same variable
         WinnerTeam = WinnerTeam;
+
 #pragma warning restore CS1717 // Assignment made to same variable
     }
     [PunRPC]

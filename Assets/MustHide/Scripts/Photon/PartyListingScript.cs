@@ -99,7 +99,7 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
         LeaderName = VivoxManager.instance.CurrentChannel.Remove(0 , 7);
         if (currentChannel == VivoxManager.instance.CurrentChannel)
         {
-                isLeader = true;
+            isLeader = true;
         }
         else
         {

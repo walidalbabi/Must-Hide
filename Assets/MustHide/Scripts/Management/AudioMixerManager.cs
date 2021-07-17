@@ -26,11 +26,10 @@ public class AudioMixerManager : MonoBehaviour
 
     private void Start()
     {
-        audioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVolumeValue", -20f));
-        audioMixer.SetFloat("VFXVolume", PlayerPrefs.GetFloat("VFXVolumeValue", -20f));
-        audioMixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVolumeValue", -20f));
+        audioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVolumeValue", -13f));
+        audioMixer.SetFloat("VFXVolume", PlayerPrefs.GetFloat("VFXVolumeValue", 6f));
+        audioMixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVolumeValue", -13f));
     }
-
 
     private void OnEnable()
     {
@@ -71,8 +70,6 @@ public class AudioMixerManager : MonoBehaviour
 
         }
     }
-
-    
 
     public void UP_Master()
     {

@@ -80,16 +80,14 @@ namespace PlayFab.MultiplayerModels
         SoutheastAsia,
         WestEurope,
         WestUs,
-        ChinaEast2,
-        ChinaNorth2,
         SouthAfricaNorth,
-        CentralUsEuap,
         WestCentralUs,
         KoreaCentral,
         FranceCentral,
         WestUs2,
         CentralIndia,
-        UaeNorth
+        UaeNorth,
+        UkSouth
     }
 
     public enum AzureVmFamily
@@ -107,7 +105,8 @@ namespace PlayFab.MultiplayerModels
         Ev4,
         Esv4,
         Dsv3,
-        Dsv2
+        Dsv2,
+        NCasT4_v3
     }
 
     public enum AzureVmSize
@@ -162,7 +161,8 @@ namespace PlayFab.MultiplayerModels
         Standard_DS2_v2,
         Standard_DS3_v2,
         Standard_DS4_v2,
-        Standard_DS5_v2
+        Standard_DS5_v2,
+        Standard_NC4as_T4_v3
     }
 
     [Serializable]
@@ -180,14 +180,6 @@ namespace PlayFab.MultiplayerModels
         /// Array of build selection criteria.
         /// </summary>
         public List<BuildSelectionCriterion> BuildSelectionCriteria;
-        /// <summary>
-        /// The page size on the response.
-        /// </summary>
-        public int PageSize;
-        /// <summary>
-        /// The skip token for the paged response.
-        /// </summary>
-        public string SkipToken;
     }
 
     [Serializable]
@@ -1928,6 +1920,10 @@ namespace PlayFab.MultiplayerModels
     public class GetMultiplayerServerDetailsResponse : PlayFabResultCommon
     {
         /// <summary>
+        /// The identity of the build in which the server was allocated.
+        /// </summary>
+        public string BuildId;
+        /// <summary>
         /// The connected players in the multiplayer server.
         /// </summary>
         public List<ConnectedPlayer> ConnectedPlayers;
@@ -2387,13 +2383,41 @@ namespace PlayFab.MultiplayerModels
         public string SkipToken;
     }
 
+    /// <summary>
+    /// Returns a list of summarized details of all multiplayer server builds for a title.
+    /// </summary>
     [Serializable]
-    public class ListBuildAliasesForTitleResponse : PlayFabResultCommon
+    public class ListBuildAliasesRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The page size for the request.
+        /// </summary>
+        public int? PageSize;
+        /// <summary>
+        /// The skip token for the paged request.
+        /// </summary>
+        public string SkipToken;
+    }
+
+    [Serializable]
+    public class ListBuildAliasesResponse : PlayFabResultCommon
     {
         /// <summary>
         /// The list of build aliases for the title
         /// </summary>
         public List<BuildAliasDetailsResponse> BuildAliases;
+        /// <summary>
+        /// The page size on the response.
+        /// </summary>
+        public int PageSize;
+        /// <summary>
+        /// The skip token for the paged response.
+        /// </summary>
+        public string SkipToken;
     }
 
     /// <summary>
@@ -2976,18 +3000,6 @@ namespace PlayFab.MultiplayerModels
         public uint SecondsBetweenExpansions;
     }
 
-    /// <summary>
-    /// Returns a list of summarized details of all multiplayer server builds for a title.
-    /// </summary>
-    [Serializable]
-    public class MultiplayerEmptyRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        /// </summary>
-        public Dictionary<string,string> CustomTags;
-    }
-
     [Serializable]
     public class MultiplayerServerSummary : PlayFabBaseModel
     {
@@ -3227,6 +3239,10 @@ namespace PlayFab.MultiplayerModels
     public class RequestMultiplayerServerResponse : PlayFabResultCommon
     {
         /// <summary>
+        /// The identity of the build in which the server was allocated.
+        /// </summary>
+        public string BuildId;
+        /// <summary>
         /// The connected players in the multiplayer server.
         /// </summary>
         public List<ConnectedPlayer> ConnectedPlayers;
@@ -3344,6 +3360,10 @@ namespace PlayFab.MultiplayerModels
     [Serializable]
     public class ServerDetails : PlayFabBaseModel
     {
+        /// <summary>
+        /// The fully qualified domain name of the virtual machine that is hosting this multiplayer server.
+        /// </summary>
+        public string Fqdn;
         /// <summary>
         /// The IPv4 address of the virtual machine that is hosting this multiplayer server.
         /// </summary>

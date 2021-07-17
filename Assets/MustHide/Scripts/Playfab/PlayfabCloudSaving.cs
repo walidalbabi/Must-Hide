@@ -43,6 +43,12 @@ public class PlayfabCloudSaving : MonoBehaviour
             }
         }
 
+
+        Invoke("SetUPPlayerSavedDataOnUI", 2f);
+    }
+
+    private void SetUPPlayerSavedDataOnUI()
+    {
         MenuManager.instance.SetUpData();
     }
 
@@ -140,14 +146,7 @@ public class PlayfabCloudSaving : MonoBehaviour
                 CharatersStringToData(result.Data["Monsters"].Value , true);
                 CharatersStringToData(result.Data["Hunters"].Value, false);
             }
-            //if (result.Data == null || !result.Data.ContainsKey("Hunters"))
-            //{
-            //    Debug.Log("Hunters");
-            //}
-            //else
-            //{
-            //    CharatersStringToData(result.Data["Hunters"].Value, true);
-            //}
+
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());
@@ -203,19 +202,7 @@ public class PlayfabCloudSaving : MonoBehaviour
                 isDataSynced = false;
             }
         }
-       
-
-        if(isDataSynced && _firstLogin == 0)
-        {
-            MenuManager.instance.ShowFirstTimeLogin();
-            MenuManager.instance.UnlockHunters(Random.Range(0, 3));
-            MenuManager.instance.UnlockMonster(Random.Range(0, 3));
-            Update_FirstLogin();
-            Update_MaxXP(1000);
-            Update_Level();
-            StartCloudPlayerStats();
-            isDataSynced = false;
-        }
+  
     }
 
     #region Update Functions
@@ -325,7 +312,7 @@ public class PlayfabCloudSaving : MonoBehaviour
         PlayFabClientAPI.GetPlayerStatistics(
             new GetPlayerStatisticsRequest(),
             OnGetStatistics,
-            error => Debug.LogError(error.GenerateErrorReport())
+            error => Debug.LogError("Getting Statistic " +error.GenerateErrorReport())
         );
     }
 
@@ -369,10 +356,37 @@ public class PlayfabCloudSaving : MonoBehaviour
 
         isDataSynced = true;
 
+        if (isDataSynced && _firstLogin == 0)
+        {
+            MenuManager.instance.ShowFirstTimeLogin();
+            //MenuManager.instance.UnlockHunters(Random.Range(0, 3));
+            //MenuManager.instance.UnlockMonster(Random.Range(0, 3));
+            MenuManager.instance.UnlockHunters(0);
+            MenuManager.instance.UnlockMonster(0);
+            MenuManager.instance.UnlockHunters(1);
+            MenuManager.instance.UnlockMonster(1);
+            MenuManager.instance.UnlockHunters(2);
+            MenuManager.instance.UnlockMonster(2);
+            MenuManager.instance.UnlockHunters(3);
+            MenuManager.instance.UnlockMonster(3);
+            Update_FirstLogin();
+            Update_MaxXP(1000);
+            Update_Level();
+            StartCloudPlayerStats();
+            isDataSynced = false;
+        }
+
+        PlayfabCloudSaving.instance.GetUserData(PlayFabLogin.instance.PlayerInfo.AccountInfo.PlayFabId);
+
         if (MenuManager.instance)
-            MenuManager.instance.SetProfileInfo();
+            Invoke("SetPlayerStatsOnUI", 2f);
 
 
+    }
+
+    private void SetPlayerStatsOnUI()
+    {
+        MenuManager.instance.SetProfileInfo();
     }
 
     #endregion PlayerStats

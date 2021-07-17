@@ -95,7 +95,7 @@ public class PlayFabLogin : MonoBehaviour
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
         GetAccountInfo();
-        PlayfabCloudSaving.instance.GetUserData(result.PlayFabId);
+      
         MenuManager.instance.ShowHome();
     }
 
@@ -105,7 +105,7 @@ public class PlayFabLogin : MonoBehaviour
         PlayerPrefs.SetString("EMAIL", userEmail);
         PlayerPrefs.SetString("PASSWORD", userPassword);
         UpdateContactEmail();
-        PlayfabCloudSaving.instance.GetUserData(result.PlayFabId);
+      //  PlayfabCloudSaving.instance.GetUserData(result.PlayFabId);
         MenuManager.instance.ShowHome();
     }
 
@@ -115,6 +115,8 @@ public class PlayFabLogin : MonoBehaviour
         Debug.LogError(error.GenerateErrorReport());
         LoginFailedText.text = "Email address: is not valid Password: is not valid";
         ResetPassBtn.SetActive(true);
+        LoadingScript.instance.StopGameLoading();
+        MenuManager.instance.GoToLogin();
     }
 
     private void OnRegisterFailure(PlayFabError error)
@@ -122,6 +124,8 @@ public class PlayFabLogin : MonoBehaviour
 
         Debug.LogError(error.GenerateErrorReport());
         RegisterFailedText.text = "Email address/Nickname already exists";
+        LoadingScript.instance.StopGameLoading();
+        MenuManager.instance.GoToRegister();
     }
 
     private void FailUpdateCallBack(PlayFabError error)
@@ -152,14 +156,24 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnUpdateAccountInfoSuccess(AddOrUpdateContactEmailResult result)
     {
-        GetAccountInfo();
 
+        UpdatePlayerTitle();
     }
 
     private void OnUpdateAccountInfoFaill(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
         UpdateContactEmail();
+    }
+
+    private void OnUpdatePlayerTitleFailed(PlayFabError obj)
+    {
+        UpdatePlayerTitle();
+    }
+
+    private void OnUpdatePlayerTitleSuccess(UpdateUserTitleDisplayNameResult obj)
+    {
+        GetAccountInfo();
     }
 
     private void OnGetAccountInfoFail(PlayFabError error)
@@ -246,6 +260,14 @@ public class PlayFabLogin : MonoBehaviour
         PlayFabClientAPI.AddOrUpdateContactEmail(requestAddInfo, OnUpdateAccountInfoSuccess, OnUpdateAccountInfoFaill);
         //UpdateAvatarRequest();
     }
+
+    private void UpdatePlayerTitle()
+    {
+        LoadingScript.instance.StartGameLoading("Updating Player Title..");
+        var requestAddInfo = new UpdateUserTitleDisplayNameRequest { DisplayName = userName };
+        PlayFabClientAPI.UpdateUserTitleDisplayName(requestAddInfo, OnUpdatePlayerTitleSuccess, OnUpdatePlayerTitleFailed);
+    }
+
 
     private void GetAccountInfo()
     {

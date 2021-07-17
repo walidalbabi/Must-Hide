@@ -50,19 +50,13 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public Transform[] HuntersSpawnPoints;
     public Transform[] EscapeSpawnPoints;
 
-
-
-
     [SerializeField]
     private GameObject[] Effects;
-
     
     public Transform logsContent;
 
-
     //Addons
     private bool gameEnded;
-
 
     public List<PhotonPlayer> photonPlayer = new List<PhotonPlayer>();
 
@@ -238,7 +232,6 @@ public class InGameManager : MonoBehaviourPunCallbacks
     }
 
     #endregion HanldeGameState
-
 
     #region GameManager
 

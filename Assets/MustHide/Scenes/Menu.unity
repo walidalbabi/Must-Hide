@@ -27021,7 +27021,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Congrats You Got 1 monster And One Hunter for Free.
+  m_Text: Congrats You Got all the Characters For Free In The Demo
 --- !u!222 &2007359936
 CanvasRenderer:
   m_ObjectHideFlags: 0

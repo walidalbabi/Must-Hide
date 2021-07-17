@@ -66,13 +66,9 @@ public class MenuManager : MonoBehaviour
     private CanvasGroup LogoutPanelCanvas;
     private CanvasGroup FirstLoginPanelCanvas;
 
-
-
     public Transform _ChatContent;
     public InvitationScript invitation;
     public AddFriendScript addFriend;
-
-
 
     public static MenuManager instance;
 
@@ -87,9 +83,7 @@ public class MenuManager : MonoBehaviour
 
     private string friendName;
 
-
     public Slider[] audiSlider; 
-
 
     private void OnEnable()
     {
@@ -139,10 +133,6 @@ public class MenuManager : MonoBehaviour
         FirstLoginPanelCanvas = FirstLoginPanel.GetComponent<CanvasGroup>();
         LogoutPanelCanvas = LogoutPanel.GetComponent<CanvasGroup>();
     }
-
-
-
-
 
     #region Photon
 
@@ -275,7 +265,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetProfileInfo()
     {
-        StartCoroutine(LoadPlayerImg());
+       //StartCoroutine(LoadPlayerImg());
         ProfileInfo[0].text = Photon.Pun.PhotonNetwork.AuthValues.UserId;
         ProfileInfo[1].text = "Level : " + PlayfabCloudSaving.instance._Level.ToString();
         ProfileInfo[2].text = PlayfabCloudSaving.instance._Nova.ToString();
@@ -287,7 +277,6 @@ public class MenuManager : MonoBehaviour
 
         XPSlider.maxValue = PlayfabCloudSaving.instance._MaxXp;
         XPSlider.value = PlayfabCloudSaving.instance._Xp;
-
 
     }
     IEnumerator LoadPlayerImg()
@@ -484,7 +473,6 @@ public class MenuManager : MonoBehaviour
         EyesCanvas.LeanAlpha(1f, 0.2f);
     }
 
-
     public void UnlockMonster(int index)
     {
         PlayfabCloudSaving.instance.MonstersCharacters[index] = true;
@@ -499,8 +487,5 @@ public class MenuManager : MonoBehaviour
         SetUpData();
     }
     #endregion Playfab
-
-
-
 
 }

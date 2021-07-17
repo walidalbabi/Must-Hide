@@ -15,10 +15,7 @@ MonoBehaviour:
   TitleId: 5A92F
   DeveloperSecretKey: EG8J3OC1O4HWD8BWTI6ARRHTIOZFBGGMTYM4856ZNA1FC6QTSI
   ProductionEnvironmentUrl: 
-  RequestType: 0
-  AdvertisingIdType: 
-  AdvertisingIdValue: 
-  DisableAdvertising: 0
+  RequestType: 2
   DisableDeviceInfo: 0
   DisableFocusTimeCollection: 0
   RequestTimeout: 2000

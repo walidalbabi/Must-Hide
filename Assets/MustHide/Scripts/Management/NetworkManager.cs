@@ -102,6 +102,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!VivoxManager.instance.isVivoxLoggedIn)
             VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
 
+   
+
         MenuManager.instance.SetProfileInfo();
 
     }

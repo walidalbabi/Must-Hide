@@ -27,29 +27,20 @@ public class PlayerUIMobile : MonoBehaviour
     {
         if (!PV.IsMine)
             return;
-
-        if(!isHunter)
-        if (propController.isProp)
-            IncreaceHideTimeBtn.SetActive(true);
-        else
-            IncreaceHideTimeBtn.SetActive(false);
-        else
-        {
-            
-        }
     }
     public void TransformTo()
     {
-        if (propController.isProp)
-        {
-            propController.BackToTransformation(false);
-
-
-        }
-        else
+        if (!propController.isProp && propController.canTransformTo && propController. propCol != null && PV.IsMine)
         {
             propController.TransformToProp();
+            IncreaceHideTimeBtn.SetActive(true);
         }
+        else
+            if (propController.isProp && propController.canTransformTo)
+            {
+            propController.BackToTransformation(false);
+            IncreaceHideTimeBtn.SetActive(false);
+            }
     }
 
     public void IncHideTime()

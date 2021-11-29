@@ -17,9 +17,9 @@ public class PropsController : MonoBehaviour
     private BoxCollider2D col;
     private PhotonView PV;
 
-    [HideInInspector]
-    public bool isProp = false;
-    private bool canTransformTo;
+
+    [HideInInspector] public bool isProp = false;
+    [HideInInspector] public bool canTransformTo;
 
     [SerializeField]
     private float timeToTransformBack = 10f;
@@ -27,12 +27,12 @@ public class PropsController : MonoBehaviour
 
     [SerializeField]
     private float noTransformBuff = 3f;
-    [HideInInspector]
-    public bool isBuff;
+
+    [HideInInspector] public bool isBuff;
 
     //Props Components
-    [HideInInspector]
-    public BoxCollider2D propCol;
+
+    [HideInInspector] public BoxCollider2D propCol;
 
     private float closerDis;
 

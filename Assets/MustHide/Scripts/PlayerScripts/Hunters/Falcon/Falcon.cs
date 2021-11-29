@@ -90,10 +90,9 @@ public class Falcon : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isCoolDown && playerMove.enabled && healthScript.canUseAbility && TrapsCapacity > 0)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            StartCoroutine(AbilityCooldown());
-            IfAbility();
+            SetAbilityOn();
         }
 
         if (!playerMove.enabled)
@@ -128,6 +127,14 @@ public class Falcon : MonoBehaviour
     }
 
 
+    public void SetAbilityOn()
+    {
+        if(!isCoolDown && playerMove.enabled && healthScript.canUseAbility && TrapsCapacity > 0)
+        {
+            StartCoroutine(AbilityCooldown());
+            IfAbility();
+        }
+    }
 
     //Checking If Ability Is Turned On
     private void IfAbility()

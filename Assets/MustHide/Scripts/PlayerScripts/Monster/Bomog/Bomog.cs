@@ -74,10 +74,9 @@ public class Bomog : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            StartCoroutine(AbilityDelay());
-            StartCoroutine(AbilityCooldown());
+            SetAbilityOn();
         }
 
         if (!playerMove.enabled)
@@ -139,11 +138,18 @@ public class Bomog : MonoBehaviour
         }
     }
 
+    public void SetAbilityOn()
+    {
+        if(!isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        {
+            StartCoroutine(AbilityDelay());
+            StartCoroutine(AbilityCooldown());
+        }
+    }
+
     //Checking If Ability Is Turned On
     private void IfAbility()
     {
- 
-
         if (isAbility)
         {
        

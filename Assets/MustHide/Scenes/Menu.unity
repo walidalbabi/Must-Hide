@@ -1285,7 +1285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 2100843130}
-  CharacterDescription: angler test description
+  CharacterDescription: 'Special Ability : A Night Vision Can see All dark areas
+    and his flash light is turned off'
   novaTxt: {fileID: 1592460307}
   eyesTxt: {fileID: 1472960645}
 --- !u!1 &63578216
@@ -7383,7 +7384,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 907674101}
-  CharacterDescription: Bright test desc
+  CharacterDescription: 'Special Ability : He can shoot bullet on his friends to
+    heal them'
   novaTxt: {fileID: 789474265}
   eyesTxt: {fileID: 1665955182}
 --- !u!1 &574087373
@@ -9217,7 +9219,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 419681768}
-  CharacterDescription: bomog characterImage
+  CharacterDescription: 'Special Ability : Debloy a shield arround him reflecting
+    enemy bullets'
   novaTxt: {fileID: 803665441}
   eyesTxt: {fileID: 533069357}
 --- !u!1 &681524202
@@ -10590,9 +10593,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sed is a short Discription this is a short Discription this is a short
-    Discription this is a short Discription this is a short Discription this is a
-    short Discription
+  m_Text: This is a test version , expect glitches and bugs , please we need your
+    feedback  , thank you
 --- !u!222 &748030371
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10829,7 +10831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 773149156}
-  CharacterDescription: Falcon test desc
+  CharacterDescription: 'Special Ability : Deploy Traps , can freez enemies'
   novaTxt: {fileID: 2038936691}
   eyesTxt: {fileID: 452236744}
 --- !u!1 &755976530
@@ -11174,10 +11176,10 @@ RectTransform:
   m_Father: {fileID: 12724461}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1259.935, y: 140}
-  m_SizeDelta: {x: 508.2149, y: 69.5604}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 660.06494, y: -400}
+  m_SizeDelta: {x: 508.21484, y: 69.560425}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &774117586
 MonoBehaviour:
@@ -11567,7 +11569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 1083956356}
-  CharacterDescription: fascor characterImage
+  CharacterDescription: 'Special Ability : Can Sprint Allowing him to escape danger'
   novaTxt: {fileID: 1418160197}
   eyesTxt: {fileID: 111501911}
 --- !u!1 &803665439
@@ -17642,7 +17644,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 904710495}
-  CharacterDescription: orzuc characterImage
+  CharacterDescription: 'Special Ability : Deploy Fire Web That Can Slow Enemies
+    Speed , also destroying falcon traps'
   novaTxt: {fileID: 1595003608}
   eyesTxt: {fileID: 1471114512}
 --- !u!1 &1327886828
@@ -20016,7 +20019,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 820073081}
-  CharacterDescription: fiddler test desc
+  CharacterDescription: 'Special Ability : Can shoot a bulltet if it hit an enemy
+    he can track him on the map also stopping him from using his ability'
   novaTxt: {fileID: 260791309}
   eyesTxt: {fileID: 9638801}
 --- !u!1 &1495493158
@@ -21424,7 +21428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1609303904
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22344,7 +22348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterImage: {fileID: 402544712}
-  CharacterDescription: Inok characterImage
+  CharacterDescription: 'Special Ability : Summon An Area Can Heal every player inside
+    it'
   novaTxt: {fileID: 1700127586}
   eyesTxt: {fileID: 599961761}
 --- !u!1 &1682110384

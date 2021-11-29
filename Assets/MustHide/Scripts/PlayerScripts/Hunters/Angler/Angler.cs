@@ -89,11 +89,9 @@ public class Angler : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.NightVision, 7f, 0, 1f, 1, true);
-            StartCoroutine(AbilityDelay());
-            StartCoroutine(AbilityCooldown());
+            SetAbilityOn();
         }
 
         if (!playerMove.enabled)
@@ -131,12 +129,19 @@ public class Angler : MonoBehaviour
     }
 
 
+    public void SetAbilityOn()
+    {
+        if(!isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        {
+            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.NightVision, 7f, 0, 1f, 1, true);
+            StartCoroutine(AbilityDelay());
+            StartCoroutine(AbilityCooldown());
+        }
+    }
 
     //Checking If Ability Is Turned On
     private void IfAbility()
     {
-
-
         if (isAbility)
         {
 

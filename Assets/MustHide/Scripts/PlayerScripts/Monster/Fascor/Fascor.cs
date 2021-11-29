@@ -67,10 +67,9 @@ public class Fascor : MonoBehaviour
 
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            StartCoroutine(AbilityDelay());
-            StartCoroutine(AbilityCooldown());
+            SetAbilityOn();
         }
 
         if (!playerMove.enabled)
@@ -125,6 +124,15 @@ public class Fascor : MonoBehaviour
         else
         {
             _footPrintsCounter += Time.deltaTime;
+        }
+    }
+
+    public void SetAbilityOn()
+    {
+        if(!isAbility && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        {
+            StartCoroutine(AbilityDelay());
+            StartCoroutine(AbilityCooldown());
         }
     }
 

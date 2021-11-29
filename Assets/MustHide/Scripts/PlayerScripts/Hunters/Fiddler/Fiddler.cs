@@ -83,10 +83,9 @@ public class Fiddler : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            StartCoroutine(AbilityCooldown());
-            IfAbility();
+            SetAbilityOn();
         }
 
         if (!playerMove.enabled)
@@ -120,7 +119,14 @@ public class Fiddler : MonoBehaviour
 
     }
 
-
+    public void SetAbilityOn()
+    {
+        if(!isCoolDown && playerMove.enabled && healthScript.canUseAbility)
+        {
+            StartCoroutine(AbilityCooldown());
+            IfAbility();
+        }
+    }
 
     //Checking If Ability Is Turned On
     private void IfAbility()

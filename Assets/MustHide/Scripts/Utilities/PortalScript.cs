@@ -19,6 +19,7 @@ public class PortalScript : MonoBehaviour
 
     bool canCount;
     bool isCount;
+    bool isCollected;
 
     private PhotonView PV;
 
@@ -33,46 +34,51 @@ public class PortalScript : MonoBehaviour
 
     private void Update()
     {
-
-        slider.value = portalCounter;
-
-        if (portalCounter <= 0)
+        if (!isCollected)
         {
-            slider.gameObject.SetActive(false);
-        }
-        else
-        {
-            slider.gameObject.SetActive(true);
-        }
+            slider.value = portalCounter;
 
-        if(canCount)
-        if (isCount)
-        {
-            if (portalCounter < portalTimeToColl)
+            if (portalCounter <= 0)
             {
-                portalCounter += Time.deltaTime;
-            }
- 
-
-        }
-        else
-        {
-            if (portalCounter > 0)
-            {
-                portalCounter -= Time.deltaTime;
+                slider.gameObject.SetActive(false);
             }
             else
-                canCount = false;
+            {
+                slider.gameObject.SetActive(true);
+            }
+
+            if (canCount)
+                if (isCount)
+                {
+                    if (portalCounter < portalTimeToColl)
+                    {
+                        portalCounter += Time.deltaTime;
+                    }
+
+
+                }
+                else
+                {
+                    if (portalCounter > 0)
+                    {
+                        portalCounter -= Time.deltaTime;
+                    }
+                    else
+                        canCount = false;
+                }
         }
+       
+        if (PhotonNetwork.IsMasterClient)
+            if (portalCounter >= portalTimeToColl && canCount)
+            {
+                canCount = false;
+                PV.RPC("RPC_UpdateCollectedPortals", RpcTarget.AllBuffered);
+            }
 
-
-
-
-
-        if (portalCounter >= portalTimeToColl && canCount)
+        if (isCollected)
         {
-            canCount = false;
-            PV.RPC("RPC_UpdateCollectedPortals", RpcTarget.AllBuffered);
+            slider.value = slider.maxValue;
+            slider.fillRect.gameObject.GetComponent<Image>().color = Color.green;
         }
     }
 
@@ -114,6 +120,7 @@ public class PortalScript : MonoBehaviour
         GetComponent<AudioSource>().Pause();
 
        InGameManager.instance.UpdateCollectedPortals();
+        isCollected = true;
     }
 
     private void DisableLightAfter()

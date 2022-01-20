@@ -8,12 +8,12 @@ public class DestroyAfterDelay : MonoBehaviour
     public float Delay;
     private void OnEnable()
     {
-        Invoke("SetTime", 0.5f);
+        Invoke("SetTime", Delay);
 
     }
 
     private void SetTime()
     {
-        Destroy(gameObject, Delay);
+        gameObject.SetActive(false);
     }
 }

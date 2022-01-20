@@ -113,7 +113,7 @@ public class PlayFabLogin : MonoBehaviour
     {
 
         Debug.LogError(error.GenerateErrorReport());
-        LoginFailedText.text = "Email address: is not valid Password: is not valid";
+        LoginFailedText.text = error.GenerateErrorReport();
         ResetPassBtn.SetActive(true);
         LoadingScript.instance.StopGameLoading();
         MenuManager.instance.GoToLogin();
@@ -121,9 +121,8 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnRegisterFailure(PlayFabError error)
     {
-
         Debug.LogError(error.GenerateErrorReport());
-        RegisterFailedText.text = "Email address/Nickname already exists";
+        RegisterFailedText.text = error.GenerateErrorReport();
         LoadingScript.instance.StopGameLoading();
         MenuManager.instance.GoToRegister();
     }
@@ -179,12 +178,13 @@ public class PlayFabLogin : MonoBehaviour
     private void OnGetAccountInfoFail(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
-        PlayerIDText.text = error.ToString();
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false , true, "vivox");
     }
 
     private void OnAddFriendFailed(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), true, false, "");
     }
 
     private void OnAddFriendSuccess(AddFriendResult result)
@@ -196,6 +196,7 @@ public class PlayFabLogin : MonoBehaviour
     private void OnRemoveFriendFailed(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), true, false, "");
     }
 
     private void OnRemoveFriendSuccess(RemoveFriendResult result)
@@ -206,6 +207,7 @@ public class PlayFabLogin : MonoBehaviour
     private void OnGetFriendListFail(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), true, false, "");
     }
 
     private void OnGetFriendListSuccess(GetFriendsListResult result)

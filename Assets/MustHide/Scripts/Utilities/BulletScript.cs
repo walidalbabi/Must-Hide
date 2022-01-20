@@ -1,44 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
+
 public class BulletScript : MonoBehaviour
 {
 
     public float BulletDamage = 5f;
     public Health healthScript;
-    private float multiplier = 1f;
+    public bool canTakeDamage;
+
+    private Rigidbody2D _rb;
+    private SpriteRenderer _renderer;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        _renderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
-        transform.Translate(Vector2.right * Time.deltaTime * 20f * multiplier);
+        if (canTakeDamage)
+        {
+            _renderer.color = Color.white;
+        }
+        else _renderer.color = Color.green;
     }
-
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (GetComponent<PhotonView>().IsMine)
-            if (collision.gameObject.CompareTag("Props"))
+        if (collision.gameObject.CompareTag("Props"))
+        {
+            if (!collision.gameObject.GetComponent<BlocksScript>().isActiveAndEnabled)
             {
-                if (!collision.gameObject.GetComponent<BlocksScript>().isActiveAndEnabled)
-                {
-                    healthScript.DoDamage(5);
-                }
+                if (canTakeDamage)
+                    healthScript.DoDamage(3.25f);
             }
+        }
 
-        DestroyBullet();
-
-
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            healthScript.gameObject.GetComponent<ShootingScript>().SetEmunity();
+        }
+            DestroyBullet();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (GetComponent<PhotonView>().IsMine)
-            if (collision.gameObject.CompareTag("Shield"))
-            {
-                multiplier = -1f;
-            }
+        if (collision.gameObject.CompareTag("Shield"))
+        {
+            _rb.AddForce(transform.right * -800f * Time.deltaTime, ForceMode2D.Impulse);
+        }
     }
 
 
@@ -48,10 +60,8 @@ public class BulletScript : MonoBehaviour
         healthScript = health;
     }
 
-    [PunRPC]
     private void DestroyBullet()
     {
-
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

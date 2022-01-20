@@ -28,6 +28,9 @@ public class PropsController : MonoBehaviour
     [SerializeField]
     private float noTransformBuff = 3f;
 
+    [SerializeField] private int maxResetHide = 2;
+    private int _resetHide;
+
     [HideInInspector] public bool isBuff;
 
     //Props Components
@@ -47,13 +50,17 @@ public class PropsController : MonoBehaviour
     [SerializeField]
     private Slider BuffTimeSlider;
 
+    public int resetHide => _resetHide;
+
 
     
     // Start is called before the first frame update
     void Start()
     {
         col = GetComponent<BoxCollider2D>();
-        PV = GetComponent<PhotonView>(); 
+        PV = GetComponent<PhotonView>();
+
+        _resetHide = maxResetHide;
     }
 
     // Update is called once per frame
@@ -127,7 +134,7 @@ public class PropsController : MonoBehaviour
             if (counter >= 1f)
                 canTransformTo = true;
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && _resetHide > 0)
             {
                 IncreaseHideTime();
             }
@@ -178,6 +185,7 @@ public class PropsController : MonoBehaviour
 
     public void IncreaseHideTime()
     {
+        _resetHide--;
         GetComponent<AudioManager>().PlaySound(AudioManager.Sound.HideIncreaseSound, 15f, 0, 1f, 1f,true);
         counter = 0f;
     }
@@ -187,6 +195,7 @@ public class PropsController : MonoBehaviour
     {
         if (propCol == null)
             return;
+        _resetHide = maxResetHide;
         HideTimeSlider.gameObject.SetActive(false);
         //Its not a prop anymore
         isBuff = true;

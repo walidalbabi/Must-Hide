@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 8550271891376108287}
   - component: {fileID: 3964731469641406778}
   - component: {fileID: 9164782085649491070}
-  - component: {fileID: 1929150805992947369}
-  - component: {fileID: 1368935641822694119}
   m_Layer: 12
   m_Name: Bullet
   m_TagString: Bullet
@@ -149,47 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: accd7e9bbe1094e4fb25409f60edd86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletDamage: 1.5
+  BulletDamage: 3.5
   healthScript: {fileID: 0}
---- !u!114 &1929150805992947369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118307827112923094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 1368935641822694119}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &1368935641822694119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118307827112923094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  canTakeDamage: 0
 --- !u!1 &3924589879109887599
 GameObject:
   m_ObjectHideFlags: 0

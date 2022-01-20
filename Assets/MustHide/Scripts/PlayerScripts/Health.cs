@@ -7,12 +7,10 @@ using System.IO;
 
 public class Health : MonoBehaviour
 {
-
-
     [SerializeField]
     private bool isMonster;
     [SerializeField]
-    private float MaxHealth;
+    private float _maxHealth;
 
 
     private float _HP = 100;
@@ -34,13 +32,21 @@ public class Health : MonoBehaviour
     public bool canUseAbility = true;
 
     public float HP { get { return _HP; }}
+    public float maxHealth { get { return _maxHealth; }}
+
 
     private bool canHeal;
 
     private int splashIndex = 1;
+
+    //Counter for Not Spaming Blood
+    private float _bloodTimer;
+
     //Components
     public PhotonPlayer photonPlayer;
+    public SpriteRenderer spriterenderer;
     private BoxCollider2D boxCollider;
+    private AudioManager audioManager;
     private PhotonView PV;
     [SerializeField]
     private GameObject PlayerLight;
@@ -49,6 +55,7 @@ public class Health : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         boxCollider = GetComponent<BoxCollider2D>();
+        audioManager = GetComponent<AudioManager>();
     }
 
     private void Start()
@@ -60,6 +67,19 @@ public class Health : MonoBehaviour
         if (!PV.IsMine)
             PlayerLight.SetActive(false);
 
+        if (PV.IsMine)
+        {
+            if (isMonster)
+            {
+                Camera.main.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("Portal");
+                PV.RPC("RPC_SetPlayerAvatar", RpcTarget.AllBuffered, 1);
+            }
+            else
+            {
+                PV.RPC("RPC_SetPlayerAvatar", RpcTarget.AllBuffered, 2);
+            }
+    
+        }
     }
 
 
@@ -69,29 +89,9 @@ public class Health : MonoBehaviour
         if (!PV.IsMine)
             return;
 
-
-        if (_HP <= 0 && !isDead)
+        if(_bloodTimer < 0.5f)
         {
-            PV.RPC("Dead", RpcTarget.AllBuffered);
-            photonPlayer.SetIsDead(true);
-
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bones"), transform.position, Quaternion.identity);
-
-            Camera.main.GetComponent<Camera>().cullingMask  = (1 << 0 )| (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 11);
-
-            if (isMonster)
-            {
-             //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#00FF08>");
-                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f,true);
-                SetGameLogs(true);
-            }
-            else
-            {
-                //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#FF0000>");
-                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f,true);
-                SetGameLogs(false);
-            }
-                
+            _bloodTimer += Time.deltaTime;
         }
     }
 
@@ -110,8 +110,8 @@ public class Health : MonoBehaviour
             else
                 healthBarFill.color = Color.green;
 
-            _HP = MaxHealth;
-            slider.maxValue = MaxHealth;
+            _HP = _maxHealth;
+            slider.maxValue = _maxHealth;
             slider.value = _HP;
         }
         else
@@ -155,7 +155,7 @@ public class Health : MonoBehaviour
     {
 
          if(isMonster)
-        if (collision.gameObject.CompareTag("HealZone") && _HP < MaxHealth)
+        if (collision.gameObject.CompareTag("HealZone") && _HP < _maxHealth)
         {
             canHeal = true;
                 StartCoroutine(Heal());      
@@ -176,6 +176,8 @@ public class Health : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!PV.IsMine) return;
+
         if (collision.gameObject.CompareTag("Bullet"))
         {
 
@@ -183,48 +185,70 @@ public class Health : MonoBehaviour
                 if (GetComponent<Bomog>().isAbility)
                     return;
 
-         //   if (gameObject.tag == "Monster")
-        //   {
-                PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, collision.gameObject.GetComponent<BulletScript>().BulletDamage);
-
-            if (GetComponent<PropsController>())
+            if (gameObject.tag == "Monster")
             {
-                GetComponent<PropsController>().isBuff = true;
+                DoDamage(collision.gameObject.GetComponent<BulletScript>().BulletDamage);
+                
+                if (GetComponent<PropsController>())
+                {
+                   var script = GetComponent<PropsController>();
 
-                if (GetComponent<PropsController>().isBuff)
-                    GetComponent<PropsController>().buffCounter = 0;
+                    script.isBuff = true;
+
+                    if (script.isBuff)
+                        script.buffCounter = 0;
+                }
+
+               // Set Blood
+            if (_bloodTimer >= 0.5f)
+                {
+                    PV.RPC("RPC_SpawnBlood", RpcTarget.AllBuffered);
+                    _bloodTimer = 0;
+                }
+
+                audioManager.PlaySound(AudioManager.Sound.MonsterGetShot, 10f, 0, 1f, 1f, true);
+
+                CheckIfDead();
             }
- 
 
+        }
+    }
 
+    private void CheckIfDead()
+    {
+        if (!PV.IsMine) return;
 
-            if (splashIndex == 1)
-                splashIndex = 2;
-            else
-                splashIndex = 1;
+        if (_HP <= 0 && !isDead)
+        {
+            PV.RPC("Dead", RpcTarget.AllBuffered);
+            photonPlayer.SetIsDead(true);
+
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bones"), transform.position, Quaternion.identity);
+
+            Camera.main.GetComponent<Camera>().cullingMask = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 11);
+
             if (isMonster)
             {
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "BloodParticleMonster"), transform.position, Quaternion.identity);
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "Splash_" + splashIndex + "Monster"), transform.position, Quaternion.identity);
+                //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#00FF08>");
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f, true);
+                InGameManager.instance.UpdateMonsterDead();
+                SetGameLogs(true);
             }
             else
             {
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "BloodParticleHunter"), transform.position, Quaternion.identity);
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Blood", "Splash_" + splashIndex + "Hunter"), transform.position, Quaternion.identity);
+                //  InGameManager.instance.SetGameLogs(PV.Owner.NickName, "Died!", "<color=#FF0000>");
+                GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterDead, 20f, 0, 1f, 0.75f, true);
+                InGameManager.instance.UpdateHuntersDead();
+                SetGameLogs(false);
             }
 
-
-            GetComponent<AudioManager>().PlaySound(AudioManager.Sound.MonsterGetShot, 10f, 0, 1f, 1f,true);
-
-           // }
-           
         }
     }
 
     //Healing By Time
     IEnumerator Heal()
     {
-        for (float currentHealth = _HP; currentHealth <= MaxHealth; currentHealth += 5f)
+        for (float currentHealth = _HP; currentHealth <= _maxHealth; currentHealth += 5f)
         {
             if (!canHeal)
                 break;
@@ -237,8 +261,10 @@ public class Health : MonoBehaviour
 
     public void DoDamage(float Damage)
     {
-        PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
+        if (PV.IsMine)
+            PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
     }
+
     public void HealForAmount(float amount)
     {
         PV.RPC("RPC_HealForAmount", RpcTarget.AllBuffered, amount);
@@ -249,6 +275,7 @@ public class Health : MonoBehaviour
         PV.RPC("RPC_SetCanUseAbility", RpcTarget.AllBuffered, state);
         Invoke("SetBackAbility", 10f);
     }
+
     private void SetBackAbility()
     {
         PV.RPC("RPC_SetCanUseAbility", RpcTarget.AllBuffered, true);
@@ -268,12 +295,32 @@ public class Health : MonoBehaviour
     }
 
     [PunRPC]
+    private void RPC_SpawnBlood()
+    {
+        if (splashIndex == 1)
+            splashIndex = 2;
+        else
+            splashIndex = 1;
+
+        if (isMonster)
+        {
+            Instantiate((GameObject)Resources.Load(Path.Combine("PhotonPrefabs", "Blood", "BloodParticleMonster")), transform.position, Quaternion.identity);
+            Instantiate((GameObject)Resources.Load(Path.Combine("PhotonPrefabs", "Blood", "Splash_" + splashIndex + "Monster")), transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate((GameObject)Resources.Load(Path.Combine("PhotonPrefabs", "Blood", "BloodParticleHunter")), transform.position, Quaternion.identity);
+            Instantiate((GameObject)Resources.Load(Path.Combine("PhotonPrefabs", "Blood", "Splash_" + splashIndex + "Hunter")), transform.position, Quaternion.identity);
+        }
+    }
+
+    [PunRPC]
     private void RPC_HealForAmount(float amount)
     {
-        if ((MaxHealth - _HP) >= 30)
+        if ((_maxHealth - _HP) >= 30)
             _HP += amount;
         else
-            _HP = MaxHealth;
+            _HP = _maxHealth;
 
         slider.value = _HP;
     }
@@ -283,7 +330,6 @@ public class Health : MonoBehaviour
     {
         PlayerTeam = pTeam;      
     }
-
 
     [PunRPC]
     private void Dead()
@@ -312,17 +358,21 @@ public class Health : MonoBehaviour
         Ghost.SetActive(true);
         slider.gameObject.layer = 11;
 
-
-        if (isMonster)
-        {
-            InGameManager.instance.UpdateMonsterDead();
-        }
-        else
-        {
-            InGameManager.instance.UpdateHuntersDead();
-        }
-
     }
+
+    [PunRPC]
+    void RPC_SetPlayerAvatar(int team)
+    {
+        GameObject playerAvatar;
+
+        if (team == 1)
+            playerAvatar = Instantiate(InGameManager.instance.inGamePlayerAvatar, InGameManager.instance.monstersHeaderPanel);
+        else playerAvatar = Instantiate(InGameManager.instance.inGamePlayerAvatar, InGameManager.instance.huntersHeaderPanel);
+
+        var inGA = playerAvatar.GetComponent<InGamePlayerAvatar>();
+        inGA.SetHealthComponent(this);
+    }
+
     public void SetGameLogs(bool monster)
     {
         if (monster)

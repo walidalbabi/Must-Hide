@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -106,7 +106,23 @@ public class PlayerMovement : MonoBehaviour
 
         GetInputs();
 
-        
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+            SetMouseState();
+    }
+
+    private void SetMouseState()
+    {
+        //HideCursor
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (Cursor.visible) Cursor.visible = false;
+        }
+        //EnableCursor
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!Cursor.visible) Cursor.visible = true;
+        }
     }
 
     private void FixedUpdate()
@@ -183,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("SpiderWeb"))
         {
             if (!GetComponent<PropsController>())
-                isSlowingDown = true;
+                canMove = false;
         }
 
 
@@ -201,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("SpiderWeb"))
         {
             if (!GetComponent<PropsController>())
-                isSlowingDown = false;
+                canMove = true;
         }
 
         if (collision.gameObject.CompareTag("FreezeTrap"))

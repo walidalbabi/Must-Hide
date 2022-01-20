@@ -83,7 +83,7 @@ public class Fiddler : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && !healthScript.isDead)
         {
             SetAbilityOn();
         }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Photon.Pun;
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviourPun
 {
-
-    
     public enum Sound
     {
         MP5Shoot,
@@ -27,6 +25,12 @@ public class AudioManager : MonoBehaviour
     }
 
     private Dictionary<Sound, float> soundTimerDictionary;
+    private List<AudioSource> audioPool = new List<AudioSource>();
+
+    private void Start()
+    {
+        photonView.RPC("SetupAudioPoolList", RpcTarget.All);
+    }
 
     public void Initialize()
     {
@@ -104,26 +108,47 @@ public class AudioManager : MonoBehaviour
     }
 
     [PunRPC]
+    private void SetupAudioPoolList()
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            GameObject soundGameObject = new GameObject("Sound");
+            AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
+            soundGameObject.AddComponent<DestroyAfterDelay>();
+            soundGameObject.AddComponent<FollowTarget>();
+            audioPool.Add(audioSource);
+            soundGameObject.SetActive(false);
+        }
+    }
+
+    [PunRPC]
     private void RPC_PlaySound(Sound sound, float MaxDistance, int target, float Volume, float SpatialBlend)
     {
-        GameObject soundGameObject = new GameObject("Sound");
-        AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
-        var DestroyTime = soundGameObject.AddComponent<DestroyAfterDelay>();
-        audioSource.outputAudioMixerGroup = InGameManager.instance.audioMixer[1];
-        audioSource.spatialBlend = SpatialBlend;
-        audioSource.rolloffMode = AudioRolloffMode.Custom;
-        audioSource.maxDistance = MaxDistance;
-        audioSource.volume = Volume;
-        soundGameObject.transform.position = transform.position;
-        audioSource.clip = GetAudioClip(sound);
-        if (target != 0)
+        foreach (var item in audioPool)
         {
-            FollowTarget followTarget = soundGameObject.AddComponent<FollowTarget>();
-            followTarget.SetTarget(target);
-        }
+            if (!item.gameObject.activeInHierarchy)
+            {
+                item.gameObject.SetActive(true);
+                var DestroyTime = item.gameObject.GetComponent<DestroyAfterDelay>();
+                item.outputAudioMixerGroup = InGameManager.instance.audioMixer[1];
+                item.spatialBlend = SpatialBlend;
+                item.rolloffMode = AudioRolloffMode.Custom;
+                item.maxDistance = MaxDistance;
+                item.volume = Volume;
+                item.transform.position = transform.position;
+                item.clip = GetAudioClip(sound);
+                if (target != 0)
+                {
+                    FollowTarget followTarget = item.gameObject.GetComponent<FollowTarget>();
+                    followTarget.SetTarget(target);
+                }
 
-        DestroyTime.Delay = GetAudioClip(sound).length;
-        audioSource.Play();
+                DestroyTime.Delay = GetAudioClip(sound).length;
+                item.Play();
+                break;
+            }
+        }
+        
     }
 
     private AudioClip GetAudioClip(Sound sound)

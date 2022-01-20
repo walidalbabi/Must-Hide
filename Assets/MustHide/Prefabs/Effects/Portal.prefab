@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224562550}
   - component: {fileID: 224562551}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 8410162226884723375}
   - component: {fileID: 4218590552463347000}
   - component: {fileID: 7439670938138573119}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ember-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4887,7 +4887,7 @@ GameObject:
   - component: {fileID: 1393809866816233629}
   - component: {fileID: 7430275175414138465}
   - component: {fileID: 3529125707407173483}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4965,7 +4965,7 @@ GameObject:
   - component: {fileID: -5925026931417920508}
   - component: {fileID: 9011090810565394736}
   - component: {fileID: 9186971639341593293}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Portal
   m_TagString: Portal
   m_Icon: {fileID: 0}
@@ -5034,7 +5034,7 @@ MonoBehaviour:
   - {fileID: 3295378791097436508}
   portalLight: {fileID: 224562549}
   slider: {fileID: 3537073265142827511}
-  portalTimeToColl: 8
+  portalTimeToColl: 7
 --- !u!114 &-5925026931417920508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5064,11 +5064,11 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3528861851018787359}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fcc6bc9b65ca3a54191e57eea9fe1078, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -5184,7 +5184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5676005457528553924}
   - component: {fileID: 3537073265142827511}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: HideTimeBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5274,7 +5274,7 @@ GameObject:
   - component: {fileID: 1940456641048781149}
   - component: {fileID: 1603887907392995834}
   - component: {fileID: 2752839733458409717}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ember-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10078,7 +10078,7 @@ GameObject:
   - component: {fileID: 8065493252267733747}
   - component: {fileID: 9079214656253645141}
   - component: {fileID: 6191682506490420171}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PortalEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14885,7 +14885,7 @@ GameObject:
   - component: {fileID: 8210383926508184540}
   - component: {fileID: 3679074907393182761}
   - component: {fileID: 4978126257672017417}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14961,7 +14961,7 @@ GameObject:
   - component: {fileID: 1272564412549338713}
   - component: {fileID: 51352611469560644}
   - component: {fileID: 5578538239614110034}
-  m_Layer: 5
+  m_Layer: 13
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15060,7 +15060,7 @@ GameObject:
   - component: {fileID: 8025888372493250593}
   - component: {fileID: 3295378791097436508}
   - component: {fileID: 7011024823819053342}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ember-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

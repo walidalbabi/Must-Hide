@@ -716,6 +716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f1d39459b87194eb631519fc8af80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectedCharacterName: 2
   Gun: {fileID: 2959188785309793332}
   GunLight: {fileID: 4924257950851755865}
   AimJoystick: {fileID: 4523054178432269457}
@@ -723,6 +724,7 @@ MonoBehaviour:
   Muzzle: {fileID: 2959188785636822960}
   Muzzlefalsh: {fileID: 2959188785565365741}
   AutoFire: 1
+  bulletsTransform: []
   anim: {fileID: 2959188786381055286}
   ReloadTimeSlider: {fileID: 4042414371346063498}
   MagText: {fileID: 5239421233530847180}
@@ -767,7 +769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMonster: 0
-  MaxHealth: 100
+  _maxHealth: 100
   PlayerTeam: 0
   slider: {fileID: 6461433794762622300}
   healthBarFill: {fileID: 5155218386779690746}
@@ -776,6 +778,7 @@ MonoBehaviour:
   isDead: 0
   canUseAbility: 1
   photonPlayer: {fileID: 0}
+  spriterenderer: {fileID: 1565141709869987229}
   PlayerLight: {fileID: 1506790567585945188}
 --- !u!114 &7951161952865996942
 MonoBehaviour:
@@ -2043,7 +2046,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

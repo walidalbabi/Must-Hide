@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 3714437571592256388}
   - component: {fileID: 3714437571592256389}
   - component: {fileID: 3714437571592256390}
-  - component: {fileID: 6204306321574236111}
-  - component: {fileID: 6102266744377895179}
   - component: {fileID: 260260892235386216}
   m_Layer: 0
   m_Name: BloodParticle
@@ -4878,48 +4876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d4c83bb31accc45912603a85978e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splatPrefab: {fileID: 4319359705424138969, guid: 5399a62e0d67f5946af67b9daad71a72,
-    type: 3}
-  splatHolder: {fileID: 0}
---- !u!114 &6204306321574236111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3714437571592256391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  observableSearch: 2
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 6102266744377895179}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &6102266744377895179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3714437571592256391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 0
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  isMonster: 0
 --- !u!114 &260260892235386216
 MonoBehaviour:
   m_ObjectHideFlags: 0

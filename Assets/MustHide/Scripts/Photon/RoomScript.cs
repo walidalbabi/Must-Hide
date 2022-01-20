@@ -15,7 +15,7 @@ public class RoomScript : MonoBehaviour
     public void SetRoomInfo(RoomInfo roomInfo)
     {
         RoomInfo = roomInfo;
-        _text.text = roomInfo.MaxPlayers + ", " + roomInfo.Name;
+        _text.text =   "House      "+ roomInfo.Name.Substring(0 , 5) + "            " + roomInfo.PlayerCount+"/"+roomInfo.MaxPlayers;
     }
 
     public void OnClick_Button()

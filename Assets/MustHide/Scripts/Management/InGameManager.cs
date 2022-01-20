@@ -10,8 +10,6 @@ using UnityEngine.Audio;
 
 public class InGameManager : MonoBehaviourPunCallbacks
 {
-
-
     public enum State
     {
         ChooseCharacter,
@@ -26,6 +24,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public int HuntersDead = 0;
     public int MonstersDead = 0;
     public int CollectedPortals = 0;
+
+    [SerializeField] private int maxPlayerDeadNumber;
 
     private bool isPortalActive = true;
 
@@ -48,13 +48,15 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     public Transform[] MonstersSpawnPoints;
     public Transform[] HuntersSpawnPoints;
-    public Transform[] EscapeSpawnPoints;
+    public EscapePortalsPos[] EscapeSpawnPoints;
 
     [SerializeField]
     private GameObject[] Effects;
     
     public Transform logsContent;
-
+    public Transform huntersHeaderPanel;
+    public Transform monstersHeaderPanel;
+    public GameObject inGamePlayerAvatar;
     //Addons
     private bool gameEnded;
 
@@ -73,12 +75,14 @@ public class InGameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Instantiate("PhotonNetworkPlayer", transform.position, Quaternion.identity);
         PhotonNetwork.CurrentRoom.IsOpen = false;
+
+        maxPlayerDeadNumber = PhotonNetwork.CurrentRoom.MaxPlayers / 2;
     }
 
     void Update()
     {
         pingTxt.text = "Ping : " + PhotonNetwork.GetPing().ToString();
-        if (MonstersDead >= 5 || HuntersDead >= 5)
+        if (MonstersDead >= maxPlayerDeadNumber || HuntersDead >= maxPlayerDeadNumber)
         {
            GameState = State.EndGame;
         }
@@ -118,21 +122,22 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private void SetGameOverPanel()
     {
         MatchTimerManager.instance.EndPanel.SetActive(true);
-        if (MonstersDead >= 5)
+        if (MonstersDead >= maxPlayerDeadNumber)
         {
             //Hunters Win
             MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win , All Monsters Are Dead";
 
             if (PhotonNetwork.IsMasterClient)
-                WinnerTeam = 2;
+                photonView.RPC("RPC_WinnerTeam", RpcTarget.All , 2);
 
-        }else if (HuntersDead >= 5)
+        }
+        else if (HuntersDead >= maxPlayerDeadNumber)
         {
             //Monsters Win
             MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win , All Hunters Are Dead";
 
             if (PhotonNetwork.IsMasterClient)
-                WinnerTeam = 1;
+                photonView.RPC("RPC_WinnerTeam", RpcTarget.All, 1);
         }
         else if (isPortalWin)
         {
@@ -140,30 +145,27 @@ public class InGameManager : MonoBehaviourPunCallbacks
             MatchTimerManager.instance.GameEndText.text = "Game End Monsters Win , All Gates Are Grouped";
 
             if (PhotonNetwork.IsMasterClient)
-                WinnerTeam = 1;
+                photonView.RPC("RPC_WinnerTeam", RpcTarget.All, 1);
         }
         else
         {
             //Hunters Win
-            WinnerTeam = 2;
+            photonView.RPC("RPC_WinnerTeam", RpcTarget.All, 2);
             MatchTimerManager.instance.GameEndText.text = "Game End Hunters Win , Monsters Didn't Collect The Gates";
         }
-
-
         SetWinnerTeam();
-
-    
     }
 
     private void Escape_State()
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            int rand = Random.Range(0, EscapeSpawnPoints.Length);
             if (isPortalActive)
             {
-                for (int i = 0; i < EscapeSpawnPoints.Length; i++)
+                for (int i = 0; i < EscapeSpawnPoints[rand].points.Count; i++)
                 {
-                     GameObject portal =  PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Portal"), EscapeSpawnPoints[i].transform.position, Quaternion.identity);
+                     GameObject portal =  PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Portal"), EscapeSpawnPoints[rand].points[i].transform.position, Quaternion.identity);
                 }
             }
                
@@ -228,7 +230,10 @@ public class InGameManager : MonoBehaviourPunCallbacks
                     MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
                 }
         }
-      
+
+        Cursor.visible = true;
+        PhotonNetwork.CurrentRoom.RemovedFromList = true;
+
     }
 
     #endregion HanldeGameState
@@ -294,28 +299,27 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     public void UpdateMonsterDead()
     {
-        MonstersDead++;
+        photonView.RPC("RPC_UpdateMonstersDead", RpcTarget.AllBuffered);
     }
 
     public void UpdateHuntersDead()
     {
-        HuntersDead++;
+        photonView.RPC("RPC_UpdateHuntersDead", RpcTarget.AllBuffered);
     }
 
     public void UpdateCollectedPortals()
     {
-        CollectedPortals++;
-        portalsCounterTxt.text = CollectedPortals.ToString() + " / 4";
+        RPC_UpdateCollectedPortals();
     }
 
     public void SetPortal(bool portalBool)
     {
-        GetComponent<Photon.Pun.PhotonView>().RPC("RPC_SetPortal", RpcTarget.AllBuffered, portalBool);
+        photonView.RPC("RPC_SetPortal", RpcTarget.AllBuffered, portalBool);
     }
 
     public void LeaveGame()
     {
-        Photon.Pun.PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveRoom();
     }
 
     public SoundAudioClip[] soundAudioClip;
@@ -330,8 +334,6 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public void SetWinnerTeam()
     {
         Invoke("SetFinishPanel", 3f);
-        if (PhotonNetwork.IsMasterClient)
-            GetComponent<PhotonView>().RPC("RPC_WinnerTeam", RpcTarget.Others);
     }
 
     //Rpc--------------------------------------------------------------
@@ -342,24 +344,30 @@ public class InGameManager : MonoBehaviourPunCallbacks
         isPortalWin = portalBool;
     }
 
-   [PunRPC]
-   private void RPC_WinnerTeam()
-    {
-#pragma warning disable CS1717 // Assignment made to same variable
-        WinnerTeam = WinnerTeam;
 
-#pragma warning restore CS1717 // Assignment made to same variable
+    [PunRPC]
+    private void RPC_UpdateCollectedPortals()
+    {
+        CollectedPortals++;
+        portalsCounterTxt.text = CollectedPortals.ToString() + " / 4";
     }
+
+    [PunRPC]
+    private void RPC_WinnerTeam(int team)
+    {
+        WinnerTeam = team;
+    }
+
     [PunRPC]
     private void RPC_UpdateHuntersDead()
     {
-        UpdateHuntersDead();
+        HuntersDead++;
     }
 
     [PunRPC]
     private void RPC_UpdateMonstersDead()
     {
-        UpdateMonsterDead();
+        MonstersDead++;
     }
 
 
@@ -377,6 +385,9 @@ public class InGameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
+
+        if (!PhotonNetwork.IsMasterClient) return;
+
         playerIndex = 0;
         foreach (var playerList in photonPlayer)
         {
@@ -389,11 +400,11 @@ public class InGameManager : MonoBehaviourPunCallbacks
                     }
                     else if (playerList.myTeam == 1 && !playerList.isPlayerDead)
                     {
-                        GetComponent<PhotonView>().RPC("RPC_UpdateMonstersDead", RpcTarget.AllBuffered);
+                    UpdateMonsterDead();
                     }
                     else if (playerList.myTeam == 2 && !playerList.isPlayerDead)
                     {
-                        GetComponent<PhotonView>().RPC("RPC_UpdateHuntersDead", RpcTarget.AllBuffered);
+                    UpdateHuntersDead();
                     }  
             }
             else
@@ -410,7 +421,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        if (playerIndex >= 10)
+        if (playerIndex >= PhotonNetwork.CurrentRoom.MaxPlayers)
             PhotonNetwork.CurrentRoom.RemovedFromList = true;
 
             Debug.Log("Nick Name : "+otherPlayer.NickName+ "--- UserID: "+ otherPlayer.UserId);

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class PlayersListingMenu : MonoBehaviourPunCallbacks
 {
-
-
     [SerializeField]
     private Transform _content;
     [SerializeField]
     private PlayerListingScript _playerListing;
+
+    [SerializeField] private Text _playerNumbText;
 
 
     private List<PlayerListingScript> _listings = new List<PlayerListingScript>();
@@ -68,11 +69,14 @@ public class PlayersListingMenu : MonoBehaviourPunCallbacks
                 _listings.Add(listing);
             }
         }
+
+        _playerNumbText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         AddPlayerListing(newPlayer);
+        _playerNumbText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -84,5 +88,6 @@ public class PlayersListingMenu : MonoBehaviourPunCallbacks
             Destroy(_listings[index].gameObject);
             _listings.RemoveAt(index);
         }
+        _playerNumbText.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 }

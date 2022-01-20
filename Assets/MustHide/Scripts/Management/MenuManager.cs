@@ -27,6 +27,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject ProfilePanel;
     [SerializeField]
+    private GameObject PublicRooms;
+    [SerializeField]
     private GameObject FirstLoginPanel;
     [SerializeField]
     private Image ProfileImg;
@@ -62,6 +64,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject LogoutPanel;
 
+    [SerializeField]
+    private InputField JoinPrivateInputField;
+
     private CanvasGroup HunterCanvas, MonsterCanvas, EyesCanvas;
     private CanvasGroup LogoutPanelCanvas;
     private CanvasGroup FirstLoginPanelCanvas;
@@ -83,7 +88,11 @@ public class MenuManager : MonoBehaviour
 
     private string friendName;
 
-    public Slider[] audiSlider; 
+    public Slider[] audiSlider;
+
+    private int _roomMaxPlayersNumb = 10;
+    private Button _currentSelectedPlayerNumbButton;
+
 
     private void OnEnable()
     {
@@ -132,6 +141,8 @@ public class MenuManager : MonoBehaviour
         EyesCanvas = EyesSection.GetComponent<CanvasGroup>();
         FirstLoginPanelCanvas = FirstLoginPanel.GetComponent<CanvasGroup>();
         LogoutPanelCanvas = LogoutPanel.GetComponent<CanvasGroup>();
+
+        Cursor.visible = true;
     }
 
     #region Photon
@@ -139,10 +150,21 @@ public class MenuManager : MonoBehaviour
     public void JoinCasual()
     {
         NetworkManager.instance.JoinCasualMatch();
+        LoadingScript.instance.StartLoading("Searching For a Game...");
     }
     public void JoinRank()
     {
         NetworkManager.instance.JoinRankMatch();
+    }
+
+    public void JoinPrivate()
+    {
+        NetworkManager.instance.JoinRoom(JoinPrivateInputField.text);
+    }
+
+    public void CreateCustomMatch()
+    {
+        NetworkManager.instance.CreateCustomMatch(_roomMaxPlayersNumb);
     }
 
     public void StartMatch()
@@ -294,6 +316,8 @@ public class MenuManager : MonoBehaviour
     {
         PlayPanel.SetActive(true);
         StartPanel.SetActive(false);
+        PublicRooms.SetActive(false);
+        CreateCustomMatchPanel.SetActive(false);
     }
 
     public void Exit()
@@ -333,9 +357,15 @@ public class MenuManager : MonoBehaviour
         SetUpData();
     }
 
-    public void CreateCustomMatch()
+    public void ShowPublicRoomsPanel()
     {
-        StartPanel.SetActive(false);
+        PublicRooms.SetActive(true);
+        PlayPanel.SetActive(false);
+    }
+
+    public void ShowCreateCustomMatch()
+    {
+        PlayPanel.SetActive(false);
         CreateCustomMatchPanel.SetActive(true);
     }
 
@@ -346,7 +376,7 @@ public class MenuManager : MonoBehaviour
 
     public void Public()
     {
-        StartPanel.SetActive(false);
+        PlayPanel.SetActive(false);
         JoinRoomPanel.SetActive(true);
     }
 
@@ -366,10 +396,10 @@ public class MenuManager : MonoBehaviour
 
     public void ExitCurrentRoomPanel()
     {
-        StartPanel.SetActive(true);
         CreateCustomMatchPanel.SetActive(false);
         JoinRoomPanel.SetActive(false);
         CurrentRoomPanel.SetActive(false);
+        LoadingScript.instance.StartLoading("Getting Back To Menu...");
         NetworkManager.instance.LeaveRoom();
     }
 
@@ -394,6 +424,16 @@ public class MenuManager : MonoBehaviour
             FirstLoginPanelCanvas.alpha = 0;
             FirstLoginPanelCanvas.LeanAlpha(1f, 0.3f);
         }
+    }
+
+    public void GetPlayerRoomNumber()
+    {
+        if (_currentSelectedPlayerNumbButton != null) _currentSelectedPlayerNumbButton.interactable = true;
+
+        _currentSelectedPlayerNumbButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        _currentSelectedPlayerNumbButton.interactable = false;
+
+        _roomMaxPlayersNumb = int.Parse(_currentSelectedPlayerNumbButton.gameObject.name);
     }
     #endregion UIManager
 

@@ -18,12 +18,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public const string MAP_PROP_KEY = "map";
     public const string GAME_MODE_PROP_KEY = "gm";
 
-
-  
     [SerializeField]
     private string FriendName;
-
-
 
     [HideInInspector]
     public List<FriendScript> _listings = new List<FriendScript>();
@@ -35,9 +31,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Instance 
     public static NetworkManager instance;
 
-
     private int m_LastPhotonACKTime = 0; private double m_LastPhotonACKTimeReceived = 0d;
 
+    public byte MaxPlayers => _MaxPlayers;
 
     private void Awake()
     {
@@ -60,14 +56,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient)
             return;
-
-        if (PhotonNetwork.InRoom)
-        {
-            if(PhotonNetwork.CurrentRoom.Players.Count == _MaxPlayers)
-            {
-               ChangeScene();
-            }
-        }
 
         //Checking For Connections
 
@@ -102,10 +90,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!VivoxManager.instance.isVivoxLoggedIn)
             VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
 
-   
-
         MenuManager.instance.SetProfileInfo();
-
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -130,22 +115,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Succesful Create Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
+        LoadingScript.instance.StopLoading();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("Failed To Create Match , GameMode : " + isRank);
+        ErrorScript.instance.StartErrorMsg(message, true, false, "");
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Succesful Join Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
+        LoadingScript.instance.StopLoading();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log("Failed To Join Match , GameMode : " + isRank);
+        ErrorScript.instance.StartErrorMsg(message, true, false, "");
     }
 
 
@@ -159,9 +148,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             CreateCasual();
     }
 
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+    }
+
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
+        LoadingScript.instance.StopLoading();
+        MenuManager.instance.ShowHome();
 
     }
 
@@ -269,8 +265,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected)
             return;
 
-        int RoomName = Random.Range(1, 999999);
-
         RoomOptions option = new RoomOptions();
         option.MaxPlayers = _MaxPlayers;
         option.PublishUserId = true;
@@ -283,10 +277,39 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         option.CustomRoomPropertiesForLobby = lobbyProperties;
         option.CustomRoomProperties = roomProperties;
 
+        int roomRandomCode = Random.Range(1, 999);
+        string playerFirstFiveChar = PhotonNetwork.NickName.Substring(0, 5);
+
         if (expectedPlayers[0] != "")
-            PhotonNetwork.CreateRoom("Cl" + RoomName.ToString(), option, TypedLobby.Default, expectedPlayers);
+            PhotonNetwork.CreateRoom(playerFirstFiveChar + "#" + roomRandomCode.ToString(), option, TypedLobby.Default, expectedPlayers);
         else
-            PhotonNetwork.CreateRoom("Cl" + RoomName.ToString(), option, TypedLobby.Default);
+            PhotonNetwork.CreateRoom(playerFirstFiveChar + "#" + roomRandomCode.ToString(), option, TypedLobby.Default);
+    }
+
+    public void CreateCustomMatch(int maxPlayers)
+    {
+        if (!PhotonNetwork.IsConnected)
+            return;
+
+        RoomOptions option = new RoomOptions();
+        option.MaxPlayers = (byte)maxPlayers;
+        option.PublishUserId = true;
+
+        Hashtable roomProperties = new Hashtable() { { GAME_MODE_PROP_KEY, false } };
+
+        string[] lobbyProperties = { GAME_MODE_PROP_KEY };
+
+
+        option.CustomRoomPropertiesForLobby = lobbyProperties;
+        option.CustomRoomProperties = roomProperties;
+
+        int roomRandomCode = Random.Range(1, 999);
+        string playerFirstFiveChar = PhotonNetwork.NickName.Substring(0, 5);
+
+        if (expectedPlayers[0] != "")
+            PhotonNetwork.CreateRoom(playerFirstFiveChar + "#" + roomRandomCode.ToString(), option, TypedLobby.Default, expectedPlayers);
+        else
+            PhotonNetwork.CreateRoom(playerFirstFiveChar + "#" + roomRandomCode.ToString(), option, TypedLobby.Default);
     }
 
     public void JoinCasualMatch()
@@ -338,8 +361,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         MyID = PhotonNetwork.AuthValues.UserId.ToString();
     }
 
-
-
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom(true);
@@ -367,8 +388,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         return PhotonNetwork.AuthValues.UserId;
     }
-
-
 
     public void DestroyObj()
     {

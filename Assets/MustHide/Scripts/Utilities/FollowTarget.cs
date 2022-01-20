@@ -13,6 +13,11 @@ public class FollowTarget : MonoBehaviour
             transform.position = Target.position;
     }
 
+    private void OnDisable()
+    {
+        Target = null;
+    }
+
     public void SetTarget(int target)
     {
         Target = Photon.Pun.PhotonView.Find(target).transform;

@@ -9,7 +9,7 @@ public class PhotonPlayer : MonoBehaviour
     [HideInInspector]
     public PhotonView PV;
     public int myTeam;
-    GameObject playerAvatar;
+    GameObject playerCharacter;
     public bool canCreatePlayer;
     [SerializeField]
     private string characterName;
@@ -127,7 +127,7 @@ public class PhotonPlayer : MonoBehaviour
     }
     private void SpawnCharacter()
     {
-        if (myTeam != 0 && canCreatePlayer && playerAvatar == null)
+        if (myTeam != 0 && canCreatePlayer && playerCharacter == null)
         {
             if (myTeam == 1)
             {
@@ -138,7 +138,7 @@ public class PhotonPlayer : MonoBehaviour
                     characterName = ChooseCharScript.instance.Name;
                     if (characterName == "")
                         characterName = "Recruiter";
-                    playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Monsters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
+                    playerCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Monsters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
                            InGameManager.instance.MonstersSpawnPoints[spawnPicker].rotation, 0);
                 }
             }
@@ -152,13 +152,13 @@ public class PhotonPlayer : MonoBehaviour
                     characterName = ChooseCharScript.instance.Name;
                     if (characterName == "")
                         characterName = "Recruiter";
-                    playerAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", characterName), InGameManager.instance.HuntersSpawnPoints[spawnPicker].position,
+                    playerCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", characterName), InGameManager.instance.HuntersSpawnPoints[spawnPicker].position,
                          InGameManager.instance.HuntersSpawnPoints[spawnPicker].rotation, 0);
                 }
             }
             InGameManager.instance.CurrentTeam = myTeam;
-            playerAvatar.GetComponent<Health>().SetPlayerTeam((byte)myTeam);
-            playerAvatar.GetComponent<Health>().photonPlayer = this;
+            playerCharacter.GetComponent<Health>().SetPlayerTeam((byte)myTeam);
+            playerCharacter.GetComponent<Health>().photonPlayer = this;
             //Join Team Channel
             VivoxManager.instance.LeaveChannel(false);
             StartCoroutine(joinn());
@@ -186,7 +186,7 @@ public class PhotonPlayer : MonoBehaviour
     private void DelayedJoin()
     {
         Debug.Log(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString() + myTeam.ToString());
-        VivoxManager.instance.JoinChannel(Photon.Pun.PhotonNetwork.CurrentRoom.Name.ToString()+myTeam.ToString(), true, false, true, VivoxUnity.ChannelType.NonPositional);
+        VivoxManager.instance.JoinChannel(Photon.Pun.PhotonNetwork.CurrentRoom.Name.Substring(0,5)+myTeam.ToString(), true, false, true, VivoxUnity.ChannelType.NonPositional);
     }
 
     #region RPC
@@ -222,6 +222,9 @@ public class PhotonPlayer : MonoBehaviour
     {
         isPlayerDead = deadbool;
     }
+
+    
+
     #endregion RPC
 
     #region ChoosePanel

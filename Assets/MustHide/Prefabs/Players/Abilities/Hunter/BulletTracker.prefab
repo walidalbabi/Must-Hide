@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 2467132676023163931}
   - component: {fileID: 3998558185926061413}
   - component: {fileID: 4559732605199767851}
+  - component: {fileID: 2623453910712840910}
   m_Layer: 12
   m_Name: BulletTracker
   m_TagString: Untagged
@@ -295,10 +296,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3bf8994f8b1d74f8d27d43e0c7f3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 10
+  delay: 13
   lights:
   - {fileID: 5317299959124986038}
   - {fileID: 2003805654878549411}
+  _target: {fileID: 0}
 --- !u!114 &3998558185926061413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +340,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!58 &2623453910712840910
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467132676023163930}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 15
 --- !u!1 &5317299959124986038
 GameObject:
   m_ObjectHideFlags: 0

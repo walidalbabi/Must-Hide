@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class DestroyAfter : MonoBehaviour
 {
-
-
     public float LifeTime;
     float startTime;
     SpriteRenderer sprite;
@@ -34,7 +32,6 @@ public class DestroyAfter : MonoBehaviour
     }
     IEnumerator Fade()
     {
-   
             float value = 1;
             while (value > 0)
             {

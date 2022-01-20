@@ -19,7 +19,6 @@ public class RoomListing : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         _content.DestroyChildren();
-        MenuManager.instance.ShowCurrentRoomPanel();
         _listings.Clear();
     }
 

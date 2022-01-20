@@ -35,17 +35,19 @@ public class PlayerUIMobile : MonoBehaviour
             propController.TransformToProp();
             IncreaceHideTimeBtn.SetActive(true);
         }
-        else
-            if (propController.isProp && propController.canTransformTo)
-            {
+        else if (propController.isProp && propController.canTransformTo)
+        {
             propController.BackToTransformation(false);
             IncreaceHideTimeBtn.SetActive(false);
-            }
+        }
+
     }
 
     public void IncHideTime()
     {
-        propController.IncreaseHideTime();
+        if (propController.resetHide > 0 && propController.isProp)
+            propController.IncreaseHideTime();
+        else IncreaceHideTimeBtn.SetActive(false);
     }
 
     public void Shoot()
@@ -65,6 +67,16 @@ public class PlayerUIMobile : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void StartShooting()
+    {
+        shootingScript.Shoot(true);
+    }
+
+    public void StopShooting()
+    {
+        shootingScript.Shoot(false);
     }
 
 }

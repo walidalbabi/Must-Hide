@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2668,7 +2668,8 @@ MonoBehaviour:
   isProp: 0
   canTransformTo: 0
   timeToTransformBack: 10
-  noTransformBuff: 3
+  noTransformBuff: 10
+  maxResetHide: 2
   isBuff: 0
   propCol: {fileID: 0}
   HideTimeSlider: {fileID: 267500753219855915}
@@ -2686,7 +2687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMonster: 1
-  MaxHealth: 100
+  _maxHealth: 100
   PlayerTeam: 0
   slider: {fileID: 3153124286769761106}
   healthBarFill: {fileID: 4531586002661070614}
@@ -2695,6 +2696,7 @@ MonoBehaviour:
   isDead: 0
   canUseAbility: 1
   photonPlayer: {fileID: 0}
+  spriterenderer: {fileID: 5876372155836915258}
   PlayerLight: {fileID: 5696865725315118844}
 --- !u!50 &7278926170778827221
 Rigidbody2D:

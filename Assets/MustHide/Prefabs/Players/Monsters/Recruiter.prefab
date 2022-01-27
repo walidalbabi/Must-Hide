@@ -2172,6 +2172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalMovementSpeed: 4
+  footPrints: {fileID: 7796791435132191303, guid: 8ffd44f8ad9707844ac45a999e269bd3,
+    type: 3}
 --- !u!114 &6287034770563733462
 MonoBehaviour:
   m_ObjectHideFlags: 0

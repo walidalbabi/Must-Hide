@@ -3316,6 +3316,8 @@ MonoBehaviour:
   normalMovementSpeed: 4
   AbilitySpeed: 4
   CoolDown: 60
+  footPrints: {fileID: 7796791435132191303, guid: 8ffd44f8ad9707844ac45a999e269bd3,
+    type: 3}
   AbilitySlider: {fileID: 6880566663141373782}
 --- !u!114 &8531414244692883277
 MonoBehaviour:

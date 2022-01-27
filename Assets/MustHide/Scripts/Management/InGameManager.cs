@@ -74,9 +74,13 @@ public class InGameManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.Instantiate("PhotonNetworkPlayer", transform.position, Quaternion.identity);
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-
         maxPlayerDeadNumber = PhotonNetwork.CurrentRoom.MaxPlayers / 2;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
     }
 
     void Update()
@@ -393,19 +397,19 @@ public class InGameManager : MonoBehaviourPunCallbacks
         {
             if(playerList.UserID == otherPlayer.UserId)
             {
-                    if (playerList.myTeam == 0)
-                    {
-                        PhotonNetwork.LeaveRoom(true);
-                        ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false, "");
-                    }
-                    else if (playerList.myTeam == 1 && !playerList.isPlayerDead)
-                    {
+                if (playerList.myTeam == 0)
+                {
+                    PhotonNetwork.LeaveRoom(true);
+                    ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false, "");
+                }
+                else if (playerList.myTeam == 1 && !playerList.isPlayerDead)
+                {
                     UpdateMonsterDead();
-                    }
-                    else if (playerList.myTeam == 2 && !playerList.isPlayerDead)
-                    {
+                }
+                else if (playerList.myTeam == 2 && !playerList.isPlayerDead)
+                {
                     UpdateHuntersDead();
-                    }  
+                }
             }
             else
             {

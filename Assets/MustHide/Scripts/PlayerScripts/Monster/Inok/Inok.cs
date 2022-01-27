@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-public class Inok : MonoBehaviour
+public class Inok : MonoBehaviourPun
 {
     [Tooltip("Normal speed of the player")]
     [SerializeField]
@@ -14,7 +14,10 @@ public class Inok : MonoBehaviour
     private float AbilitySpeed;
     [Tooltip("How much time to use ability again")]
     [SerializeField]
-    private float CoolDown;
+    private float CoolDown; 
+    
+    [SerializeField]
+    private GameObject footPrints;
 
 
     private float Counter;
@@ -86,30 +89,38 @@ public class Inok : MonoBehaviour
             if (playerMove.movement.x > 0)
             {
                 if (feetIndex == 1)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, -90f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, -90f));
+                //   PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, -90f));
                 else if (feetIndex == 2)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, -90f));
+                    // PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, -90f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, -90f));
             }
             else if (playerMove.movement.x < 0)
             {
                 if (feetIndex == 1)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 90f));
+                    // PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 90f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(0f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 90f));
                 else if (feetIndex == 2)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 90f));
+                    // PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 90f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(0f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 90f));
             }
             else if (playerMove.movement.y > 0)
             {
                 if (feetIndex == 1)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    // PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 0f));
                 else if (feetIndex == 2)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    // PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
             }
             else if (playerMove.movement.y < 0)
             {
                 if (feetIndex == 1)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                    // PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(-0.1f, -0.4f, 0f), Quaternion.Euler(0f, 0f, 180f));
                 else if (feetIndex == 2)
-                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                    //  PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FootPrintsObj"), transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 180f));
+                    photonView.RPC("RPC_InstantiateFootPrints", RpcTarget.AllBuffered, transform.position + new Vector3(0.1f, -0.5f, 0f), Quaternion.Euler(0f, 0f, 180f));
             }
 
             if (feetIndex == 1)
@@ -123,6 +134,13 @@ public class Inok : MonoBehaviour
         {
             _footPrintsCounter += Time.deltaTime;
         }
+    }
+
+
+    [PunRPC]
+    private void RPC_InstantiateFootPrints(Vector3 pos, Quaternion rot)
+    {
+        Instantiate(footPrints, pos, rot);
     }
 
     public void SetAbilityOn()

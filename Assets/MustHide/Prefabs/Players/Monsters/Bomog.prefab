@@ -1926,6 +1926,8 @@ MonoBehaviour:
   Delay: 8
   CoolDown: 35
   ShieldEffect: {fileID: 2536175330476654360}
+  footPrints: {fileID: 7796791435132191303, guid: 8ffd44f8ad9707844ac45a999e269bd3,
+    type: 3}
   isAbility: 0
   AbilitySlider: {fileID: 6495028614942075523}
 --- !u!114 &4108268386538683704

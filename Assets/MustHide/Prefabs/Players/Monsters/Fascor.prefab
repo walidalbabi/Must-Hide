@@ -3449,6 +3449,8 @@ MonoBehaviour:
   AbilitySpeed: 7
   Delay: 3
   CoolDown: 30
+  footPrints: {fileID: 7796791435132191303, guid: 8ffd44f8ad9707844ac45a999e269bd3,
+    type: 3}
   AbilitySlider: {fileID: 1757486664631292876}
 --- !u!114 &9059066609317725961
 MonoBehaviour:

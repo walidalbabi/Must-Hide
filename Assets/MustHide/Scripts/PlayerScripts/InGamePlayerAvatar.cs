@@ -19,7 +19,7 @@ public class InGamePlayerAvatar : MonoBehaviour
 
             _slider.value = _currentHolderHealth.HP;
 
-        if(_currentHolderHealth.isDead && _isDead == false)
+        if(_currentHolderHealth.isDead || _currentHolderHealth == null && _isDead == false)
         {
             _isDead = true;
             SetDead();

@@ -2958,7 +2958,7 @@ MonoBehaviour:
   isHunter: 1
   propController: {fileID: 0}
   IncreaceHideTimeBtn: {fileID: 0}
-  shootingScript: {fileID: 0}
+  shootingScript: {fileID: 4250061662817587519}
 --- !u!1 &5181165250767355486
 GameObject:
   m_ObjectHideFlags: 0

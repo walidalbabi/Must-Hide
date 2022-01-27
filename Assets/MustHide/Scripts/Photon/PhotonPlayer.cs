@@ -18,14 +18,10 @@ public class PhotonPlayer : MonoBehaviour
     public bool isPlayerDead;
     public string UserID;
 
-    public GameObject selectedChar, beforeChar;
-    public string Charc;
-    public GameObject[] Monsters;
-    public GameObject[] Hunters;
+    //Choose Character Section
+    public string choosenCharacterName;
+    private CharacterSelectBtn _currentSelectedChar;
 
-    //For If Not purshased
-    public GameObject[] MonstersX;
-    public GameObject[] HuntersX;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -34,17 +30,17 @@ public class PhotonPlayer : MonoBehaviour
 
     void Start()
     {
-        //Getting Team
+ 
         if (PV.IsMine)
         {
-                PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
-                PV.RPC("RPC_SetphotonPlayer", RpcTarget.AllBuffered);
+            //Getting Team
+            PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
+            //Adding Photon Player to list
+            PV.RPC("RPC_SetphotonPlayer", RpcTarget.AllBuffered);
 
-        }
+            ChooseCharScript.instance.SetCurrentPlayerComponent(this);
 
-        Invoke("SetChooseCharVar", 2f);
-
-        
+        }    
     }
 
     
@@ -58,33 +54,33 @@ public class PhotonPlayer : MonoBehaviour
 
 
         //Check Selected Character In Choose Character Panel
-        if (InGameManager.instance.GameState == InGameManager.State.ChooseCharacter && PV.IsMine)
-        {
-            if (ChooseCharScript.instance.Name != "" || ChooseCharScript.instance.Name != "Recruiter")
-            {
-                if (myTeam == 1)
-                    foreach (GameObject obj in Monsters)
-                    {
-                        if (obj.name == ChooseCharScript.instance.Name)
-                        {
-                            if (selectedChar != obj)
-                                PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
-                        }
+        //if (InGameManager.instance.GameState == InGameManager.State.ChooseCharacter && PV.IsMine)
+        //{
+        //    if (ChooseCharScript.instance.Name != "" || ChooseCharScript.instance.Name != "Recruiter")
+        //    {
+        //        if (myTeam == 1)
+        //            foreach (GameObject obj in Monsters)
+        //            {
+        //                if (obj.name == ChooseCharScript.instance.Name)
+        //                {
+        //                    if (selectedChar != obj)
+        //                        PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
+        //                }
 
-                    }
+        //            }
 
-                if (myTeam == 2)
-                    foreach (GameObject obj in Hunters)
-                    {
-                        if (obj.name == ChooseCharScript.instance.Name)
-                        {
-                            if (selectedChar != obj)
-                                PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
-                        }
+        //        if (myTeam == 2)
+        //            foreach (GameObject obj in Hunters)
+        //            {
+        //                if (obj.name == ChooseCharScript.instance.Name)
+        //                {
+        //                    if (selectedChar != obj)
+        //                        PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
+        //                }
 
-                    }
-            }
-        }
+        //            }
+        //    }
+        //}
 
 
         SpawnCharacter();
@@ -135,7 +131,7 @@ public class PhotonPlayer : MonoBehaviour
 
                 if (PV.IsMine)
                 {
-                    characterName = ChooseCharScript.instance.Name;
+                    characterName = choosenCharacterName;
                     if (characterName == "")
                         characterName = "Recruiter";
                     playerCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Monsters", characterName), InGameManager.instance.MonstersSpawnPoints[spawnPicker].position,
@@ -149,7 +145,7 @@ public class PhotonPlayer : MonoBehaviour
                 if (PV.IsMine)
                 {
 
-                    characterName = ChooseCharScript.instance.Name;
+                    characterName = choosenCharacterName;
                     if (characterName == "")
                         characterName = "Recruiter";
                     playerCharacter = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Hunters", characterName), InGameManager.instance.HuntersSpawnPoints[spawnPicker].position,
@@ -228,119 +224,39 @@ public class PhotonPlayer : MonoBehaviour
     #endregion RPC
 
     #region ChoosePanel
-    [PunRPC]
-    private void RPC_CharVariables(string name)
-    {
-        if (selectedChar != null)
-            PV.RPC("RPC_ChooseChar", RpcTarget.AllBuffered, true);
-        Charc = name;
-        Invoke("SetSelectedChar", 0.3f);
-        Invoke("SyncChoosePanelAfter", 0.45f);
-
-
-    }
-    [PunRPC]
-    private void RPC_ChooseChar(bool activate)
-    {
-        if (selectedChar != null && selectedChar.name != "Recruiter")
-            selectedChar.GetComponent<Button>().interactable = activate;
-    }
-
-    private void SetSelectedChar()
-    {
-        if (myTeam == 1)
-            foreach (GameObject obj in Monsters)
-            {
-                if (obj.name == Charc)
-                {
-                    if (obj.activeInHierarchy)
-                        selectedChar = obj;
-                }
-            }
-
-        if (myTeam == 2)
-            foreach (GameObject obj in Hunters)
-            {
-                if (obj.name == Charc)
-                {
-                    if (obj.activeInHierarchy)
-                        selectedChar = obj;
-                }
-            }
-
-    }
-
-    private void SyncChoosePanelAfter()
-    {
-        if (selectedChar != null && selectedChar.activeInHierarchy)
-        {
-            PV.RPC("RPC_ChooseChar", RpcTarget.AllBuffered, false);
-        }
-    }
-
-    //Setting GameObjects After Scene Loaded
-    private void SetChooseCharVar()
-    {
-        Monsters = new GameObject[ChooseCharScript.instance.Monsters.Length];
-        Hunters = new GameObject[ChooseCharScript.instance.Hunters.Length];
-        HuntersX = new GameObject[ChooseCharScript.instance.HuntersX.Length];
-        MonstersX = new GameObject[ChooseCharScript.instance.MonstersX.Length];
-
-        for (int i = 0; i < ChooseCharScript.instance.Monsters.Length; i++)
-        {
-            Monsters[i] = ChooseCharScript.instance.Monsters[i];
-        }
-
-
-        for (int i = 0; i < ChooseCharScript.instance.Hunters.Length; i++)
-        {
-            Hunters[i] = ChooseCharScript.instance.Hunters[i];
-        }
-
-        for (int i = 0; i < ChooseCharScript.instance.MonstersX.Length; i++)
-        {
-            MonstersX[i] = ChooseCharScript.instance.MonstersX[i];
-        }
-
-
-        for (int i = 0; i < ChooseCharScript.instance.HuntersX.Length; i++)
-        {
-            HuntersX[i] = ChooseCharScript.instance.HuntersX[i];
-        }
-
-        if (myTeam == 1)
-            for (int i = 1; i < Monsters.Length; i++)
-            {
-                if (PlayfabCloudSaving.instance.MonstersCharacters[i - 1] == false)
-                {
-                 
-                    Monsters[i].GetComponent<Button>().interactable = false;
-                    MonstersX[i].SetActive(true);
-                }
-                else
-                {
-
-                    Monsters[i].GetComponent<Button>().interactable = true;
-                    MonstersX[i].SetActive(false);
-                }
-            }
-
-        if (myTeam == 2)
-            for (int i = 1; i < Hunters.Length; i++)
-            {
-                if (PlayfabCloudSaving.instance.HuntersCharacters[i - 1] == false)
-                {
-
-                    Hunters[i].GetComponent<Button>().interactable = false;
-                    HuntersX[i].SetActive(true);
-                }
-                else
-                {
    
-                    Hunters[i].GetComponent<Button>().interactable = true;
-                    HuntersX[i].SetActive(false);
-                }
-            }
+    public void SetChosenCharacterName(string name)
+    {
+        choosenCharacterName = name;
+        PV.RPC("RPC_SetChosenCharacterName", RpcTarget.OthersBuffered, choosenCharacterName);
+
+        if(PV.IsMine)
+        if (_currentSelectedChar != null && _currentSelectedChar != ChooseCharScript.instance.CharacterNameToCharacterBtnComponent(choosenCharacterName))
+            _currentSelectedChar.SetState(CharacterSeletctBtnState.Diselect);
+
+        SetCharacterSelectedUIState();
+    
     }
+
+    private void ConfigureCurrentSelectedCharacter()
+    {
+        if (!PV.IsMine) return;
+        _currentSelectedChar = ChooseCharScript.instance.CharacterNameToCharacterBtnComponent(choosenCharacterName);
+        _currentSelectedChar.SetState(CharacterSeletctBtnState.IsSelected);
+    }
+
+    [PunRPC]
+    private void RPC_SetChosenCharacterName(string name)
+    {
+        choosenCharacterName = name;
+        SetCharacterSelectedUIState();
+    }
+
+    private void SetCharacterSelectedUIState()
+    {
+        ChooseCharScript.instance.UpdateState();
+        ConfigureCurrentSelectedCharacter();
+    }
+
     #endregion ChoosePanel
 }

@@ -108,16 +108,22 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
 
         if (isLeader)
         {
-            MenuManager.instance.LockMatchBtns(false);
+
+            if (Player.IsSelf)
+                MenuManager.instance.LockMatchBtns(false);
+
             MenuManager.instance.ShowLeavePartyBtn(false);
             LeaderIcon.SetActive(true);
         }
         else
         {
-            MenuManager.instance.LockMatchBtns(true);
+            if (Player.IsSelf)
+                MenuManager.instance.LockMatchBtns(true);
+
             MenuManager.instance.ShowLeavePartyBtn(true);
             LeaderIcon.SetActive(false);
         }
+
     }
 
     public void MuteMic()

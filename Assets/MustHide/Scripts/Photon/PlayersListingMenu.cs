@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayersListingMenu : MonoBehaviourPunCallbacks
 {
@@ -12,7 +13,7 @@ public class PlayersListingMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     private PlayerListingScript _playerListing;
 
-    [SerializeField] private Text _playerNumbText;
+    [SerializeField] private TextMeshProUGUI _playerNumbText;
 
 
     private List<PlayerListingScript> _listings = new List<PlayerListingScript>();

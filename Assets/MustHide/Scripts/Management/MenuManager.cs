@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.UI;
@@ -33,7 +34,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private Image ProfileImg;
     [SerializeField]
-    private Text[] ProfileInfo;
+    private TextMeshProUGUI[] ProfileInfo;
     [SerializeField]
     private Slider XPSlider;
 

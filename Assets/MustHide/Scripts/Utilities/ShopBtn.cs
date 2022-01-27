@@ -26,9 +26,6 @@ public class ShopBtn : MonoBehaviour
         //Get Price From Playfab
         Set_Nova(6000);
         Set_Eyes(250);
-
-     
-   
     }
 
     private void Set_Nova(float amount)

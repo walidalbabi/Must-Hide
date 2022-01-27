@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
@@ -17,7 +18,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField]
     private Image characterImage;
     [SerializeField]
-    private Text novaPriceTxt, eyesPriceTxt, charaterDescriptionTxt;
+    private Text novaPriceTxt, eyesPriceTxt;
+    [SerializeField] private TextMeshProUGUI charaterDescriptionTxt;
 
     private string characterDes;
     private float novaPrice;

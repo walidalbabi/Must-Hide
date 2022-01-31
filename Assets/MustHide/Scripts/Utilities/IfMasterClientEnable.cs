@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using TMPro;
 
 public class IfMasterClientEnable : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class IfMasterClientEnable : MonoBehaviour
     [SerializeField] private GameObject StartBtn;
     [SerializeField] private GameObject PrivateBtn;
     [SerializeField] private GameObject PublicBtn;
-    [SerializeField] private Text RoomCodeText;
+    [SerializeField] private TextMeshProUGUI RoomCodeText;
 
 
     private void OnEnable()

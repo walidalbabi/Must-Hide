@@ -14,6 +14,7 @@ public class MatchTimerManager : MonoBehaviour
 
     public GameObject HuntersPanel;
     public GameObject MonstersPanel;
+    public GameObject CharacterPanelInfo;
     public GameObject StartPanel;
     public GameObject EscapePanel;
     public GameObject EndPanel;
@@ -140,6 +141,7 @@ public class MatchTimerManager : MonoBehaviour
         {
             HuntersPanel.SetActive(false);
             MonstersPanel.SetActive(false);
+            CharacterPanelInfo.SetActive(false);
         }
     }
 

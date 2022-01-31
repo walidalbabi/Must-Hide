@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum CharacterSeletctBtnState
@@ -12,15 +13,13 @@ public enum CharacterSeletctBtnState
     Diselect,
 }
 
-public class CharacterSelectBtn : MonoBehaviour
+public class CharacterSelectBtn : MonoBehaviour , IPointerEnterHandler , IPointerExitHandler
 {
     [SerializeField] private CharacterSeletctBtnState _currentState;
     [SerializeField] private Image _currentCharacterImage;
     [SerializeField] private GameObject LockObject;
     [SerializeField] private GameObject MarkObject;
     [SerializeField] private CanvasGroup SelectedFadeCanvas;
-    [SerializeField] private Sprite _normalImage;
-    [SerializeField] private Sprite _blackAndWhiteImage;
 
     private Button _btn;
 
@@ -42,25 +41,25 @@ public class CharacterSelectBtn : MonoBehaviour
         if(_currentState == CharacterSeletctBtnState.NotPurshased)
         {
             LockObject.SetActive(true);
-            _currentCharacterImage.sprite = _blackAndWhiteImage;
+          //  _currentCharacterImage.sprite = _blackAndWhiteImage;
             GetComponent<Button>().interactable = false;
         }
         else if (_currentState == CharacterSeletctBtnState.CanSelect)
         {
             LockObject.SetActive(false);
-            _currentCharacterImage.sprite = _normalImage;
+           // _currentCharacterImage.sprite = _normalImage;
             GetComponent<Button>().interactable = true;
         }
         else if (_currentState == CharacterSeletctBtnState.CantSelect)
         {
             LockObject.SetActive(false);
-            _currentCharacterImage.sprite = _blackAndWhiteImage;
+        //    _currentCharacterImage.sprite = _blackAndWhiteImage;
             GetComponent<Button>().interactable = false;
         }
         else if (_currentState == CharacterSeletctBtnState.IsSelected)
         {
             DoSelectAnimation();
-            _currentCharacterImage.sprite = _normalImage;
+        //    _currentCharacterImage.sprite = _normalImage;
             GetComponent<Button>().interactable = false;
         }
         else if (_currentState == CharacterSeletctBtnState.Diselect)
@@ -73,7 +72,7 @@ public class CharacterSelectBtn : MonoBehaviour
 
     private void DoSelectAnimation()
     {
-        transform.LeanScale(new Vector3(1.15f, 1.15f, 1.15f), 0.3f);
+        transform.LeanScale(new Vector3(1.1f, 1.1f, 1.1f), 0.3f);
         SelectedFadeCanvas.LeanAlpha(1f, 0.3f);
     }
 
@@ -93,5 +92,16 @@ public class CharacterSelectBtn : MonoBehaviour
         MarkObject.SetActive(false);
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (_currentState == CharacterSeletctBtnState.CanSelect)
+        {
+            SelectedFadeCanvas.LeanAlpha(0.5f, 0.3f);
+        }
+    }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        SelectedFadeCanvas.LeanAlpha(0f, 0.3f);
+    }
 }

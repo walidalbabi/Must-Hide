@@ -42,6 +42,9 @@ public class Health : MonoBehaviour
     //Counter for Not Spaming Blood
     private float _bloodTimer;
 
+
+    public bool IsMonster => isMonster;
+
     //Components
     public PhotonPlayer photonPlayer;
     public SpriteRenderer spriterenderer;

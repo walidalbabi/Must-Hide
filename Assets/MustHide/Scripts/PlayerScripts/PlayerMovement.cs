@@ -48,12 +48,15 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool isSlowingDown;
 
+    private Health _health;
+
 
     // Start is called before the first frame update
     void Start()
     {
         canMove = true;
         rb = GetComponent<Rigidbody2D>();
+        _health = GetComponent<Health>();
         cam = Camera.main;
         PV = GetComponent<PhotonView>();
         target = GetComponent<Transform>();
@@ -106,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
         GetInputs();
 
-        if (SystemInfo.deviceType == DeviceType.Desktop)
+        if (SystemInfo.deviceType == DeviceType.Desktop && _health.IsMonster)
             SetMouseState();
     }
 

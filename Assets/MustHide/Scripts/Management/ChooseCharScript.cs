@@ -12,6 +12,7 @@ public class ChooseCharScript : MonoBehaviour
     public string Name;
 
     private PhotonPlayer currentplayer;
+    private CharacterSelectionInfo _CharacterSelectionInfo;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class ChooseCharScript : MonoBehaviour
     private void Start()
     {
         SetChooseCharVarToDefault();
+        _CharacterSelectionInfo = MatchTimerManager.instance.CharacterPanelInfo.GetComponent<CharacterSelectionInfo>();
     }
 
     //Setting GameObjects After Scene Loaded
@@ -73,10 +75,14 @@ public class ChooseCharScript : MonoBehaviour
         }
 
         AcceptCharacterName();
+      
     }
 
     private void AcceptCharacterName()
     {
+        if (!MatchTimerManager.instance.CharacterPanelInfo.activeInHierarchy) MatchTimerManager.instance.CharacterPanelInfo.SetActive(true);
+
+        _CharacterSelectionInfo.SetCharacterSelectionInfo(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.gameObject.GetComponent<CharacterInfoHolder>());
         currentplayer.SetChosenCharacterName(Name);
     }
 

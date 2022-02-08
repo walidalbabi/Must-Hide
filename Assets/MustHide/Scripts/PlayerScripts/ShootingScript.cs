@@ -32,7 +32,7 @@ public class ShootingScript : MonoBehaviourPun
     private Transform GunLight;
 
     [SerializeField]
-    private Joystick AimJoystick;
+    private FloatingJoystick AimJoystick;
     private int magazinCounter;
     private float counter;
     private bool canShoot;

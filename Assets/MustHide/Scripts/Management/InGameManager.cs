@@ -321,6 +321,11 @@ public class InGameManager : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_SetPortal", RpcTarget.AllBuffered, portalBool);
     }
 
+    public void SendTime(double startT, double betweenT)
+    {
+        photonView.RPC("RPC_SyncTime", RpcTarget.OthersBuffered ,startT , betweenT);
+    }
+
     public void LeaveGame()
     {
         PhotonNetwork.LeaveRoom();
@@ -374,7 +379,11 @@ public class InGameManager : MonoBehaviourPunCallbacks
         MonstersDead++;
     }
 
-
+    [PunRPC]
+    private void RPC_SyncTime(double startT, double betweenT)
+    {
+        MatchTimerManager.instance.GetTimeFromMaster(startT, betweenT);
+    }
 
 
 

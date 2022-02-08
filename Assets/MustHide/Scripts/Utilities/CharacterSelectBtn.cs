@@ -53,17 +53,22 @@ public class CharacterSelectBtn : MonoBehaviour , IPointerEnterHandler , IPointe
         else if (_currentState == CharacterSeletctBtnState.CantSelect)
         {
             LockObject.SetActive(false);
-        //    _currentCharacterImage.sprite = _blackAndWhiteImage;
+            EnableMark();
+            //    _currentCharacterImage.sprite = _blackAndWhiteImage;
             GetComponent<Button>().interactable = false;
         }
         else if (_currentState == CharacterSeletctBtnState.IsSelected)
         {
+            LockObject.SetActive(false);
+            DisableMark();
             DoSelectAnimation();
         //    _currentCharacterImage.sprite = _normalImage;
             GetComponent<Button>().interactable = false;
         }
         else if (_currentState == CharacterSeletctBtnState.Diselect)
         {
+            LockObject.SetActive(false);
+            DisableMark();
             DoDiselectAnimation();
             GetComponent<Button>().interactable = true;
             SetState(CharacterSeletctBtnState.CanSelect);

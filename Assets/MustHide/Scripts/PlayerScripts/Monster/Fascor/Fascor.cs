@@ -155,6 +155,11 @@ public class Fascor : MonoBehaviourPun
         }
     }
 
+    public void SetAbilityOff()
+    {
+        isAbility = false;
+    }
+
     //Checking If Ability Is Turned On
     private void IfAbility()
     {

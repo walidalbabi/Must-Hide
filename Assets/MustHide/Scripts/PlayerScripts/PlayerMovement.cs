@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator animator;
     [SerializeField]
-    private Joystick joystick;
+    private FloatingJoystick joystick;
     [SerializeField]
     private GameObject MobileUI;
     [SerializeField]
@@ -50,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Health _health;
 
+    private PropsController _propsController;
+
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +62,9 @@ public class PlayerMovement : MonoBehaviour
         cam = Camera.main;
         PV = GetComponent<PhotonView>();
         target = GetComponent<Transform>();
+
+        if (_health.IsMonster) _propsController = GetComponent<PropsController>();
+
         if (SR == null)
             SR = GetComponent<SpriteRenderer>();
 
@@ -201,15 +206,26 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("SpiderWeb"))
         {
-            if (!GetComponent<PropsController>())
+            if (!_health.IsMonster)
+            {
                 canMove = false;
+            }
+     
         }
 
 
         if (collision.gameObject.CompareTag("FreezeTrap"))
         {
-            if (GetComponent<PropsController>())
-                canMove = false;
+            if (_health.IsMonster)
+            {
+                if(_propsController != null && _propsController.SelectedCharacterName == PropsController.CharactersName.Fascor)
+                {
+                    if (GetComponent<Fascor>()) GetComponent<Fascor>().SetAbilityOff();
+                }
+                else canMove = false;
+
+            }
+
         }
 
     }
@@ -219,14 +235,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("SpiderWeb"))
         {
-            if (!GetComponent<PropsController>())
+            if (!_health.IsMonster)
+            {
                 canMove = true;
+            }
+   
         }
 
         if (collision.gameObject.CompareTag("FreezeTrap"))
         {
-            if (GetComponent<PropsController>())
+            if (_health.IsMonster)
+            {
                 canMove = true;
+            }
+         
         }
     }
 

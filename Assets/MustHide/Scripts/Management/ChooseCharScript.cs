@@ -97,8 +97,6 @@ public class ChooseCharScript : MonoBehaviour
 
         for (int i = 0; i < InGameManager.instance.photonPlayer.Count; i++)
         {
-
-
             for (int j = 0; j < Monsters.Length; j++)
             {
                 if (InGameManager.instance.photonPlayer[i].choosenCharacterName == Monsters[j].gameObject.name)

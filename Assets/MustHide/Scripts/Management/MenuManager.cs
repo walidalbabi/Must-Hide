@@ -30,6 +30,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject PublicRooms;
     [SerializeField]
+    private GameObject HowToPlayPanel;
+    [SerializeField]
     private GameObject FirstLoginPanel;
     [SerializeField]
     private Image ProfileImg;
@@ -336,6 +338,7 @@ public class MenuManager : MonoBehaviour
             JoinRoomPanel.SetActive(false);
             ShopPanel.SetActive(false);
             SettingsPanel.SetActive(false);
+            HowToPlayPanel.SetActive(false);
         }
 
         if (state == "Play")
@@ -356,6 +359,12 @@ public class MenuManager : MonoBehaviour
         ShopPanel.SetActive(true);
         StartPanel.SetActive(false);
         SetUpData();
+    } 
+    
+    public void ShowHowToPlayPanel()
+    {
+        HowToPlayPanel.SetActive(true);
+        StartPanel.SetActive(false);
     }
 
     public void ShowPublicRoomsPanel()

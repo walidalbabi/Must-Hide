@@ -77,5 +77,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bomog
       objectReference: {fileID: 0}
+    - target: {fileID: 6221314533803164979, guid: 75f7ebf8f7aae82409e14285bba27539,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.0000076293945
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75f7ebf8f7aae82409e14285bba27539, type: 3}

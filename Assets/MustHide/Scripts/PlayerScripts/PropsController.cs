@@ -6,6 +6,18 @@ using Photon.Pun;
 using UnityEngine.UI;
 public class PropsController : MonoBehaviour
 {
+    public enum CharactersName
+    {
+        Recruiter,
+        Fascor,
+        Inok,
+        Bomog,
+        Orzuc,
+    }
+
+    public CharactersName SelectedCharacterName;
+
+
     [HideInInspector]
     public float counter = 0;
     [HideInInspector]

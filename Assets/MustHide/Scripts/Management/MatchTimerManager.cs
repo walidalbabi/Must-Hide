@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.UI;
 public class MatchTimerManager : MonoBehaviour
 {
@@ -57,10 +58,14 @@ public class MatchTimerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canCount = true;
         StartTime = Photon.Pun.PhotonNetwork.Time;
         TimeInBetween = StartTime + ReadyTime;
 
+        if (Photon.Pun.PhotonNetwork.IsMasterClient)
+        {
+            InGameManager.instance.SendTime(StartTime , TimeInBetween);
+        }
+        canCount = true;
         exitGameCanvas = ExitGamePanel.GetComponent<CanvasGroup>();
         startPanelCanvas = StartPanel.GetComponent<CanvasGroup>();
         finishPanellCanvas = FinishPanel.GetComponent<CanvasGroup>();
@@ -70,7 +75,7 @@ public class MatchTimerManager : MonoBehaviour
     void Update()
     {
         CurrentServerTime = Photon.Pun.PhotonNetwork.Time;
-        Mathf.Clamp(timer,0, MatchTime);
+        timer = Mathf.Clamp(timer,0, MatchTime);
         TimeFormat();
         CheckingForTime();
         CheclIfCanCount();
@@ -181,5 +186,12 @@ public class MatchTimerManager : MonoBehaviour
             secondsS = Mathf.RoundToInt(seconds).ToString();
         }
         TimerUI.text = minutesS + ":" + secondsS;
+    }
+
+
+    public void GetTimeFromMaster(double startTime, double timeInBetween)
+    {
+        StartTime = startTime;
+        TimeInBetween = timeInBetween;
     }
 }

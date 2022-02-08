@@ -192,15 +192,15 @@ public class Health : MonoBehaviour
             {
                 DoDamage(collision.gameObject.GetComponent<BulletScript>().BulletDamage);
                 
-                if (GetComponent<PropsController>())
-                {
-                   var script = GetComponent<PropsController>();
+                //if (GetComponent<PropsController>())
+                //{
+                //   var script = GetComponent<PropsController>();
 
-                    script.isBuff = true;
+                //    script.isBuff = true;
 
-                    if (script.isBuff)
-                        script.buffCounter = 0;
-                }
+                //    if (script.isBuff)
+                //        script.buffCounter = 0;
+                //}
 
                // Set Blood
             if (_bloodTimer >= 0.5f)
@@ -210,8 +210,6 @@ public class Health : MonoBehaviour
                 }
 
                 audioManager.PlaySound(AudioManager.Sound.MonsterGetShot, 10f, 0, 1f, 1f, true);
-
-                CheckIfDead();
             }
 
         }
@@ -265,7 +263,10 @@ public class Health : MonoBehaviour
     public void DoDamage(float Damage)
     {
         if (PV.IsMine)
+        {
             PV.RPC("RPC_DoDamage", RpcTarget.AllBuffered, Damage);
+            CheckIfDead();
+        }
     }
 
     public void HealForAmount(float amount)

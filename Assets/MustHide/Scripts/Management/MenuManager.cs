@@ -146,6 +146,8 @@ public class MenuManager : MonoBehaviour
         LogoutPanelCanvas = LogoutPanel.GetComponent<CanvasGroup>();
 
         Cursor.visible = true;
+
+
     }
 
     #region Photon
@@ -526,14 +528,42 @@ public class MenuManager : MonoBehaviour
     public void UnlockMonster(int index)
     {
         PlayfabCloudSaving.instance.MonstersCharacters[index] = true;
-        PlayfabCloudSaving.instance.SetUserData(PlayfabCloudSaving.instance.CharatersStringToData(true), true);
+        PlayfabCloudSaving.instance.SetUserCharactersData(PlayfabCloudSaving.instance.CharatersStringToData(true), true, false, 0);
         SetUpData();
     }
 
     public void UnlockHunters(int index)
     {
         PlayfabCloudSaving.instance.HuntersCharacters[index] = true;
-        PlayfabCloudSaving.instance.SetUserData(PlayfabCloudSaving.instance.CharatersStringToData(false), false);
+        PlayfabCloudSaving.instance.SetUserCharactersData(PlayfabCloudSaving.instance.CharatersStringToData(false), false, false, 0);
+        SetUpData();
+    }
+
+    public void UnlockMonsterNova(int index, int price)
+    {
+        PlayfabCloudSaving.instance.MonstersCharacters[index] = true;
+        PlayfabCloudSaving.instance.SetUserCharactersData(PlayfabCloudSaving.instance.CharatersStringToData(true), true, true, price);
+        SetUpData();
+    }
+
+    public void UnlockHuntersNova(int index, int price)
+    {
+        PlayfabCloudSaving.instance.HuntersCharacters[index] = true;
+        PlayfabCloudSaving.instance.SetUserCharactersData(PlayfabCloudSaving.instance.CharatersStringToData(false), false, true, price);
+        SetUpData();
+    }
+
+    public void UnlockMonsterEyes(int index, int price)
+    {
+        PlayfabCloudSaving.instance.MonstersCharacters[index] = true;
+        PlayfabCloudSaving.instance.SetUserCharactersData(PlayfabCloudSaving.instance.CharatersStringToData(true), true, false, price);
+        SetUpData();
+    }
+
+    public void UnlockHuntersEyes(int index, int price)
+    {
+        PlayfabCloudSaving.instance.HuntersCharacters[index] = true;
+        PlayfabCloudSaving.instance.SetUserCharactersData(PlayfabCloudSaving.instance.CharatersStringToData(false), false, false, price);
         SetUpData();
     }
     #endregion Playfab

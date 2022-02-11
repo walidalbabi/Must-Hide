@@ -14,6 +14,10 @@ public class LoadingScript : MonoBehaviour
     private GameObject GameLoadingPanel;
 
     public static LoadingScript instance;
+
+    private CanvasGroup _canvasGroup;
+    private A_ScaleOverTime _scaleAnim;
+    private AudioSource _audioSource;
     void Awake()
     {
         DontDestroyOnLoad(this);
@@ -26,15 +30,31 @@ public class LoadingScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        _canvasGroup = LoadingPanel.GetComponent<CanvasGroup>();
+        _scaleAnim = transform.GetComponentInChildren<A_ScaleOverTime>();
+        _audioSource = GetComponent<AudioSource>();
     }
     public void StartLoading(string txtLoading)
     {
+        _audioSource.PlayOneShot(_audioSource.clip);
         _Text.text = txtLoading;
         LoadingPanel.SetActive(true);
+        _canvasGroup.LeanAlpha(1f,0.3f);
     }
 
     public void StopLoading()
     {
+        StartCoroutine(StopL());
+    }
+
+    private IEnumerator StopL()
+    {
+        if (_canvasGroup != null)
+            _canvasGroup.LeanAlpha(0f, 0.3f);
+        if (_scaleAnim != null)
+            _scaleAnim.ResetScaleToZero();
+        yield return new WaitForSeconds(0.3f);
         LoadingPanel.SetActive(false);
     }
 

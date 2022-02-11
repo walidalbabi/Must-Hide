@@ -208,7 +208,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
                     PlayfabCloudSaving.instance.Update_XP(1000, false);
                     PlayfabCloudSaving.instance.Update_Nova(300);
                     PlayfabCloudSaving.instance.Update_TotalWins();
-                    PlayfabCloudSaving.instance.StartCloudPlayerStats();
+                    // PlayfabCloudSaving.instance.StartCloudPlayerStats();
+                    PlayfabCloudSaving.instance.SetStats();
 
                     MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
 
@@ -229,7 +230,8 @@ public class InGameManager : MonoBehaviourPunCallbacks
                     PlayfabCloudSaving.instance.Update_XP(500, false);
                     PlayfabCloudSaving.instance.Update_Nova(100);
                     PlayfabCloudSaving.instance.Update_TotalLoses();
-                    PlayfabCloudSaving.instance.StartCloudPlayerStats();
+                    // PlayfabCloudSaving.instance.StartCloudPlayerStats();
+                     PlayfabCloudSaving.instance.SetStats();
 
                     MatchTimerManager.instance.Stats[2].text = PlayfabCloudSaving.instance._Level.ToString();
                 }
@@ -409,7 +411,7 @@ public class InGameManager : MonoBehaviourPunCallbacks
                 if (playerList.myTeam == 0)
                 {
                     PhotonNetwork.LeaveRoom(true);
-                    ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false, "");
+                    ErrorScript.instance.StartErrorMsg("Player Left The Game Before It Start", false, false, true,"");
                 }
                 else if (playerList.myTeam == 1 && !playerList.isPlayerDead)
                 {

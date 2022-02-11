@@ -41,6 +41,8 @@ public class Fascor : MonoBehaviourPun
     private Health healthScript;
     private PlayerMovement playerMove;
 
+    public bool IsAbility => isAbility;
+
     private void Start()
     {
         playerMove = GetComponent<PlayerMovement>();

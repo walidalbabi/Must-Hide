@@ -20,4 +20,9 @@ public class A_ScaleOverTime : MonoBehaviour
     }
 
 
+    public void ResetScaleToZero()
+    {
+        transform.LeanScale(Vector3.zero, _time);
+    }
+
 }

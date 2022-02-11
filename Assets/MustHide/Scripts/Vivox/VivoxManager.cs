@@ -178,7 +178,7 @@ public class  VivoxManager : MonoBehaviour
             {
                 Bind_Login_Callback_Listeners(false, vivox.loginSession);
                 Bind_Directed_Message_Callbacks(false, vivox.loginSession);
-                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox : " + e.Message, false , true, "vivox");
+                ErrorScript.instance.StartErrorMsg("Failed To Login To Vivox : " + e.Message, false , true, false, "vivox");
                 LoadingScript.instance.StopGameLoading();
                 Debug.Log(e.Message);
             }

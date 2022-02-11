@@ -8,9 +8,9 @@ public class VivoxCredentials
 {
     public VivoxUnity.Client client;
     public Uri server = new Uri("https://mt1s.www.vivox.com/api2");
-    public string issuer = "eterna7885-mu37-dev";
+    public string issuer = "eterna9479-mu19-dev";
     public  string domain = "mt1s.vivox.com";
-    public string tokenKey = "jars662";
+    public string tokenKey = "kelp280";
     public TimeSpan timeSpan = TimeSpan.FromSeconds(90);
 
 

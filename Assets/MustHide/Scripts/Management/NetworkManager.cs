@@ -54,6 +54,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayfabCloudSaving.instance.Update_Nova(100);
+        }
+
         if (!PhotonNetwork.IsMasterClient)
             return;
 
@@ -61,7 +66,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            ErrorScript.instance.StartErrorMsg("No Internet Connection, Please Check Your Internet Connection And Restart The Game", false, true, "photon");
+            ErrorScript.instance.StartErrorMsg("No Internet Connection, Please Check Your Internet Connection And Restart The Game", false, true, false, "photon");
         }
 
         if (PhotonNetwork.IsConnected)
@@ -73,7 +78,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
             else if (0d != m_LastPhotonACKTimeReceived && PhotonNetwork.Time - m_LastPhotonACKTimeReceived > 15)
             {
-                ErrorScript.instance.StartErrorMsg("You have Bad Connection , Please Check Your Connection than Reconnect", false, true, "photon");
+                ErrorScript.instance.StartErrorMsg("You have Bad Connection , Please Check Your Connection than Reconnect", false, true, false,"photon");
                 PhotonNetwork.Disconnect();
             }
         }
@@ -99,13 +104,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         switch (cause)
         {
             case DisconnectCause.MaxCcuReached:
-                ErrorScript.instance.StartErrorMsg("Servers Are Full Please Try Again", false, true, "photon");
+                ErrorScript.instance.StartErrorMsg("Servers Are Full Please Try Again", false, true, false,"photon");
                 break;
             case DisconnectCause.ServerTimeout:
-                ErrorScript.instance.StartErrorMsg("Server Timeout Please Try Again", false, true, "photon");
+                ErrorScript.instance.StartErrorMsg("Server Timeout Please Try Again", false, true, false,"photon");
                 break;
             case DisconnectCause.ClientTimeout:
-                ErrorScript.instance.StartErrorMsg("Client Timeout Please Try Again", false, true, "photon");
+                ErrorScript.instance.StartErrorMsg("Client Timeout Please Try Again", false, true, false,"photon");
                 break;
         }
            
@@ -121,7 +126,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("Failed To Create Match , GameMode : " + isRank);
-        ErrorScript.instance.StartErrorMsg(message, true, false, "");
+        ErrorScript.instance.StartErrorMsg(message, false, false, true,"");
     }
 
     public override void OnJoinedRoom()
@@ -134,7 +139,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log("Failed To Join Match , GameMode : " + isRank);
-        ErrorScript.instance.StartErrorMsg(message, true, false, "");
+        ErrorScript.instance.StartErrorMsg(message, false, false, true, "");
     }
 
 

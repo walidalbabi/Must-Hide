@@ -89,8 +89,10 @@ public class PlayfabCloudSaving : MonoBehaviour
         return tostring;
     }
 
-    public void SetUserData(string data , bool isMonster)
+    public void SetUserCharactersData(string data , bool isMonster, bool isNova , int price)
     {
+        LoadingScript.instance.StartLoading("Unlocking Operator..");
+
         if (isMonster)
         {
                PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
@@ -102,10 +104,20 @@ public class PlayfabCloudSaving : MonoBehaviour
                 result =>
                 {
                     Debug.Log("Successfully updated user data");
+                    LoadingScript.instance.StopLoading();
+                    if(price > 0)
+                    {
+                        if (isNova)
+                            Update_Nova(-price);
+                        else
+                            Update_Eyes(-price);
+                    }
                 },
                 error => {
                     Debug.Log("Got error setting user data Ancestor to Arthur");
                     Debug.Log(error.GenerateErrorReport());
+                    LoadingScript.instance.StopLoading();
+                    ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, false, true, "");
                 });
         }
         else
@@ -119,14 +131,54 @@ public class PlayfabCloudSaving : MonoBehaviour
               result =>
               {
                   Debug.Log("Successfully updated user data");
+                  LoadingScript.instance.StopLoading();
+                  if (price > 0)
+                  {
+                      LoadingScript.instance.StartLoading("Processing...");
+
+                      if (isNova)
+                          Update_Nova(-price);
+                      else
+                          Update_Eyes(-price);
+                  }
+
               },
               error => {
                   Debug.Log("Got error setting user data Ancestor to Arthur");
                   Debug.Log(error.GenerateErrorReport());
+                  LoadingScript.instance.StopLoading();
+                  ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, false, true,"");
               });
         }
-     
+
     }
+
+    public void SetUserData(string key ,string data)
+    {
+        if (key == "Eyes" || key == "Nova")
+            LoadingScript.instance.StartLoading("Processing Data...");
+
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>() {
+                    {key, data},
+                }
+        },
+         result =>
+         {
+             Debug.Log("Successfully updated user data");
+             LoadingScript.instance.StopLoading();
+         },
+         error => {
+             Debug.Log("Got error setting user data Ancestor to Arthur");
+             Debug.Log(error.GenerateErrorReport());
+             LoadingScript.instance.StopLoading();
+             ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, false, true,"");
+         });
+
+        MenuManager.instance.SetProfileInfo();
+    }
+
 
     public void GetUserData(string myPlayFabeId)
     {
@@ -136,8 +188,8 @@ public class PlayfabCloudSaving : MonoBehaviour
             Keys = null
         }, result => {
             Debug.Log("Got user data:");
-            MenuManager.instance.SetUpData();
-            if (result.Data == null || !result.Data.ContainsKey("Monsters") || !result.Data.ContainsKey("Hunters"))
+
+            if (result.Data == null || !result.Data.ContainsKey("Monsters") || !result.Data.ContainsKey("Hunters") || !result.Data.ContainsKey("Nova"))
             {
                 Debug.Log("Monsters");
                 Debug.Log("Hunters");
@@ -145,12 +197,37 @@ public class PlayfabCloudSaving : MonoBehaviour
             else {
                 CharatersStringToData(result.Data["Monsters"].Value , true);
                 CharatersStringToData(result.Data["Hunters"].Value, false);
+                _nova = int.Parse(result.Data["Nova"].Value);
+                _eyes = int.Parse(result.Data["Eyes"].Value);
+                _firstLogin = int.Parse(result.Data["FirstLogin"].Value);
+                _level = int.Parse(result.Data["Level"].Value);
+                _maxXp = int.Parse(result.Data["MaxXp"].Value);
+                _xp = int.Parse(result.Data["Xp"].Value);
+            }
+            if (_firstLogin == 0)
+            {
+                MenuManager.instance.ShowFirstTimeLogin();
+                MenuManager.instance.UnlockHunters(0);
+                MenuManager.instance.UnlockMonster(0);
+                MenuManager.instance.UnlockHunters(1);
+                MenuManager.instance.UnlockMonster(1);
+                MenuManager.instance.UnlockHunters(2);
+                MenuManager.instance.UnlockMonster(2);
+                MenuManager.instance.UnlockHunters(3);
+                MenuManager.instance.UnlockMonster(3);
+                Update_FirstLogin();
+                Update_MaxXP(1000);
+                Update_Level();
             }
 
+            isDataSynced = true;
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());
         });
+
+        MenuManager.instance.SetUpData();
+        MenuManager.instance.SetProfileInfo();
     }
     #endregion CloudData
 
@@ -198,7 +275,7 @@ public class PlayfabCloudSaving : MonoBehaviour
                 Update_XP((_Xp % _maxXp), true);
                 Update_MaxXP(1000);
                 Update_Level();
-                StartCloudPlayerStats();
+               // StartCloudPlayerStats();
                 isDataSynced = false;
             }
         }
@@ -210,11 +287,13 @@ public class PlayfabCloudSaving : MonoBehaviour
     public void Update_Nova(int amount)
     {
         _nova += amount;
+        SetUserData("Nova",_nova.ToString());
     }
 
     public void Update_Eyes(int amount)
     {
         _eyes += amount;
+        SetUserData("Eyes", _eyes.ToString());
     }
 
     public void Update_TotalWins()
@@ -227,14 +306,10 @@ public class PlayfabCloudSaving : MonoBehaviour
         _totalLoses++;
     }
 
-    public void Update_TotalKills()
-    {
-        _totalKills++;
-    }
-
     public void Update_Level()
     {
         _level++;
+        SetUserData("Level", _level.ToString());
     }
 
     public void Update_XP(int amount, bool isReset)
@@ -243,14 +318,18 @@ public class PlayfabCloudSaving : MonoBehaviour
             _xp += amount;
         else
             _xp = amount;
+
+        SetUserData("Xp", _xp.ToString());
     }
     public void Update_MaxXP(int amount)
     {
         _maxXp += amount;
+        SetUserData("MaxXp", _maxXp.ToString());
     }
     public void Update_FirstLogin()
     {
         _firstLogin = 1;
+        SetUserData("FirstLogin", _firstLogin.ToString());
     }
 
     #endregion Update Functions
@@ -292,15 +371,8 @@ public class PlayfabCloudSaving : MonoBehaviour
         {
             // request.Statistics is a list, so multiple StatisticUpdate objects can be defined if required.
             Statistics = new List<StatisticUpdate> {
-             new StatisticUpdate { StatisticName = "Nova", Value = _nova },
-             new StatisticUpdate { StatisticName = "Eyes", Value = _eyes },
              new StatisticUpdate { StatisticName = "TotalWins", Value = _totalWins },
              new StatisticUpdate { StatisticName = "TotalLoses", Value = _totalLoses },
-             new StatisticUpdate { StatisticName = "TotalKills", Value = _totalKills },
-             new StatisticUpdate { StatisticName = "Level", Value = _level },
-             new StatisticUpdate { StatisticName = "Xp", Value = _xp },
-             new StatisticUpdate { StatisticName = "MaxXp", Value = _maxXp },
-             new StatisticUpdate { StatisticName = "FirstLogin", Value = _firstLogin },
             }
         },
          result => { Debug.Log("User statistics updated"); },
@@ -312,7 +384,7 @@ public class PlayfabCloudSaving : MonoBehaviour
         PlayFabClientAPI.GetPlayerStatistics(
             new GetPlayerStatisticsRequest(),
             OnGetStatistics,
-            error => Debug.LogError("Getting Statistic " +error.GenerateErrorReport())
+            error => Debug.LogError("Getting Statistic " + error.GenerateErrorReport())
         );
     }
 
@@ -324,69 +396,17 @@ public class PlayfabCloudSaving : MonoBehaviour
             Debug.Log("Statistic (" + eachStat.StatisticName + "): " + eachStat.Value);
             switch (eachStat.StatisticName)
             {
-                case "Nova":
-                    _nova = eachStat.Value;
-                    break;
-                case "Eyes":
-                    _eyes = eachStat.Value;
-                    break;
                 case "TotalWins":
                     _totalWins = eachStat.Value;
                     break;
                 case "TotalLoses":
                     _totalLoses = eachStat.Value;
                     break;
-                case "TotalKills":
-                    _totalKills = eachStat.Value;
-                    break;
-                case "Level":
-                    _level = eachStat.Value;
-                    break;
-                case "Xp":
-                    _xp = eachStat.Value;
-                    break;
-                case "MaxXp":
-                    _maxXp = eachStat.Value;
-                    break; 
-                case "FirstLogin":
-                    _firstLogin = eachStat.Value;
-                    break;
             }
-        }
-
-        isDataSynced = true;
-
-        if (isDataSynced && _firstLogin == 0)
-        {
-            MenuManager.instance.ShowFirstTimeLogin();
-            //MenuManager.instance.UnlockHunters(Random.Range(0, 3));
-            //MenuManager.instance.UnlockMonster(Random.Range(0, 3));
-            MenuManager.instance.UnlockHunters(0);
-            MenuManager.instance.UnlockMonster(0);
-            MenuManager.instance.UnlockHunters(1);
-            MenuManager.instance.UnlockMonster(1);
-            MenuManager.instance.UnlockHunters(2);
-            MenuManager.instance.UnlockMonster(2);
-            MenuManager.instance.UnlockHunters(3);
-            MenuManager.instance.UnlockMonster(3);
-            Update_FirstLogin();
-            Update_MaxXP(1000);
-            Update_Level();
-            StartCloudPlayerStats();
-            isDataSynced = false;
         }
 
         PlayfabCloudSaving.instance.GetUserData(PlayFabLogin.instance.PlayerInfo.AccountInfo.PlayFabId);
 
-        if (MenuManager.instance)
-            Invoke("SetPlayerStatsOnUI", 2f);
-
-
-    }
-
-    private void SetPlayerStatsOnUI()
-    {
-        MenuManager.instance.SetProfileInfo();
     }
 
     #endregion PlayerStats

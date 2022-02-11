@@ -44,6 +44,8 @@ public class PlayFabLogin : MonoBehaviour
     [HideInInspector]
     public GetAccountInfoResult PlayerInfo;
 
+    private GetTitleDataResult _titleDataResult;
+
     private void Awake()
     {
         if (instance == null)
@@ -64,7 +66,7 @@ public class PlayFabLogin : MonoBehaviour
         //Note: Setting title Id here can be skipped if you have set the value in Editor Extensions already.
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
         {
-            PlayFabSettings.TitleId = "5A92F"; // Please change this value to your own titleId from PlayFab Game Manager
+            PlayFabSettings.TitleId = "76014"; // Please change this value to your own titleId from PlayFab Game Manager
         }
 
 
@@ -146,17 +148,21 @@ public class PlayFabLogin : MonoBehaviour
     private void OnGetAccountInfoSuccess(GetAccountInfoResult result)
     {
         PlayerInfo = result;
-        NetworkManager.instance.ConnectToServer(result.AccountInfo.Username);
-        NetworkManager.instance.CreateName(result.AccountInfo.Username);
-        PlayfabCloudSaving.instance.GetStatistics();
-        //VivoxManager.instance.Login(result.AccountInfo.Username, VivoxUnity.SubscriptionMode.Accept);
-        PlayerIDText.text =  NetworkManager.instance.GetUserID();
+        GetTitleData();
     }
 
     private void OnUpdateAccountInfoSuccess(AddOrUpdateContactEmailResult result)
     {
-
         UpdatePlayerTitle();
+    }
+
+    private void OnGetTitleDataSuccess(GetTitleDataResult result)
+    {
+        NetworkManager.instance.ConnectToServer(PlayerInfo.AccountInfo.Username);
+        NetworkManager.instance.CreateName(PlayerInfo.AccountInfo.Username);
+        PlayerIDText.text = NetworkManager.instance.GetUserID();
+        PlayfabCloudSaving.instance.GetStatistics();
+        _titleDataResult = result;
     }
 
     private void OnUpdateAccountInfoFaill(PlayFabError error)
@@ -178,13 +184,13 @@ public class PlayFabLogin : MonoBehaviour
     private void OnGetAccountInfoFail(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
-        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false , true, "vivox");
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false , true,  false,"vivox");
     }
 
     private void OnAddFriendFailed(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
-        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), true, false, "");
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, false, true,"");
     }
 
     private void OnAddFriendSuccess(AddFriendResult result)
@@ -196,7 +202,7 @@ public class PlayFabLogin : MonoBehaviour
     private void OnRemoveFriendFailed(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
-        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), true, false, "");
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, false, true,"");
     }
 
     private void OnRemoveFriendSuccess(RemoveFriendResult result)
@@ -207,7 +213,7 @@ public class PlayFabLogin : MonoBehaviour
     private void OnGetFriendListFail(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
-        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), true, false, "");
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, false, true, "");
     }
 
     private void OnGetFriendListSuccess(GetFriendsListResult result)
@@ -219,6 +225,12 @@ public class PlayFabLogin : MonoBehaviour
             NetworkManager.instance.FindFriend(result.Friends[i].Username);
         }
 
+    }
+
+    private void OnGetTitleDataFail(PlayFabError error)
+    {
+        Debug.LogError(error.GenerateErrorReport());
+        ErrorScript.instance.StartErrorMsg(error.GenerateErrorReport(), false, true, false, "photon");
     }
 
     #endregion CallBacks
@@ -277,6 +289,14 @@ public class PlayFabLogin : MonoBehaviour
         GetAccountInfoRequest request = new GetAccountInfoRequest();
         PlayFabClientAPI.GetAccountInfo(request, OnGetAccountInfoSuccess, OnGetAccountInfoFail);
     }
+
+    private void GetTitleData()
+    {
+        LoadingScript.instance.StartGameLoading("Getting Data..");
+        var request = new GetTitleDataRequest();
+        PlayFabClientAPI.GetTitleData(request, OnGetTitleDataSuccess, OnGetTitleDataFail);
+    }
+
     public void OnClickLogin()
     {
        // LoadingScript.instance.StartGameLoading("Logging in..");
@@ -364,7 +384,10 @@ public class PlayFabLogin : MonoBehaviour
     }
 
 
-
+    public GetTitleDataResult GetTitleDataVariable()
+    {
+        return _titleDataResult;
+    }
 
     #endregion Functions
 

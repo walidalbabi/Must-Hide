@@ -242,7 +242,8 @@ public class PhotonPlayer : MonoBehaviour
     {
         if (!PV.IsMine) return;
         _currentSelectedChar = ChooseCharScript.instance.CharacterNameToCharacterBtnComponent(choosenCharacterName);
-        _currentSelectedChar.SetState(CharacterSeletctBtnState.IsSelected);
+        if (_currentSelectedChar != null)
+            _currentSelectedChar.SetState(CharacterSeletctBtnState.IsSelected);
     }
 
     [PunRPC]

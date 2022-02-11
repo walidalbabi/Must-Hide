@@ -22,8 +22,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI charaterDescriptionTxt;
 
     private string characterDes;
-    private float novaPrice;
-    private float eyesPrice;
+    private int novaPrice;
+    private int eyesPrice;
     
 
     private void Awake()
@@ -73,8 +73,39 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void OnBuyPressed()
+    public void OnBuyWithNovaPressed()
     {
         //Buy By Playfab
+       // PlayfabCloudSaving.instance.GetUserData(PlayFabLogin.instance.PlayerInfo.AccountInfo.PlayFabId);
+        if(PlayfabCloudSaving.instance._Nova >= novaPrice)
+        {
+            if (shopBtn.isMonster)
+            {
+                MenuManager.instance.UnlockMonsterNova(shopBtn.index, novaPrice);
+            }
+            else
+            {
+                MenuManager.instance.UnlockHuntersNova(shopBtn.index, novaPrice);
+            }
+        }
+        ShowPanelUI();
+    }
+
+    public void OnBuyWithEyesPressed()
+    {
+        //Buy By Playfab
+        //PlayfabCloudSaving.instance.GetUserData(PlayFabLogin.instance.PlayerInfo.AccountInfo.PlayFabId);
+        if (PlayfabCloudSaving.instance._Eyes >= eyesPrice)
+        {
+            if (shopBtn.isMonster)
+            {
+                MenuManager.instance.UnlockMonsterEyes(shopBtn.index, eyesPrice);
+            }
+            else
+            {
+                MenuManager.instance.UnlockHuntersEyes(shopBtn.index, eyesPrice);
+            }
+        }
+        ShowPanelUI();
     }
 }

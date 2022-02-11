@@ -220,7 +220,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 if(_propsController != null && _propsController.SelectedCharacterName == PropsController.CharactersName.Fascor)
                 {
-                    if (GetComponent<Fascor>()) GetComponent<Fascor>().SetAbilityOff();
+                    var comp = GetComponent<Fascor>();
+                    if (comp != null)
+                    {
+                        if (comp.IsAbility) GetComponent<Fascor>().SetAbilityOff();
+                        else canMove = false;
+                    }
                 }
                 else canMove = false;
 

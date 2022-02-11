@@ -5,30 +5,31 @@ using UnityEngine.UI;
 
 public class ShopBtn : MonoBehaviour
 {
-
+    public bool isMonster;
+    public int index;
     public Image characterImage;
     public string CharacterDescription;
 
 
-    public float EyesPrice { get { return _EyesPrice; } }
-    public float NovaPrice { get { return _NovaPrice; } }
+    public int EyesPrice { get { return _EyesPrice; } }
+    public int NovaPrice { get { return _NovaPrice; } }
 
 
-    private float _EyesPrice;
-    private float _NovaPrice;
+    private int _EyesPrice;
+    private int _NovaPrice;
 
     [SerializeField]
     private Text novaTxt, eyesTxt;
 
 
-    private void Start()
+    private void OnEnable()
     {
         //Get Price From Playfab
-        Set_Nova(6000);
-        Set_Eyes(250);
+        Set_Nova(int.Parse(PlayFabLogin.instance.GetTitleDataVariable().Data[gameObject.name + "_Nova"]));
+        Set_Eyes(int.Parse(PlayFabLogin.instance.GetTitleDataVariable().Data[gameObject.name + "_Eyes"]));
     }
 
-    private void Set_Nova(float amount)
+    private void Set_Nova(int amount)
     {
         _NovaPrice = amount;
 
@@ -36,7 +37,7 @@ public class ShopBtn : MonoBehaviour
         novaTxt.text = _NovaPrice.ToString();
     }
 
-    private void Set_Eyes(float amount)
+    private void Set_Eyes(int amount)
     {
         _EyesPrice = amount;
 

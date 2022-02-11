@@ -17,6 +17,11 @@ public class ErrorScript : MonoBehaviour
     public static ErrorScript instance;
 
 
+    private CanvasGroup _canvasGroup;
+    private A_ScaleOverTime _scaleAnim;
+    private AudioSource _audioSource;
+
+
     private string ReconnectTo;
     void Awake()
     {
@@ -30,11 +35,17 @@ public class ErrorScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-    public void StartErrorMsg(string txtError, bool isRestart, bool isReconnect, string whatToReconnect)
-    {
 
+
+        _canvasGroup = ErrorPanel.GetComponent<CanvasGroup>();
+        _scaleAnim = transform.GetComponentInChildren<A_ScaleOverTime>();
+        _audioSource = GetComponent<AudioSource>();
+    }
+    public void StartErrorMsg(string txtError, bool isRestart, bool isReconnect , bool isCloseErrorPanel, string whatToReconnect)
+    {
+        _audioSource.PlayOneShot(_audioSource.clip);
         ReconnectTo = whatToReconnect;
+        _canvasGroup.LeanAlpha(1f, 0.3f);
 
         _Text.text = txtError;
         ErrorPanel.SetActive(true);
@@ -49,13 +60,23 @@ public class ErrorScript : MonoBehaviour
         else
             ReconnectGameBtn.SetActive(false);
 
-        if (!isReconnect && isRestart)
+        if (isCloseErrorPanel)
             CloseBtn.SetActive(true);
-
+        else CloseBtn.SetActive(false);
     }
 
     public void StopErrorMsg()
     {
+        StartCoroutine(StopL());
+    }
+
+    private IEnumerator StopL()
+    {
+        if (_canvasGroup != null)
+            _canvasGroup.LeanAlpha(0f, 0.3f);
+        if (_scaleAnim != null)
+            _scaleAnim.ResetScaleToZero();
+        yield return new WaitForSeconds(0.3f);
         ErrorPanel.SetActive(false);
     }
 
@@ -75,13 +96,13 @@ public class ErrorScript : MonoBehaviour
         if (ReconnectTo == "photon")
         {
             Photon.Pun.PhotonNetwork.Reconnect();
-            StartErrorMsg("Reconnecting...", false, false, "");
+            StartErrorMsg("Reconnecting...", false, false, false,"");
         }
         else if (ReconnectTo == "vivox")
         {
             VivoxManager.instance.Logout();
             Invoke("LoginToVivox", 2f);
-            StartErrorMsg("Reconnecting...", false, false, "");
+            StartErrorMsg("Reconnecting...", false, false, false,"");
         }
            
     }

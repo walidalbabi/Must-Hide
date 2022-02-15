@@ -158,11 +158,22 @@ public class PlayFabLogin : MonoBehaviour
 
     private void OnGetTitleDataSuccess(GetTitleDataResult result)
     {
-        NetworkManager.instance.ConnectToServer(PlayerInfo.AccountInfo.Username);
+        _titleDataResult = result;
+
+        if (!RegionManager.instance.CheckIfRegionSelected())
+        {
+            RegionManager.instance.ShowReigionPanel();
+            return;
+        }
+        InstantiatePhotonAndPlayfabStatistics(PlayerPrefs.GetString("HasRegion"));
+    }
+
+    public void InstantiatePhotonAndPlayfabStatistics(string regionName)
+    {
+        NetworkManager.instance.ConnectToServer(regionName, PlayerInfo.AccountInfo.Username);
         NetworkManager.instance.CreateName(PlayerInfo.AccountInfo.Username);
         PlayerIDText.text = NetworkManager.instance.GetUserID();
         PlayfabCloudSaving.instance.GetStatistics();
-        _titleDataResult = result;
     }
 
     private void OnUpdateAccountInfoFaill(PlayFabError error)

@@ -224,8 +224,11 @@ public class PlayerMovement : MonoBehaviour
                     if (comp != null)
                     {
                         if (comp.IsAbility) GetComponent<Fascor>().SetAbilityOff();
-                        else canMove = false;
                     }
+
+                    if (comp.noEffectFromFreezeTrap) return;
+                    canMove = false;
+
                 }
                 else canMove = false;
 

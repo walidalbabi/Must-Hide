@@ -28,6 +28,8 @@ public class Fascor : MonoBehaviourPun
 
     private bool isAbility, isCoolDown;
 
+    [HideInInspector] public bool noEffectFromFreezeTrap;
+
     //Foot Prints
     private float _footPrintsCounter;
 
@@ -160,6 +162,12 @@ public class Fascor : MonoBehaviourPun
     public void SetAbilityOff()
     {
         isAbility = false;
+        noEffectFromFreezeTrap = true;
+        Invoke("ResetEffectToFreezeTrap", 2.5f);
+    }
+    private void ResetEffectToFreezeTrap()
+    {
+        noEffectFromFreezeTrap = false;
     }
 
     //Checking If Ability Is Turned On

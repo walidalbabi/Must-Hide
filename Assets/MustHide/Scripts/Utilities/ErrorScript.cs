@@ -15,10 +15,9 @@ public class ErrorScript : MonoBehaviour
     [SerializeField]
     private GameObject ReconnectGameBtn;
     public static ErrorScript instance;
-
+    [SerializeField] private A_ScaleOverTime _scaleAnim;
 
     private CanvasGroup _canvasGroup;
-    private A_ScaleOverTime _scaleAnim;
     private AudioSource _audioSource;
 
 
@@ -38,7 +37,6 @@ public class ErrorScript : MonoBehaviour
 
 
         _canvasGroup = ErrorPanel.GetComponent<CanvasGroup>();
-        _scaleAnim = transform.GetComponentInChildren<A_ScaleOverTime>();
         _audioSource = GetComponent<AudioSource>();
     }
     public void StartErrorMsg(string txtError, bool isRestart, bool isReconnect , bool isCloseErrorPanel, string whatToReconnect)

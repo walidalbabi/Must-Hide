@@ -15,8 +15,9 @@ public class LoadingScript : MonoBehaviour
 
     public static LoadingScript instance;
 
+   [SerializeField] private A_ScaleOverTime _scaleAnim;
+
     private CanvasGroup _canvasGroup;
-    private A_ScaleOverTime _scaleAnim;
     private AudioSource _audioSource;
     void Awake()
     {
@@ -32,7 +33,6 @@ public class LoadingScript : MonoBehaviour
         }
 
         _canvasGroup = LoadingPanel.GetComponent<CanvasGroup>();
-        _scaleAnim = transform.GetComponentInChildren<A_ScaleOverTime>();
         _audioSource = GetComponent<AudioSource>();
     }
     public void StartLoading(string txtLoading)

@@ -10,6 +10,9 @@ using System.Linq;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
+    [SerializeField] private string _appIDPC;
+    [SerializeField] private string _appIDMOBILE;
+
     [SerializeField]
     private byte _MaxPlayers = 10;
     [SerializeField]
@@ -54,11 +57,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            PlayfabCloudSaving.instance.Update_Nova(100);
-        }
-
         if (!PhotonNetwork.IsMasterClient)
             return;
 
@@ -92,10 +90,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
         ErrorScript.instance.StopErrorMsg();
-        if (!VivoxManager.instance.isVivoxLoggedIn)
-            VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
+  
+        VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
 
         MenuManager.instance.SetProfileInfo();
+
+        Debug.Log("------------" + PhotonNetwork.CloudRegion);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -111,6 +111,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 break;
             case DisconnectCause.ClientTimeout:
                 ErrorScript.instance.StartErrorMsg("Client Timeout Please Try Again", false, true, false,"photon");
+                break;
+            default:
+                PlayFabLogin.instance.InstantiatePhotonAndPlayfabStatistics(PlayerPrefs.GetString("HasRegion"));
                 break;
         }
            
@@ -210,12 +213,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     //Room Functions--------------------------------------------------
 
-    public void ConnectToServer(string ID)
+    public void ConnectToServer(string serverName ,string playerID)
     {
-        SetPlayerID(ID);
+        SetPlayerID(playerID);
+
+        AppSettings settings = new AppSettings();
+
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+            settings.AppIdRealtime = _appIDPC;
+        else if(SystemInfo.deviceType == DeviceType.Handheld)
+            settings.AppIdRealtime = _appIDMOBILE;
+
+        settings.FixedRegion = serverName;
+        settings.Server = "";
+        settings.Port = 5058;
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings(settings);
+
         LoadingScript.instance.StartGameLoading("Connecting To Game Server...");
+    }
+
+    public void Disconnect()
+    {
+        PhotonNetwork.Disconnect();
     }
 
     //Rank

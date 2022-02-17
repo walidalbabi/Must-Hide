@@ -238,6 +238,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Disconnect();
     }
 
+    public void ReconnectToAnotherReigion()
+    {
+        if(PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
+        else PlayFabLogin.instance.InstantiatePhotonAndPlayfabStatistics(PlayerPrefs.GetString("HasRegion"));
+    }
+
     //Rank
     private void CreateRank()
     {

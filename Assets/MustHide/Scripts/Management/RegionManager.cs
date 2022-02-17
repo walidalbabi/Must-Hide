@@ -35,7 +35,7 @@ public class RegionManager : MonoBehaviour
     {
         PlayerPrefs.SetString("HasRegion", regionName);
         VivoxManager.instance.Logout();
-        NetworkManager.instance.Disconnect();
+        NetworkManager.instance.ReconnectToAnotherReigion();
         ShowReigionPanel();
     }
 }

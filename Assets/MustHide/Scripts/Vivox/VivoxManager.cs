@@ -188,6 +188,8 @@ public class  VivoxManager : MonoBehaviour
 
     public void Logout()
     {
+        if (!isVivoxLoggedIn) return;
+
         vivox.loginSession.Logout();
         Bind_Login_Callback_Listeners(false , vivox.loginSession);
     }

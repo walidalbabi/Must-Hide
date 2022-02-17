@@ -16,7 +16,7 @@ public class AddFriendScript : MonoBehaviour
     public void SetInvitationInfo(string senderName, string userID)
     {
         senderID = userID;
-        _text.text = senderName + " Sended You a Friend Request";
+        _text.text = senderName + " Sent You a Friend Request";
     }
 
     public void Accept()

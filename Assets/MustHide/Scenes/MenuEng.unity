@@ -255,7 +255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: make sure the hunters cant find you
+  m_text: Make sure the hunters cant find you
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -1492,8 +1492,8 @@ MonoBehaviour:
   isMonster: 0
   index: 0
   characterImage: {fileID: 2100843130}
-  CharacterDescription: 'Angler: Night vision, Can see all room including the dark
-    areas, and his flashlight turns off '
+  CharacterDescription: 'Angler: Night vision, Can see the whole room including the
+    dark areas, and his flashlight turns off '
   novaTxt: {fileID: 1592460307}
   eyesTxt: {fileID: 1472960645}
 --- !u!114 &62061053
@@ -1760,6 +1760,252 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64186412}
+  m_CullTransparentMesh: 1
+--- !u!1 &77209511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77209512}
+  - component: {fileID: 77209517}
+  - component: {fileID: 77209516}
+  - component: {fileID: 77209515}
+  - component: {fileID: 77209514}
+  - component: {fileID: 77209513}
+  m_Layer: 5
+  m_Name: Back
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &77209512
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77209511}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1083667424}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_SizeDelta: {x: 86.459, y: 83.785}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &77209513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77209511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b48def6967a134b81d89d544469263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clipHover: {fileID: 8300000, guid: 7feff929b4e5d3b4abbd68ffbd024076, type: 3}
+  _clipClicked: {fileID: 8300000, guid: f344e1b4eabf75f41996f0d8d2993277, type: 3}
+  _animate: 1
+--- !u!82 &77209514
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77209511}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 29bccc845aaaa424b9e78b8459141aa2,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &77209515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77209511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 77209516}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1379932434}
+        m_TargetAssemblyTypeName: RegionManager, Assembly-CSharp
+        m_MethodName: ShowReigionPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Menu
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &77209516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77209511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 60182eef46cf2d3468d45ce5d04b9b0b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &77209517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77209511}
   m_CullTransparentMesh: 1
 --- !u!1 &78646665
 GameObject:
@@ -3304,7 +3550,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hunters Rules
+  m_text: Hunter's Rules
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -3420,8 +3666,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -287}
-  m_SizeDelta: {x: 357.1648, y: 104.0095}
+  m_AnchoredPosition: {x: 0, y: -197}
+  m_SizeDelta: {x: 282.6648, y: 82.3144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &133136157
 MonoBehaviour:
@@ -3830,7 +4076,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65.85
+  m_fontSize: 46.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4495,7 +4741,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.75
+  m_fontSize: 36.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14588,7 +14834,7 @@ MonoBehaviour:
   isMonster: 0
   index: 2
   characterImage: {fileID: 907674101}
-  CharacterDescription: 'Bright: Shoots healing bulets at allies '
+  CharacterDescription: 'Bright: Shoots healing bullets at allies '
   novaTxt: {fileID: 789474265}
   eyesTxt: {fileID: 1665955182}
 --- !u!114 &562997336
@@ -16354,7 +16600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: use your abilities when needed
+  m_text: Use your abilities when needed
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -16517,7 +16763,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.05
+  m_fontSize: 34.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -20977,7 +21223,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
@@ -21713,7 +21959,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Find the monsters And Kill Them
+  m_text: Find the monsters and kill them
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -21945,7 +22191,7 @@ MonoBehaviour:
   index: 3
   characterImage: {fileID: 773149156}
   CharacterDescription: 'Falcon: Can deploy 3 traps with a specific radius, when
-    activated it can freeze the enemy movements '
+    activated they can freeze the enemy movements '
   novaTxt: {fileID: 2038936691}
   eyesTxt: {fileID: 452236744}
 --- !u!114 &753716510
@@ -25885,7 +26131,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Monsters Rules
+  m_text: Monster's Rules
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -27372,8 +27618,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Chase Buff : Which lets them shoot wrong props without losing health.
-    , Every time a bulltet hits an enemy the buff timer resets'
+  m_text: 'Chase Buff : Lets them shoot wrong props without losing health , Every
+    time a bullet hits an enemy the buff timer resets'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -30424,6 +30670,7 @@ RectTransform:
   - {fileID: 1267480300}
   - {fileID: 1545184880}
   - {fileID: 133136156}
+  - {fileID: 77209512}
   m_Father: {fileID: 2112280013}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30614,7 +30861,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Monsters controls
+  m_text: Monster's controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -31883,7 +32130,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 163}
-  m_SizeDelta: {x: 357.1648, y: 104.0095}
+  m_SizeDelta: {x: 282.6648, y: 82.3144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1142357191
 MonoBehaviour:
@@ -32744,8 +32991,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000032961, y: -60}
-  m_SizeDelta: {x: 389.4276, y: 73.0177}
+  m_AnchoredPosition: {x: 0.000028074, y: -83.785034}
+  m_SizeDelta: {x: 326.9276, y: 61.299}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1172599016
 MonoBehaviour:
@@ -32795,7 +33042,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.65
+  m_fontSize: 45.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -32902,7 +33149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' when portals appear with 2 minutes remaining, collect 4/5 to win.'
+  m_text: When portals appear with 2 minutes remaining, collect 4/5 to win.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -33037,7 +33284,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: or when the monsters cant collect all the portals in time.
+  m_text: Or when the monsters cant collect enough portals in time
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -33366,7 +33613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: When a hunters bullets hit an enemy they get the chase buff.
+  m_text: When a hunter's bullets hit an enemy they get the chase buff.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -34642,8 +34889,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'While playing, use your voice chat to communicate with your allies for
-    a better and more fun experience. Or You can Disable IT '
+  m_text: While playing, use your voice chat to communicate with your allies for
+    a better and more fun experience , or you can disable it if you like.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -36107,8 +36354,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 13}
-  m_SizeDelta: {x: 357.1648, y: 104.0095}
+  m_AnchoredPosition: {x: 0, y: 43}
+  m_SizeDelta: {x: 282.6648, y: 82.3144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1267480301
 MonoBehaviour:
@@ -41527,7 +41774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use your abilities to your teams advantage
+  m_text: Use your abilities to your team's advantage
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df853d54e26d2184ea4fcceaf95b3bfa, type: 2}
   m_sharedMaterial: {fileID: -3942624884721104814, guid: df853d54e26d2184ea4fcceaf95b3bfa,
@@ -44208,8 +44455,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -137}
-  m_SizeDelta: {x: 357.1648, y: 104.0095}
+  m_AnchoredPosition: {x: 0, y: -77}
+  m_SizeDelta: {x: 282.6648, y: 82.3144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1545184881
 MonoBehaviour:
@@ -51192,7 +51439,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65.85
+  m_fontSize: 46.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -51847,7 +52094,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Monsters controls
+  m_text: Monster's controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -53402,7 +53649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hunters controls
+  m_text: Hunter's controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -57235,7 +57482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Total Loss
+  m_text: Total Losses
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -57263,7 +57510,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.35
+  m_fontSize: 38.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -59234,7 +59481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hunters controls
+  m_text: Hunter's controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,
@@ -59537,7 +59784,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hunters Rules
+  m_text: Hunter's Rules
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad3f642399b9da34380a3457344addb9, type: 2}
   m_sharedMaterial: {fileID: -1604428258056960704, guid: ad3f642399b9da34380a3457344addb9,

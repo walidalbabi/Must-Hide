@@ -221,7 +221,7 @@ public class MenuManager : MonoBehaviour
 
 
         VivoxManager.instance.LeaveChannel(false);
-        LoadingScript.instance.StartLoading("Leaving Party");
+        LoadingScript.instance.StartLoading("Leaving Party...");
 
         //  Invoke("JoinChannelAfterLeave", 3f);
         StartCoroutine(joinn());
@@ -411,7 +411,7 @@ public class MenuManager : MonoBehaviour
         CreateCustomMatchPanel.SetActive(false);
         JoinRoomPanel.SetActive(false);
         CurrentRoomPanel.SetActive(false);
-        LoadingScript.instance.StartLoading("Getting Back To Menu...");
+        LoadingScript.instance.StartLoading("Loading Menu...");
         NetworkManager.instance.LeaveRoom();
     }
 

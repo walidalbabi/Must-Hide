@@ -128,6 +128,8 @@ public class ShootingScript : MonoBehaviourPun
         {
             RaycastHit2D hit = Physics2D.Raycast(GunLight.position, GunLight.transform.up, 7f);
 
+            if (!hit) return;
+
             if (hit.collider.gameObject.CompareTag("Monster"))
             {
                 Shoot(true);

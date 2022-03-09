@@ -38,7 +38,7 @@ namespace VivoxUnity
         /// Create an AccountId from a URI - Internal Use Only.
         /// </summary>
         /// <param name="uri">The uri of the account.</param>
-        /// <param name="displayname">Optional: The display name for an account.</param>
+        /// <param name="displayname">Optional: The display name for an account. This string must not exceed a 63 byte length when encoded in UTF-8</param>
         public AccountId(string uri, string displayname = null)
         {
             if (string.IsNullOrEmpty(uri))
@@ -76,7 +76,7 @@ namespace VivoxUnity
         /// <param name="issuer">The issuer that is responsible for authenticating this account.</param>
         /// <param name="name">The name you assigned to the player.</param>
         /// <param name="domain">The Vivox domain that provides service for this account, for example vfd.vivox.com.</param>
-        /// <param name="displayname">Optional: The display name for an account.</param>
+        /// <param name="displayname">Optional: The display name for an account. This string must not exceed a 63 byte length when encoded in UTF-8</param>
         /// <param name="spokenLanguages">Optional array of languages used as hints for audio transcription. Default is empty array, implies "en"</param>
         /// <remarks>
         /// Up to 3 spoken languages may be specified in order of preference to inform transcription of all users in transcribed channels.

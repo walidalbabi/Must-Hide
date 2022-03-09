@@ -3239,7 +3239,7 @@ MonoBehaviour:
   - {fileID: 3895612640914257081}
   - {fileID: 828285456163038454}
   - {fileID: 3078157706421505126}
-  sceneViewId: 30
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7097939666827799778
@@ -3804,6 +3804,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2

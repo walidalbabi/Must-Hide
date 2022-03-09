@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: 087c22e0-5542-46f3-ad08-70471c80d6bf
+    AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 0.1
+    AppVersion: 
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -32,7 +33,43 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - ClickRpc
+  - Dead
+  - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - OnTransfering
+  - ResetMagazin
+  - RespawnSpaceship
+  - RPC_DoDamage
+  - RPC_GetTeam
+  - RPC_HealForAmount
+  - RPC_InstantiateFootPrints
+  - RPC_PlaySound
+  - RPC_SentTeam
+  - RPC_SetCanUseAbility
+  - RPC_SetChosenCharacterName
+  - RPC_SetIsDead
+  - RPC_SetphotonPlayer
+  - RPC_SetPlayerAvatar
+  - RPC_SetPlayerTeam
+  - RPC_SetPortal
+  - RPC_SetPropController
+  - RPC_SetShieldObj
+  - RPC_SpawnBlood
+  - RPC_SyncTime
+  - RPC_UpdateCollectedPortals
+  - RPC_UpdateHuntersDead
+  - RPC_UpdateMonstersDead
+  - RPC_WhenAbility
+  - RPC_WinnerTeam
+  - SetupAudioPoolList
+  - SetUpBullet
+  - SetupPlayerStats
+  - ShootBulletOverNetwork
+  - syncDeselected
+  - syncSelected
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 0

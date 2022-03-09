@@ -102,6 +102,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -3471,6 +3472,7 @@ MonoBehaviour:
   CoolDown: 30
   footPrints: {fileID: 7796791435132191303, guid: 8ffd44f8ad9707844ac45a999e269bd3,
     type: 3}
+  noEffectFromFreezeTrap: 0
   AbilitySlider: {fileID: 1757486664631292876}
 --- !u!114 &9059066609317725961
 MonoBehaviour:
@@ -3645,7 +3647,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5075720789553857479}
   - {fileID: 6993929240246071967}
-  sceneViewId: 1
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &5075720789553857479

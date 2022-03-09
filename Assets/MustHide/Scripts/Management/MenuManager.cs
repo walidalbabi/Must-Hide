@@ -178,6 +178,11 @@ public class MenuManager : MonoBehaviour
         NetworkManager.instance.ChangeScene();
     }
 
+    public void JoinTeam(string team)
+    {
+        NetworkManager.instance.JoinTeam(team);
+    }
+
     #endregion Photon
 
     #region Vivox

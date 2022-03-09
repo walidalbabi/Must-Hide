@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Falcon
       objectReference: {fileID: 0}
+    - target: {fileID: 3613480342174328027, guid: 42c10fa853dc45d43bdaf69a1f504d7f,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5846540017525362280, guid: 42c10fa853dc45d43bdaf69a1f504d7f,
         type: 3}
       propertyPath: m_AnchorMax.x

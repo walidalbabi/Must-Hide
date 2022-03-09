@@ -13,8 +13,8 @@ public class PartyListingScript : MonoBehaviourPunCallbacks
     private Text _text;
 
     public IParticipant Player { get; private set; }
-    [SerializeField]
-    private string LeaderName;
+
+    public string LeaderName;
     [SerializeField]
     string currentChannel;
     [SerializeField]

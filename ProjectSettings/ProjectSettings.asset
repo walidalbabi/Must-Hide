@@ -80,7 +80,7 @@ PlayerSettings:
   androidFullscreenMode: 1
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 1
+  runInBackground: 0
   captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
@@ -138,7 +138,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1
+  bundleVersion: 0.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -158,15 +158,15 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.EtenralVision.MustHide
-    Standalone: com.EtenralVision.MustHide
+    Standalone: com.EternalVision.MustHide
     iPhone: com.EtenralVision.MustHide
   buildNumber:
     Standalone: 0
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 0
-  AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 19
+  AndroidBundleVersionCode: 2
+  AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -252,7 +252,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 2
   androidSplashScreen: {fileID: 2800000, guid: 6aa7938f6fce70e4f9e04351f7da7573, type: 3}
-  AndroidKeystoreName: '{dedicated}: Desktop/EternalVisionKey.keystore'
+  AndroidKeystoreName: C:/Users/Walid/Desktop/EternalVisionKey.keystore
   AndroidKeyaliasName: eternalvision
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

@@ -6,6 +6,7 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.UI;
 using System.Linq;
+using Photon.Pun.UtilityScripts;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -90,8 +91,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
         ErrorScript.instance.StopErrorMsg();
-  
-        VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
+
+        if (!VivoxManager.instance.isVivoxLoggedIn)
+            VivoxManager.instance.Login(PhotonNetwork.NickName, VivoxUnity.SubscriptionMode.Accept);
 
         MenuManager.instance.SetProfileInfo();
 
@@ -137,6 +139,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Succesful Join Match , GameMode : " + isRank);
         MenuManager.instance.ShowCurrentRoomPanel();
         LoadingScript.instance.StopLoading();
+
+        if (PhotonNetwork.LocalPlayer.GetPhotonTeam() != null) PhotonNetwork.LocalPlayer.LeaveCurrentTeam();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -269,7 +273,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom("Rk" + RoomName.ToString(), option, TypedLobby.Default);
     }
 
-   public  string[] expectedPlayers = new string[4];
+   public  string[] expectedPlayers = new string[6];
     public void JoinRankMatch()
     {
       if(VivoxManager.instance._listings.Count >= 1)
@@ -375,6 +379,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.JoinRoom(roomName);
         }
  
+    }
+
+    public void JoinTeam(string team)
+    {
+        if (PhotonNetwork.LocalPlayer.GetPhotonTeam() == null)
+            PhotonNetwork.LocalPlayer.JoinTeam(team);
+        else PhotonNetwork.LocalPlayer.SwitchTeam(team);
     }
 
     //Photon Other Management---------------------------------------------------

@@ -68,13 +68,22 @@ public class VivoxBuildConfiguration : ScriptableObject
 
     public VivoxBuildTargetPreferences PS4 = new VivoxBuildTargetPreferences(BuildTargetGroup.PS4,
         BuildTarget.PS4, 3, false);
+    public VivoxBuildTargetPreferences Switch = new VivoxBuildTargetPreferences(BuildTargetGroup.Switch,
+        BuildTarget.Switch, 3, false);
 #if UNITY_2019_1_OR_NEWER
     public VivoxBuildTargetPreferences Stadia = new VivoxBuildTargetPreferences(BuildTargetGroup.Stadia,
         BuildTarget.Stadia, 3, false);
+#if PLATFORM_PS5
+    public VivoxBuildTargetPreferences PS5 = new VivoxBuildTargetPreferences(BuildTargetGroup.PS5,
+        BuildTarget.PS5, 3, false);
 #endif
-
-    public VivoxBuildTargetPreferences Switch = new VivoxBuildTargetPreferences(BuildTargetGroup.Switch,
-        BuildTarget.Switch, 3, false);
+#if (PLATFORM_GAMECORE_XBOXONE || PLATFORM_GAMECORE_SCARLETT)
+    public VivoxBuildTargetPreferences GameCoreScarlett = new VivoxBuildTargetPreferences(BuildTargetGroup.GameCoreScarlett,
+        BuildTarget.GameCoreScarlett, 3, false);
+    public VivoxBuildTargetPreferences GameCoreXboxOne = new VivoxBuildTargetPreferences(BuildTargetGroup.GameCoreXboxOne,
+        BuildTarget.GameCoreXboxOne, 3, false);
+#endif
+#endif
 
     public List<VivoxBuildTargetPreferences> BuildList
     {
@@ -89,10 +98,17 @@ public class VivoxBuildConfiguration : ScriptableObject
             Android,
             XboxOne,
             PS4,
+            Switch,
 #if UNITY_2019_1_OR_NEWER
             Stadia,
+#if PLATFORM_PS5
+            PS5,
 #endif
-            Switch
+#if (PLATFORM_GAMECORE_XBOXONE || PLATFORM_GAMECORE_SCARLETT)
+            GameCoreScarlett,
+            GameCoreXboxOne,
+#endif
+#endif
         };
         }
     }

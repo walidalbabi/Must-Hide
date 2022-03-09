@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun.UtilityScripts;
 public class PhotonPlayer : MonoBehaviour
 {
     [HideInInspector]
@@ -34,7 +35,7 @@ public class PhotonPlayer : MonoBehaviour
         if (PV.IsMine)
         {
             //Getting Team
-            PV.RPC("RPC_GetTeam", RpcTarget.MasterClient);
+            PV.RPC("RPC_GetTeam", RpcTarget.AllBuffered);
             //Adding Photon Player to list
             PV.RPC("RPC_SetphotonPlayer", RpcTarget.AllBuffered);
 
@@ -52,42 +53,9 @@ public class PhotonPlayer : MonoBehaviour
         if (!PV.IsMine)
             return;
 
-
-        //Check Selected Character In Choose Character Panel
-        //if (InGameManager.instance.GameState == InGameManager.State.ChooseCharacter && PV.IsMine)
-        //{
-        //    if (ChooseCharScript.instance.Name != "" || ChooseCharScript.instance.Name != "Recruiter")
-        //    {
-        //        if (myTeam == 1)
-        //            foreach (GameObject obj in Monsters)
-        //            {
-        //                if (obj.name == ChooseCharScript.instance.Name)
-        //                {
-        //                    if (selectedChar != obj)
-        //                        PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
-        //                }
-
-        //            }
-
-        //        if (myTeam == 2)
-        //            foreach (GameObject obj in Hunters)
-        //            {
-        //                if (obj.name == ChooseCharScript.instance.Name)
-        //                {
-        //                    if (selectedChar != obj)
-        //                        PV.RPC("RPC_CharVariables", RpcTarget.AllBuffered, obj.name);
-        //                }
-
-        //            }
-        //    }
-        //}
-
-
         SpawnCharacter();
 
-      
-       
-
+     
         //Enable The Choose Character Panel
         if(isChoosPanel)
         if (!MatchTimerManager.instance.MonstersPanel.activeInHierarchy && !MatchTimerManager.instance.HuntersPanel.activeInHierarchy)
@@ -195,9 +163,9 @@ public class PhotonPlayer : MonoBehaviour
     [PunRPC]
     void RPC_GetTeam()
     {
-        myTeam = InGameManager.instance.nextPlayerTeam;
-        InGameManager.instance.UpdatePlayerTeam();
-        PV.RPC("RPC_SentTeam", RpcTarget.OthersBuffered, myTeam);
+        if (PhotonNetwork.LocalPlayer.IsLocal)
+            myTeam = PhotonNetwork.LocalPlayer.GetPhotonTeam().Code;
+        //  PV.RPC("RPC_SentTeam", RpcTarget.OthersBuffered, myTeam);
     }
 
     [PunRPC]

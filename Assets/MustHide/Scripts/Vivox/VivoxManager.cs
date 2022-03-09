@@ -33,6 +33,20 @@ public class  VivoxManager : MonoBehaviour
 
         vivox.client = new Client();
         DontDestroyOnLoad(gameObject);
+
+        if(SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            vivox.server = vivox.serverPC;
+            vivox.issuer = vivox.issuerPC;
+            vivox.domain = vivox.domainPC;
+            vivox.tokenKey = vivox.tokenKeyPC;
+        }else if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            vivox.server = vivox.serverMobile;
+            vivox.issuer = vivox.issuerMobile;
+            vivox.domain = vivox.domainMobile;
+            vivox.tokenKey = vivox.tokenKeyMobile;
+        }
     }
 
     private void Start()

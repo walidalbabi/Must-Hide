@@ -26,9 +26,12 @@ namespace VivoxUnity.Private
     {
 
         #region Member Variables
-
-        private AudioDevice _systemDevice;
-        private AudioDevice _communicationDevice;
+        private readonly string DefaultSystemDevice = "Default System Device";
+        private readonly string DefaultCommunicationDevice = "Default Communication Device";
+        private AudioDevice _defaultSystemDevice;
+        private AudioDevice _defaultCommunicationDevice;
+        private AudioDevice _currentSystemDevice;
+        private AudioDevice _currentCommunicationDevice;
         private AudioDevice _activeDevice;
         private AudioDevice _effectiveDevice;
         private int _volumeAdjustment;
@@ -51,9 +54,11 @@ namespace VivoxUnity.Private
         public AudioOutputDevices(VxClient client)
         {
             _client = client;
-            _systemDevice = new AudioDevice { Key = "Default System Device", Name = "Default System Device" };
-            _communicationDevice = new AudioDevice { Key = "Default Communication Device", Name = "Default Communication Device" };
-            _activeDevice = _systemDevice;
+            _defaultSystemDevice = new AudioDevice { Key = DefaultSystemDevice, Name = DefaultSystemDevice };
+            _defaultCommunicationDevice = new AudioDevice { Key = DefaultCommunicationDevice, Name = DefaultCommunicationDevice };
+            _currentSystemDevice = new AudioDevice { Key = DefaultSystemDevice, Name = DefaultSystemDevice };
+            _currentCommunicationDevice = new AudioDevice { Key = DefaultCommunicationDevice, Name = DefaultCommunicationDevice };
+            _activeDevice = _defaultSystemDevice;
 
             VxClient.Instance.EventMessageReceived += OnEventMessageReceived;
         }
@@ -62,8 +67,8 @@ namespace VivoxUnity.Private
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IAudioDevice SystemDevice => _systemDevice;
-        public IAudioDevice CommunicationDevice => _communicationDevice;
+        public IAudioDevice SystemDevice => _defaultSystemDevice;
+        public IAudioDevice CommunicationDevice => _defaultCommunicationDevice;
         public IAudioDevice ActiveDevice => _activeDevice;
         public IAudioDevice EffectiveDevice => _effectiveDevice;
         public IReadOnlyDictionary<string, IAudioDevice> AvailableDevices => _devices;
@@ -88,20 +93,20 @@ namespace VivoxUnity.Private
                     }
                     _activeDevice = (AudioDevice)device;
 
-                    if (_activeDevice == AvailableDevices["Default System Device"])
+                    if (_activeDevice == AvailableDevices[DefaultSystemDevice])
                     {
                         _effectiveDevice = new AudioDevice
                         {
-                            Key = _systemDevice.Key,
-                            Name = _systemDevice.Name
+                            Key = _currentSystemDevice.Key,
+                            Name = _currentSystemDevice.Name
                         };
                     }
-                    else if (_activeDevice == AvailableDevices["Default Communication Device"])
+                    else if (_activeDevice == AvailableDevices[DefaultCommunicationDevice])
                     {
                         _effectiveDevice = new AudioDevice
                         {
-                            Key = _communicationDevice.Key,
-                            Name = _communicationDevice.Name
+                            Key = _currentCommunicationDevice.Key,
+                            Name = _currentCommunicationDevice.Name
                         };
                     }
                     else
@@ -189,21 +194,47 @@ namespace VivoxUnity.Private
                 try
                 {
                     response = _client.EndIssueRequest(ar);
+                    var oldDevices = new ReadWriteDictionary<string, IAudioDevice, AudioDevice>();
+                    bool devicesChanged = false;
+                    if (response.count != _devices.Count)
+                    {
+                        devicesChanged = true;
+                    }
+                    for (int i = 0; i < _devices.Count; i++)
+                    {
+                        oldDevices[_devices.Keys.ElementAt(i)] = _devices.ElementAt(i);
+                    }
                     _devices.Clear();
                     for (var i = 0; i < response.count; ++i)
                     {
                         var device = VivoxCoreInstance.get_device(i, response.render_devices);
                         var id = device.device;
                         var name = device.display_name;
-                        _devices[id] = new AudioDevice { Key = id, Name = name };
+                        var newDevice = new AudioDevice { Key = id, Name = name };
+                        //if an id that didn't previously exist
+                        if (!oldDevices.Contains(newDevice))
+                        {
+                            devicesChanged = true;
+                        }
+                        //If an id that did previously exist but the device has now changed (such as setting a new device name in system settings)
+                        else if (!oldDevices[id].Equals(newDevice))
+                        {
+                            devicesChanged = true;
+                        }
+                        _devices[id] = newDevice;
                     }
+                    if(devicesChanged)
+                    {
+                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AvailableDevices)));
+                    }
+                    oldDevices.Clear();
 
-                    _systemDevice = new AudioDevice
+                    var currentSystemDevice = new AudioDevice
                     {
                         Key = response.default_render_device.device,
                         Name = response.default_render_device.display_name
                     };
-                    _communicationDevice = new AudioDevice
+                    _currentCommunicationDevice = new AudioDevice
                     {
                         Key = response.default_communication_render_device.device,
                         Name = response.default_communication_render_device.display_name
@@ -218,6 +249,12 @@ namespace VivoxUnity.Private
                         // Only fire the event if the effective device has truly changed.
                         _effectiveDevice = effectiveDevice;
                         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EffectiveDevice)));
+                    }
+                    if (!currentSystemDevice.Equals(_currentSystemDevice))
+                    {
+                        // Only fire the event if the system device has truly changed.
+                        _currentSystemDevice = currentSystemDevice;
+                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SystemDevice)));
                     }
                     result.SetComplete();
                 }
@@ -273,7 +310,7 @@ namespace VivoxUnity.Private
         public void Clear()
         {
             _devices.Clear();
-            _activeDevice = _systemDevice;
+            _activeDevice = _defaultSystemDevice;
             _effectiveDevice = null;
             _muted = false;
             _volumeAdjustment = 0;

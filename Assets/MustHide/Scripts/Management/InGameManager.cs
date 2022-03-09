@@ -34,7 +34,6 @@ public class InGameManager : MonoBehaviourPunCallbacks
 
     int playerIndex;
 
-    public int nextPlayerTeam;
     public int CurrentTeam;
 
     [SerializeField]
@@ -289,18 +288,6 @@ public class InGameManager : MonoBehaviourPunCallbacks
                 }
     }
 
-
-    public void UpdatePlayerTeam()
-    {
-        if (nextPlayerTeam == 1)
-        {
-            nextPlayerTeam = 2;
-        }
-        else
-        {
-            nextPlayerTeam = 1;
-        }
-    }
 
 
     public void UpdateMonsterDead()

@@ -27,6 +27,11 @@ PrefabInstance:
       propertyPath: particle.Array.data[3]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2036361318908139823, guid: cdc988da527465c49bbffd2772f0e044,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8711078294552958937, guid: cdc988da527465c49bbffd2772f0e044,
         type: 3}
       propertyPath: m_RootOrder

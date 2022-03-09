@@ -380,6 +380,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -2761,7 +2762,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6830589503170739481}
   - {fileID: 8769872188120042561}
-  sceneViewId: 1
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &6830589503170739481

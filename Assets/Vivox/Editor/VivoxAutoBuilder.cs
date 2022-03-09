@@ -417,6 +417,93 @@ report = BuildPipeline.BuildPlayer(
         DebugBuild(report, target);
     }
 
+#if PLATFORM_PS5
+    [MenuItem("Tools/Vivox/AutoBuilder/Build PS5")]
+    public static void BuildPS5Menu()
+    {
+        MenuButtonBuilds(BuildTarget.PS5);
+    }
+
+    public static void BuildPS5()
+    {
+        HandleBuildConfig();
+
+        BuildTarget target = BuildTarget.PS5;
+        if (!IsTargetGroupSupported(BuildTargetGroup.PS5, target))
+        {
+            return;
+        }
+
+#if UNITY_2018_1_OR_NEWER
+        BuildReport report;
+#else
+        string report;
+#endif
+        report = BuildPipeline.BuildPlayer(
+            BuildConfig.Levels,
+            RELATIVE_BUILD_PATH + BuildConfig.PS5.BuildPath + "/" + PlayerSettings.productName,
+            target,
+            BuildConfig.PS5.shouldRunAfterBuild && isFromMenuPress ? BuildOptions.AutoRunPlayer : BuildOptions.None
+        );
+
+        DebugBuild(report, target);
+    }
+#endif
+
+#if (PLATFORM_GAMECORE_XBOXONE || PLATFORM_GAMECORE_SCARLETT)
+    [MenuItem("Tools/Vivox/AutoBuilder/Build GameCore XboxOne")]
+    public static void BuildGameCoreXboxOne()
+    {
+        HandleBuildConfig();
+
+        BuildTarget target = BuildTarget.GameCoreXboxOne;
+        if (!IsTargetGroupSupported(BuildTargetGroup.GameCoreXboxOne, target))
+        {
+            return;
+        }
+
+#if UNITY_2018_1_OR_NEWER
+        BuildReport report;
+#else
+        string report;
+#endif
+        report = BuildPipeline.BuildPlayer(
+            BuildConfig.Levels,
+            RELATIVE_BUILD_PATH + BuildConfig.GameCoreXboxOne.BuildPath + "/" + PlayerSettings.productName,
+            target,
+            BuildConfig.GameCoreXboxOne.shouldRunAfterBuild && isFromMenuPress ? BuildOptions.AutoRunPlayer : BuildOptions.None
+        );
+
+        DebugBuild(report, target);
+    }
+
+    [MenuItem("Tools/Vivox/AutoBuilder/Build GameCore Scarlett")]
+    public static void BuildGameCoreScarlett()
+    {
+        HandleBuildConfig();
+
+        BuildTarget target = BuildTarget.GameCoreScarlett;
+        if (!IsTargetGroupSupported(BuildTargetGroup.GameCoreScarlett, target))
+        {
+            return;
+        }
+
+#if UNITY_2018_1_OR_NEWER
+        BuildReport report;
+#else
+        string report;
+#endif
+        report = BuildPipeline.BuildPlayer(
+            BuildConfig.Levels,
+            RELATIVE_BUILD_PATH + BuildConfig.GameCoreScarlett.BuildPath + "/" + PlayerSettings.productName,
+            target,
+            BuildConfig.GameCoreScarlett.shouldRunAfterBuild && isFromMenuPress ? BuildOptions.AutoRunPlayer : BuildOptions.None
+        );
+
+        DebugBuild(report, target);
+    }
+#endif
+
     private static bool IsTargetGroupSupported(BuildTargetGroup targetGroup, BuildTarget buildTarget)
     {
         if (BuildPipeline.IsBuildTargetSupported(targetGroup, buildTarget))
@@ -478,14 +565,27 @@ report = BuildPipeline.BuildPlayer(
             case BuildTarget.PS4:
                 BuildPS4();
                 break;
+            case BuildTarget.Switch:
+                BuildSwitch();
+                break;
 #if UNITY_2019_1_OR_NEWER
             case BuildTarget.Stadia:
                 BuildStadia();
                 break;
-#endif
-            case BuildTarget.Switch:
-                BuildSwitch();
+#if (PLATFORM_GAMECORE_XBOXONE || PLATFORM_GAMECORE_SCARLETT)
+            case BuildTarget.GameCoreScarlett:
+                BuildGameCoreScarlett();
                 break;
+            case BuildTarget.GameCoreXboxOne:
+                BuildGameCoreXboxOne();
+                break;
+#endif
+#if PLATFORM_PS5
+            case BuildTarget.PS5:
+                BuildPS5();
+                break;
+#endif  
+#endif
             default:
                 Debug.Log($"Trying to build a platform not supported {buildTarget}");
                 break;

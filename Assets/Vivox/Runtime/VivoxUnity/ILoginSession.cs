@@ -336,12 +336,12 @@ namespace VivoxUnity
         /// <param name="mode">enum specifying a transmission policy</param>
         /// <param name="singleChannel">the specific channel to transmit to when TransmissionMode::Single is set (ignored otherwise)</param>
         /// <remarks>To be used only by applications without secure communications requirements.</remarks>
-        /// Audio transmission changes take effect immediately and also affect future channel joins as follows:
-        /// * - <b>None:</b> audio will not automatically transmit to new channels nor to text-only channels when audio is added.
-        /// * - <b>All:</b> audio automatically transmits to new channels and to text-only channels when audio is added.
-        /// * - <b>Single:</b> audio will transmit into the channel specified only, and will not automatically switch to new channels even if this channel is disconnected.
+        /// Audio transmission changes take effect immediately in all channels this user is already connected to. The changes also affect future channels joined as follows:
+        /// - <b>None:</b> audio will not automatically transmit to new channels nor to text-only channels when audio is added.
+        /// - <b>All:</b> audio automatically transmits to new channels and to text-only channels when audio is added.
+        /// - <b>Single:</b> audio will transmit into the channel specified only, and will not automatically switch to new channels even if this channel is disconnected.
         ///
-        /// * <b>Important:</b> You can override and change this setting by passing `true` for the switchTransmission argument in IChannelSession::BeginConnect() and IChannelSession::BeginSetAudioConnected().
+        /// <b>Important:</b> You can override and change this setting by passing `true` for the switchTransmission argument in IChannelSession::BeginConnect() and IChannelSession::BeginSetAudioConnected().
         void SetTransmissionMode(TransmissionMode mode, ChannelId singleChannel = null);
 
         /// <summary>

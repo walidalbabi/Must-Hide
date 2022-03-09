@@ -141,7 +141,6 @@ namespace VivoxUnity
         /// <summary>
         /// A conferencing channel where users' voices are rendered with 3D positional effects.
         /// </summary>
-        /// <remarks>Not currently supported.</remarks>
         Positional,
         /// <summary>
         /// A conferencing channel where the user's text and audio is echoed back to that user.
